@@ -75,6 +75,7 @@ public class IUModelo extends IUVentanaT{
     private IUBotonIT botonEliminar;
     private IUBotonIT botonSalir;
     
+    private int id;
     private boolean estado;
     private int numeroPanel;
     private int cantidadPaneles;
@@ -89,11 +90,11 @@ public class IUModelo extends IUVentanaT{
         this.listaModelos = new ArrayList<>();
         this.numeroPanel = 1;
         this.cantidadPaneles = 0;
+        this.id = 0;
         
         construirPaneles(panelFondo.getLimitacion());
         setEventos();
         actualizarListaModelos(controlPrenda.listarTodosModelos());
-        setEventosBotonModelo();
     }
     private void construirPaneles(Limitacion limite){
         primerPanel = new IUPanel(new Limitacion(limite.getPorcentajeAncho(35), limite.getPorcentajeAlto(90)));
@@ -263,6 +264,12 @@ public class IUModelo extends IUVentanaT{
                 crearNuevoModelo();
             }
         });   
+        botonModificar.addEventoRaton(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                modificarModelo();
+            }
+        });
         botonSalir.addEventoRaton(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -296,19 +303,8 @@ public class IUModelo extends IUVentanaT{
             }
         });
     }
-    private void setEventosBotonModelo(){
-        for (int i = 0; i < listaModelos.size(); i++) {
-            
-            IUPanelBotonModelo botonModelo = listaModelos.get(i);
-            botonModelo.addEventoRaton(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    setDatosModelo(botonModelo.getModelo());
-                }
-            });
-        }
-    }
     private void setDatosModelo(Modelo m){
+        id = m.getModeloID();
         categoria.iuTexto.setText(m.getCategoria());
         marca.iuTexto.setText(m.getMarca());
         detalle.iuTexto.setText(m.getDetalle());
@@ -364,6 +360,7 @@ public class IUModelo extends IUVentanaT{
                         public void mousePressed(MouseEvent e) {
                             elemento.setColorPanel(new Color(255, 255, 125), Color.WHITE, new Color(221, 221, 0));
                             despintarBoton(elemento);
+                            setDatosModelo(elemento.getModelo());
                         }
                     });
                 }
@@ -378,8 +375,8 @@ public class IUModelo extends IUVentanaT{
         if(iuNuevoModelo.getEstado()){
             if(controlPrenda.seGuardoNuevoModelo(iuNuevoModelo.getModelo())){
                 if(Ayuda.mensajeVerificacion(ventanaPrincipal, this, "correcto", "EN HORA BUENA... se ha guardado los datos del NUEVO MODELO correctamente...!", "correcto")){
-                    actualizarListaModelos(controlPrenda.listarTodosModelos());                    
                     limpiarCampoDatos();
+                    actualizarListaModelos(controlPrenda.listarTodosModelos());
                 }                    
             }else{
                 Ayuda.mensajeVerificacion(ventanaPrincipal, "error", "ERROR, NO se pudo guardar la prenda... existe un error", "error");
@@ -387,8 +384,18 @@ public class IUModelo extends IUVentanaT{
         }
         setOpacity(1f);
     }
+    private void modificarModelo(){
+        setOpacity(0.5f);
+        if(id != 0){
+            
+        }else{
+            Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento.... debe seleccionar un modelo por favor...!", "aviso");
+        }
+        setOpacity(1f);
+    }
     
     private void limpiarCampoDatos(){
+        id = 0;
         categoria.iuTexto.setText("");
         marca.iuTexto.setText("");
         detalle.iuTexto.setText("");
@@ -408,16 +415,23 @@ public class IUModelo extends IUVentanaT{
         precioTope.iuTexto.setText("");
         precioTope.iuTexto.iuUnidad.setText("");
         precioOficial.iuTexto.setText("");
-        precioOficial.iuTexto.iuUnidad.setText("");
+        precioOficial.iuTexto.iuUnidad.setText("");        
+        despintarBoton(null);
     }    
     
     public boolean getEstado(){
         return estado;
     }
     private void despintarBoton(IUPanelBotonModelo boton){
-        for (int i = 0; i < listaModelos.size(); i++) {
-            if(!boton.equals(listaModelos.get(i)))
-                listaModelos.get(i).setColorPanel(new Color(242, 238, 236), new Color(250, 250, 250), new Color(170, 170, 170));
+        if(boton != null){
+            for (int i = 0; i < listaModelos.size(); i++) {
+                if(!boton.equals(listaModelos.get(i)))
+                    listaModelos.get(i).setColorPanel(new Color(242, 238, 236), new Color(250, 250, 250), new Color(170, 170, 170));
+            }
+        }else{
+            for (int i = 0; i < listaModelos.size(); i++) {
+                listaModelos.get(i).setColorPanel(new Color(242, 238, 236), new Color(250, 250, 250), new Color(170, 170, 170));                    
+            }
         }
     }
 }
