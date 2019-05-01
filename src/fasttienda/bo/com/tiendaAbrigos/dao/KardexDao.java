@@ -22,33 +22,32 @@ public class KardexDao {
         this.conexion = conexion;
     }
     
-    public boolean seGuardoKardex(Kardex m){
+    public boolean seGuardoKardex(Kardex k){
         boolean verificador = false;        
-        String sql = "insert into kardex values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into kardex values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
             PreparedStatement ps = conexion.getConexion().prepareStatement(sql);
                                     
-            ps.setInt(1, m.getId());
-            ps.setString(2, m.getFechaInicial());
-            ps.setString(3, m.getFechaFinal());
-            ps.setString(4, m.getCodigoPrenda());
-            ps.setString(5, m.getNombrePrenda());
-            ps.setString(6, m.getUnidadMedida());
-            ps.setInt(7, m.getCantInvInicial());
-            ps.setInt(8, m.getCantCompras());
-            ps.setInt(9, m.getCantDevCompras());
-            ps.setInt(10, m.getCantVentas());            
-            ps.setInt(11, m.getCantDevVentas());
-            ps.setInt(12, m.getCantStockActual());
-            ps.setDouble(13, m.getInventarioInicial());
-            ps.setDouble(14, m.getComprasNetas());
-            ps.setDouble(15, m.getInventarioFinal());
-            ps.setDouble(16, m.getCostoVentas());
-            ps.setDouble(17, m.getTotalVentas());
-            ps.setInt(18, m.getIdPrenda());
-            ps.setInt(19, m.getIdModelo());
-            ps.setInt(20, m.getIdTienda());
+            ps.setInt(1, k.getId());
+            ps.setString(2, k.getFechaInicial());
+            ps.setString(3, k.getFechaFinal());
+            ps.setString(4, k.getCodigoPrenda());
+            ps.setString(5, k.getNombrePrenda());
+            ps.setString(6, k.getUnidadMedida());
+            ps.setInt(7, k.getCantInvInicial());
+            ps.setInt(8, k.getCantCompras());
+            ps.setInt(9, k.getCantDevCompras());
+            ps.setInt(10, k.getCantVentas());            
+            ps.setInt(11, k.getCantDevVentas());
+            ps.setInt(12, k.getCantStockActual());
+            ps.setDouble(13, k.getInventarioInicial());
+            ps.setDouble(14, k.getComprasNetas());
+            ps.setDouble(15, k.getInventarioFinal());
+            ps.setDouble(16, k.getCostoVentas());
+            ps.setDouble(17, k.getTotalVentas());
+            ps.setInt(18, k.getIdPrenda());
+            ps.setInt(19, k.getIdTienda());
             
             int resultado = ps.executeUpdate();
             if(resultado > 0)
@@ -61,7 +60,7 @@ public class KardexDao {
     }
     public boolean seGuardoDetalleKardex(DetalleKardex d){
         boolean verificador = false;        
-        String sql = "insert into detallekardex values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into detalle_kardex values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
             PreparedStatement ps = conexion.getConexion().prepareStatement(sql);
@@ -81,7 +80,6 @@ public class KardexDao {
             ps.setString(13, d.getTotalExistencias());
             ps.setInt(14, d.getIdKardex());
             ps.setInt(15, d.getIdPrenda());
-            ps.setInt(16, d.getIdModelo());
             
             int resultado = ps.executeUpdate();
             if(resultado > 0)

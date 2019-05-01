@@ -37,6 +37,12 @@ public class CPrenda{
             verificador = true;
         return verificador;
     }
+    public boolean seModificoModelo(Modelo modelo){
+        boolean verificador = false;
+        if(modelo.seModifico())
+            verificador = true;
+        return verificador;
+    }
     public boolean guardarNuevaPrenda(Prenda prenda, Modelo modelo, int idTienda){
         boolean verificador = false;
         if(prenda.seGuardo()){

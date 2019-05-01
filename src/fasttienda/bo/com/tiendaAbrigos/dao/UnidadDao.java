@@ -9,6 +9,7 @@ import fasttienda.bo.com.tiendaAbrigos.modelo.Modelo;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Unidad;
 import fasttienda.bo.com.tiendaAbrigos.modelo.UnidadModelo;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -22,7 +23,7 @@ public class UnidadDao {
         this.conexion = conexion;
     }
     
-    public boolean seGuardUnidadModelo(UnidadModelo uM){
+    public boolean seGuardoUnidadModelo(UnidadModelo uM){
         boolean verificador = false;        
         String sql = "insert into unidad_modelo values(?, ?)";
         
@@ -41,4 +42,20 @@ public class UnidadDao {
         }
         return verificador;
     }
+    public boolean seModificoUnidadModelo(UnidadModelo uM, int UnidadID){
+        boolean verificador = false;
+        String sql = "update unidad_modelo set UnidadID =? where ModeloID = "+uM.getModeloID()+" and UnidadID = "+UnidadID;
+        try {
+            PreparedStatement ps = conexion.getConexion().prepareStatement(sql);
+            
+            ps.setInt(1, uM.getUnidadID());
+            
+            int resultado = ps.executeUpdate();
+            if(resultado > 0)
+                verificador = true;
+        } catch (SQLException e) {
+            System.out.println("Error UnidadDao.seModificoModelo(): "+e.getMessage());
+        }
+        return verificador;
+    }    
 }

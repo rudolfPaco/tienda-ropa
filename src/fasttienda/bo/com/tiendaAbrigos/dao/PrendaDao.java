@@ -66,7 +66,7 @@ public class PrendaDao {
     public ArrayList<Prenda> getAllPrendas(int idModelo){
         ArrayList<Prenda> lista = new ArrayList<>();
         try {
-            PreparedStatement ps = conexion.getConexion().prepareStatement("select p.prendaID, p.codigo, p.categoria, p.marca, p.color, p.talla, p.precio, p.cantidadMinima, p.ubicacion, p.urlPrenda, p.imagenPrenda, p.idModelo, k.cantStockActual from prenda p left join kardex k on (p.id = k.idPrenda) where p.idModelo = "+idModelo);
+            PreparedStatement ps = conexion.getConexion().prepareStatement("select p.prendaID, p.codigo, p.categoria, p.marca, p.color, p.talla, p.precio, p.cantidadMinima, p.ubicacion, p.urlPrenda, p.imagenPrenda, p.modeloID, k.cantStockActual from prenda p left join kardex k on (p.prendaID = k.prendaID) where p.modeloID = "+idModelo);
             ResultSet rs = ps.executeQuery();
             
             while(rs.next()){
@@ -80,7 +80,7 @@ public class PrendaDao {
                 p.setCantidadMinima(rs.getInt("cantidadMinima"));
                 p.setUbicacion(rs.getString("ubicacion"));
                 p.setUrlPrenda(rs.getString("urlPrenda"));
-                p.setIdModelo(rs.getInt("idModelo"));
+                p.setIdModelo(rs.getInt("modeloID"));
                 p.setCantidadEntrante(rs.getInt("cantStockActual"));
                 lista.add(p);
             }

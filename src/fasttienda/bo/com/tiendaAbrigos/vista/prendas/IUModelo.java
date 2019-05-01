@@ -75,10 +75,10 @@ public class IUModelo extends IUVentanaT{
     private IUBotonIT botonEliminar;
     private IUBotonIT botonSalir;
     
-    private int id;
-    private boolean estado;
+    private int modeloID;
     private int numeroPanel;
     private int cantidadPaneles;
+    private Modelo modelo;
     
     private ArrayList<IUPanelBotonModelo> listaModelos;
     
@@ -86,11 +86,11 @@ public class IUModelo extends IUVentanaT{
         super(ventanaPrincipal, titulo, limitacion, porcentajeAlturaTitulo);
         this.ventanaPrincipal = ventanaPrincipal;
         this.controlPrenda = controlPrenda;
-        this.estado = false;
+        this.modelo = null;
         this.listaModelos = new ArrayList<>();
         this.numeroPanel = 1;
         this.cantidadPaneles = 0;
-        this.id = 0;
+        this.modeloID = 0;
         
         construirPaneles(panelFondo.getLimitacion());
         setEventos();
@@ -227,6 +227,7 @@ public class IUModelo extends IUVentanaT{
         
         margenUtilidad = new IUPanelCTU("margen de utilidad", "", "%", new Limitacion(limite.getPorcentajeAncho(30), limite.getPorcentajeAlto(57), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(7)), 40, 60, 50);
         margenUtilidad.iuTexto.setPosicionHorizontalUnidad("izquierda");
+        margenUtilidad.iuTexto.setEditable(false);
         segundoPanelModelo.add(margenUtilidad);
         
         precioTope = new IUPanelCTU("precio tope", "", "", new Limitacion(limite.getPorcentajeAncho(55), limite.getPorcentajeAlto(57), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(7)), 40, 60, 50);
@@ -279,7 +280,7 @@ public class IUModelo extends IUVentanaT{
         botonEliminar.addEventoRaton(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                limpiarCampoDatos();
+                eliminarModelo();
             }
         });
         iconoAtras.addMouseListener(new MouseAdapter() {
@@ -303,25 +304,30 @@ public class IUModelo extends IUVentanaT{
             }
         });
     }
-    private void setDatosModelo(Modelo m){
-        id = m.getModeloID();
-        categoria.iuTexto.setText(m.getCategoria());
-        marca.iuTexto.setText(m.getMarca());
-        detalle.iuTexto.setText(m.getDetalle());
-        tipoColor.iuTexto.setText(m.getTipoColor());
-        colores.iuAreaTexto.setText(m.getColores());
-        tallas.iuAreaTexto.setText(m.getTallas());
-        tela.iuTexto.setText(m.getTela());
-        industria.iuTexto.setText(m.getIndustria());
-        temporada.iuTexto.setText(m.getTemporada());
-        tipoMoneda.iuTexto.setText(m.getUnidades().get(0).getNombreUnidad());
-        unidadMoneda.iuTexto.setText(m.getUnidades().get(0).getUnidadMedida());
-        costo.iuTexto.setText(String.valueOf(m.getCostoUnitario()));
-        iva.iuTexto.setText(String.valueOf(m.getImpuesto().getIva()));
-        costoIva.iuTexto.setText(String.valueOf(m.getCostoUnitarioIva()));
-        margenUtilidad.iuTexto.setText(String.valueOf(m.getMargenUtilidad()));
-        precioTope.iuTexto.setText(String.valueOf(m.getPrecioTope()));
-        precioOficial.iuTexto.setText(String.valueOf(m.getPrecioOficial()));
+    private void setDatosModelo(Modelo modelo){
+        this.modelo = modelo;
+        modeloID = modelo.getModeloID();
+        categoria.iuTexto.setText(modelo.getCategoria());
+        marca.iuTexto.setText(modelo.getMarca());
+        detalle.iuTexto.setText(modelo.getDetalle());
+        tipoColor.iuTexto.setText(modelo.getTipoColor());
+        colores.iuAreaTexto.setText(modelo.getColores());
+        tallas.iuAreaTexto.setText(modelo.getTallas());
+        tela.iuTexto.setText(modelo.getTela());
+        industria.iuTexto.setText(modelo.getIndustria());
+        temporada.iuTexto.setText(modelo.getTemporada());
+        tipoMoneda.iuTexto.setText(modelo.getUnidades().get(0).getNombreUnidad());
+        unidadMoneda.iuTexto.setText(modelo.getUnidades().get(0).getUnidadMedida());
+        costo.iuTexto.setText(String.valueOf(modelo.getCostoUnitario()));
+        costo.iuTexto.iuUnidad.setText(modelo.getUnidades().get(0).getUnidadMedida());
+        iva.iuTexto.setText(String.valueOf(modelo.getImpuesto().getIva()));
+        costoIva.iuTexto.setText(String.valueOf(modelo.getCostoUnitarioIva()));
+        costoIva.iuTexto.iuUnidad.setText(modelo.getUnidades().get(0).getUnidadMedida());
+        margenUtilidad.iuTexto.setText(String.valueOf(modelo.getMargenUtilidad()));
+        precioTope.iuTexto.setText(String.valueOf(modelo.getPrecioTope()));
+        precioTope.iuTexto.iuUnidad.setText(modelo.getUnidades().get(0).getUnidadMedida());
+        precioOficial.iuTexto.setText(String.valueOf(modelo.getPrecioOficial()));
+        precioOficial.iuTexto.iuUnidad.setText(modelo.getUnidades().get(0).getUnidadMedida());
     }
     private void actualizarListaModelos(ArrayList<Modelo> lista){
         int numeroElementos = lista.size();
@@ -386,8 +392,38 @@ public class IUModelo extends IUVentanaT{
     }
     private void modificarModelo(){
         setOpacity(0.5f);
-        if(id != 0){
-            
+        if(modeloID != 0){
+            IUModificarModelo iuModificarModelo = new IUModificarModelo(ventanaPrincipal, "modificar datos del modelo", new Limitacion(Ayuda.ancho/2, Ayuda.alto - Ayuda.alto/100), 5);
+            iuModificarModelo.setModelo(modelo);
+            iuModificarModelo.mostrarVentana();
+            if(iuModificarModelo.getEstado()){
+                if(controlPrenda.seModificoModelo(iuModificarModelo.getModelo())){
+                    if(Ayuda.mensajeVerificacion(ventanaPrincipal, this, "correcto", "EN HORA BUENA... se ha MODIFICADO los datos del MODELO correctamente...!", "correcto")){
+                        limpiarCampoDatos();
+                        actualizarListaModelos(controlPrenda.listarTodosModelos());
+                    }
+                }
+            }
+        }else{
+            Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento.... debe seleccionar un modelo por favor...!", "aviso");
+        }
+        setOpacity(1f);
+    }
+    private void eliminarModelo(){
+        setOpacity(0.5f);
+        if(modeloID != 0){
+            if(modelo.tienePrendasCreadas()){
+                Ayuda.mensajeVerificacion(ventanaPrincipal, this, "aviso", "este modelo: "+modeloID+" tiene al menos una prenda creada en base al modelo\npor esta rezon NO PUEDE SER ELIMINADO", "advertencia");                
+            }else{
+                if(Ayuda.mensajeVerificacion(ventanaPrincipal, this, "peligro", "esta seguro que desea eliminar el modelo: \nID: "+modeloID+"\ncategoria: "+modelo.getCategoria()+"\nmarca: "+modelo.getMarca()+"\ndetalle: "+modelo.getDetalle(), "peligro")){
+                    if(modelo.seElimino()){
+                        if(Ayuda.mensajeVerificacion(ventanaPrincipal, this, "informacion", "en hora buena... se ELIMNO CORRECTAMENTE EL MODELO...!", "correcto")){
+                            limpiarCampoDatos();
+                            actualizarListaModelos(controlPrenda.listarTodosModelos());
+                        }
+                    }
+                }
+            }
         }else{
             Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento.... debe seleccionar un modelo por favor...!", "aviso");
         }
@@ -395,7 +431,7 @@ public class IUModelo extends IUVentanaT{
     }
     
     private void limpiarCampoDatos(){
-        id = 0;
+        modeloID = 0;
         categoria.iuTexto.setText("");
         marca.iuTexto.setText("");
         detalle.iuTexto.setText("");
@@ -417,10 +453,6 @@ public class IUModelo extends IUVentanaT{
         precioOficial.iuTexto.setText("");
         precioOficial.iuTexto.iuUnidad.setText("");        
         despintarBoton(null);
-    }    
-    
-    public boolean getEstado(){
-        return estado;
     }
     private void despintarBoton(IUPanelBotonModelo boton){
         if(boton != null){

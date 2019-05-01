@@ -15,6 +15,7 @@ public class Unidad {
     private int unidadID;
     private String nombreUnidad;
     private String unidadMedida;
+    private int dato;
 
     public Unidad(int unidadID) {
         this.unidadID = unidadID;
@@ -42,4 +43,14 @@ public class Unidad {
     public void setUnidadMedida(String unidadMedida) {
         this.unidadMedida = unidadMedida;
     }
+    public int getDato() {
+        return dato;
+    }
+    public void setDato(int dato) {
+        this.dato = dato;
+    }
+    @Override
+    public String toString() {
+        return "Unidad{" + "unidadID=" + unidadID + ", nombreUnidad=" + nombreUnidad + ", unidadMedida=" + unidadMedida + ", dato=" + dato + '}';
+    }    
 }

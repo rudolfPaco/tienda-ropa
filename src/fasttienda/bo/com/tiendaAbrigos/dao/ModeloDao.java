@@ -8,10 +8,6 @@ package fasttienda.bo.com.tiendaAbrigos.dao;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Impuesto;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Modelo;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Unidad;
-import fasttienda.bo.com.tiendaAbrigos.modelo.Usuario;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -86,7 +82,7 @@ public class ModeloDao {
             ResultSet rs = preparedStatement.executeQuery();            
             
             while (rs.next()) {
-                Unidad unidad = new Unidad(rs.getInt("ModeloID"));
+                Unidad unidad = new Unidad(rs.getInt("UnidadID"));
                 unidad.setNombreUnidad(rs.getString("NombreUnidad"));
                 unidad.setUnidadMedida(rs.getString("UnidadMedida"));
                 
@@ -150,5 +146,53 @@ public class ModeloDao {
             System.out.println("Error ModeloDao.getImpuesto: " + e.getMessage());
             return impuesto;
         }
+    }
+
+    public boolean seModificoModelo(Modelo m) {
+        boolean verificador = false;
+        String sql = "update modelo set Categoria =?, Marca =?, Detalle =?, TipoColor =?, Colores =?, Tallas =?, Tela =?, Industria =?, Temporada =?, CostoUnitario =?, CostoUnitarioIva =?, MargenUtilidad =?, PrecioTope =?, PrecioOficial =?, ImpuestoID =? where ModeloID = "+m.getModeloID();
+        
+        try {
+            PreparedStatement ps = conexion.getConexion().prepareStatement(sql);
+            
+            ps.setString(1, m.getCategoria());
+            ps.setString(2, m.getMarca());
+            ps.setString(3, m.getDetalle());
+            ps.setString(4, m.getTipoColor());
+            ps.setString(5, m.getColores());
+            ps.setString(6, m.getTallas());
+            ps.setString(7, m.getTela());
+            ps.setString(8, m.getIndustria());
+            ps.setString(9, m.getTemporada());            
+            ps.setDouble(10, m.getCostoUnitario());
+            ps.setDouble(11, m.getCostoUnitarioIva());
+            ps.setDouble(12, m.getMargenUtilidad());
+            ps.setDouble(13, m.getPrecioTope());
+            ps.setDouble(14, m.getPrecioOficial());
+            ps.setInt(15, m.getImpuestoID());
+            
+            int resultado = ps.executeUpdate();
+            if(resultado > 0)
+                verificador = true;
+            
+        } catch (SQLException e) {
+            System.out.println("Error ModeloDao.seModificoModelo(): "+e.getMessage());
+        }
+        return verificador;
+    }
+
+    public boolean seEliminoModelo(int modeloID) {
+        boolean verificador = false;
+        String sql = "delete from modelo where ModeloID = "+modeloID;
+        try {
+            PreparedStatement ps = conexion.getConexion().prepareStatement(sql);
+            int estado = ps.executeUpdate();
+            if(estado > 0)
+                verificador = true;
+            
+        } catch (SQLException e) {
+            System.out.println("Error ModeloDao.seEliminoModelo(): "+e.getMessage());
+        }
+        return verificador;
     }
 }

@@ -85,12 +85,7 @@ public class IUModuloPrendas extends IUPanel{
             public void mousePressed(MouseEvent e) {
                 IUModelo nuevoModelo = new IUModelo(ventanaPrincipal, controlPrenda,"formulario para crear un nuevo modelo", new Limitacion(Ayuda.ancho, Ayuda.alto), 5);
                 nuevoModelo.mostrarVentana();
-                if(nuevoModelo.getEstado()){
-                    //if(controlPrenda.seGuardoNuevoModelo(nuevoModelo.getModelo())){
-                    //    Ayuda.mensajeVerificacion(ventanaPrincipal, "correcto", "En hora buena....! se guardo el nuevo modelo correctamete...", "confirmacion");
-                    actualizarListaModelos();
-                    //}
-                }
+                actualizarListaModelos();
             }
         });
         botonNuevaPrenda.addEventoRaton(new MouseAdapter() {

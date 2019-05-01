@@ -5,6 +5,7 @@
  */
 package fasttienda.bo.com.tiendaAbrigos.modelo;
 
+import fasttienda.bo.com.tiendaAbrigos.ayuda.Ayuda;
 import fasttienda.bo.com.tiendaAbrigos.dao.Conexion;
 import fasttienda.bo.com.tiendaAbrigos.dao.ModeloDao;
 import fasttienda.bo.com.tiendaAbrigos.dao.UnidadDao;
@@ -177,8 +178,22 @@ public class Modelo {
         UnidadDao unidadDao = new UnidadDao(conexion);
         
         if(modeloDao.seGuardoModelo(this))
-            if(unidadDao.seGuardUnidadModelo(new UnidadModelo(getLastID(), unidades.get(0).getUnidadID())) && unidadDao.seGuardUnidadModelo(new UnidadModelo(getLastID(), unidades.get(1).getUnidadID())))
+            if(unidadDao.seGuardoUnidadModelo(new UnidadModelo(getLastID(), unidades.get(0).getUnidadID())) && unidadDao.seGuardoUnidadModelo(new UnidadModelo(getLastID(), unidades.get(1).getUnidadID())))
                 verificador = true;
+        
+        conexion.cerrarConexion();
+        return verificador;
+    }
+    public boolean seModifico(){
+        boolean verificador = false;
+        Conexion conexion = new Conexion();
+        ModeloDao modeloDao = new ModeloDao(conexion);
+        UnidadDao unidadDao = new UnidadDao(conexion);
+        
+        if(modeloDao.seModificoModelo(this))            
+            if( unidadDao.seModificoUnidadModelo(new UnidadModelo(modeloID, unidades.get(0).getUnidadID()), unidades.get(0).getDato()) && unidadDao.seModificoUnidadModelo(new UnidadModelo(modeloID, unidades.get(1).getUnidadID()), unidades.get(1).getDato()))
+                verificador = true;
+            
         
         conexion.cerrarConexion();
         return verificador;
@@ -213,5 +228,26 @@ public class Modelo {
         }        
         conexion.cerrarConexion();
         return ubicaciones;
+    }
+
+    public boolean tienePrendasCreadas() {
+        boolean verificador = false;
+        Conexion conexion = new Conexion();
+        int dato = conexion.getDato("PrendaID", "select prenda.PrendaID from modelo inner join prenda on (modelo.ModeloID = prenda.PrendaID)");
+        if(dato > 0)
+            verificador = true;
+        conexion.cerrarConexion();
+        return verificador;
+    }
+
+    public boolean seElimino() {
+        boolean verificador = false;
+        Conexion conexion = new Conexion();
+        ModeloDao modeloDao = new ModeloDao(conexion);
+        if(modeloDao.seEliminoModelo(modeloID)){
+            verificador = true;
+        }
+        conexion.cerrarConexion();
+        return verificador;
     }
 }

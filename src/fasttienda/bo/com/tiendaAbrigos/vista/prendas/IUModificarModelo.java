@@ -29,10 +29,9 @@ import javax.swing.SwingConstants;
 
 /**
  *
- * @author rudolf
+ * @author neo
  */
-public class IUNuevoModelo extends IUVentanaT{
-    
+public class IUModificarModelo extends IUVentanaT{
     private IUPrincipal ventanaPrincipal;
     private IUPanelBD primerPanelModelo;
     private IUPanelTCB categoria;
@@ -55,15 +54,19 @@ public class IUNuevoModelo extends IUVentanaT{
     private IUPanelTCB tipoUnidad;
     
     private IUPanel segundoPanelModelo;
-    private IUBotonIT botonGuardar;
+    private IUBotonIT botonModificar;
     private IUBotonIT botonCancelar;
     
+    private int modeloID;
     private boolean estado;
+    private Modelo modelo;
     
-    public IUNuevoModelo(IUPrincipal ventanaPrincipal, String titulo, Limitacion limitacion, int porcentajeAlturaTitulo) {
+    public IUModificarModelo(IUPrincipal ventanaPrincipal, String titulo, Limitacion limitacion, int porcentajeAlturaTitulo) {
         super(ventanaPrincipal, titulo, limitacion, porcentajeAlturaTitulo);
         this.ventanaPrincipal = ventanaPrincipal;
+        this.modeloID = 0;
         this.estado = false;
+        this.modelo = null;
         construirPaneles(panelFondo.getLimitacion());    
         setEventos();
         
@@ -155,8 +158,8 @@ public class IUNuevoModelo extends IUVentanaT{
         primerPanelModelo.add(tipoUnidad);
     }
     private void construirSegundoPanel(Limitacion limite){
-        botonGuardar = new IUBotonIT("guardar nuevo modelo", "src/imagenes/si.png", new Limitacion(limite.getPorcentajeAncho(60), limite.getPorcentajeAlto(10), limite.getPorcentajeAncho(34), limite.getPorcentajeAlto(90)));
-        segundoPanelModelo.add(botonGuardar);
+        botonModificar = new IUBotonIT("modificar datos", "src/imagenes/si.png", new Limitacion(limite.getPorcentajeAncho(60), limite.getPorcentajeAlto(10), limite.getPorcentajeAncho(34), limite.getPorcentajeAlto(90)));
+        segundoPanelModelo.add(botonModificar);
         
         botonCancelar = new IUBotonIT("salir del formulario", "src/imagenes/salir.png", new Limitacion(limite.getPorcentajeAncho(5), limite.getPorcentajeAlto(10), limite.getPorcentajeAncho(34), limite.getPorcentajeAlto(90)));
         segundoPanelModelo.add(botonCancelar);
@@ -164,34 +167,60 @@ public class IUNuevoModelo extends IUVentanaT{
     public boolean getEstado(){
         return estado;
     }
+    public void setModelo(Modelo modelo){
+        this.modelo = modelo;
+        modeloID = modelo.getModeloID();
+        categoria.iuTexto.setSelectedItem(modelo.getCategoria());
+        marca.iuTexto.setText(modelo.getMarca());
+        detalle.iuTexto.setText(modelo.getDetalle());
+        tipoColor.iuTexto.setSelectedItem(modelo.getTipoColor());
+        colores.iuAreaTexto.setText(modelo.getColores());
+        tallas.iuAreaTexto.setText(modelo.getTallas());
+        tela.iuTexto.setText(modelo.getTela());        
+        industria.iuTexto.setText(modelo.getIndustria());
+        temporada.iuTexto.setText(modelo.getTemporada());
+        costo.iuTexto.setText(String.valueOf(modelo.getCostoUnitario()));
+        costoIva.iuTexto.setText(String.valueOf(modelo.getCostoUnitarioIva()));
+        iva.iuTexto.setText(String.valueOf(modelo.getImpuesto().getIva()));
+        margenUtilidad.iuTexto.setText(String.valueOf(modelo.getMargenUtilidad()));
+        precioTope.iuTexto.setText(String.valueOf(modelo.getPrecioTope()));
+        precioOficial.iuTexto.setText(String.valueOf(modelo.getPrecioOficial()));
+                
+        tipoMoneda.iuTexto.setSelectedItem(modelo.getUnidades().get(0).getNombreUnidad());
+        unidadMoneda.iuTexto.setText(modelo.getUnidades().get(0).getUnidadMedida());
+        
+        tipoUnidad.iuTexto.setSelectedItem(modelo.getUnidades().get(1).getNombreUnidad());        
+    }
     public Modelo getModelo(){        
-        Modelo modelo = new Modelo(0);
-        modelo.setCategoria(categoria.iuTexto.getTexto());
-        modelo.setMarca(marca.iuTexto.getText());
-        modelo.setDetalle(detalle.getTexto());
-        modelo.setTipoColor(tipoColor.getTexto());
-        modelo.setColores(colores.iuAreaTexto.getText());
-        modelo.setTallas(tallas.iuAreaTexto.getText());
-        modelo.setTela(tela.getTexto());
-        modelo.setIndustria(industria.getTexto());
-        modelo.setTemporada(temporada.getTexto());           
-        modelo.setCostoUnitario(Double.valueOf(costo.getTexto()));        
-        modelo.setCostoUnitarioIva(Double.valueOf(costoIva.getTexto()));
-        modelo.setMargenUtilidad(Double.valueOf(margenUtilidad.getTexto()));
-        modelo.setPrecioTope(Double.valueOf(precioTope.getTexto()));
-        modelo.setPrecioOficial(Double.valueOf(precioOficial.getTexto()));
-        modelo.setImpuestoID(Ayuda.getDatoInt("ImpuestoID", "select ImpuestoID from impuesto order by ImpuestoID desc limit 1"));
-        modelo.generarImpuesto();      
+        Modelo model = new Modelo(modeloID);
+        model.setCategoria(categoria.iuTexto.getTexto());
+        model.setMarca(marca.iuTexto.getText());
+        model.setDetalle(detalle.getTexto());
+        model.setTipoColor(tipoColor.getTexto());
+        model.setColores(colores.iuAreaTexto.getText());
+        model.setTallas(tallas.iuAreaTexto.getText());
+        model.setTela(tela.getTexto());
+        model.setIndustria(industria.getTexto());
+        model.setTemporada(temporada.getTexto());           
+        model.setCostoUnitario(Double.valueOf(costo.getTexto()));        
+        model.setCostoUnitarioIva(Double.valueOf(costoIva.getTexto()));
+        model.setMargenUtilidad(Double.valueOf(margenUtilidad.getTexto()));
+        model.setPrecioTope(Double.valueOf(precioTope.getTexto()));
+        model.setPrecioOficial(Double.valueOf(precioOficial.getTexto()));
+        model.setImpuestoID(Ayuda.getDatoInt("ImpuestoID", "select ImpuestoID from impuesto order by ImpuestoID desc limit 1"));
+        model.generarImpuesto();      
         
         Unidad unidadMonetaria = new Unidad(0);
         unidadMonetaria.agregarIDUnidad(tipoMoneda.iuTexto.getTexto(), unidadMoneda.iuTexto.getText());
-        modelo.getUnidades().add(unidadMonetaria);
+        unidadMonetaria.setDato(modelo.getUnidades().get(0).getUnidadID());
+        model.getUnidades().add(unidadMonetaria);
         
         Unidad unidadMedida = new Unidad(0);
         unidadMedida.agregarIDUnidad(tipoUnidad.iuTexto.getTexto(), "");
-        modelo.getUnidades().add(unidadMedida);
+        unidadMedida.setDato(modelo.getUnidades().get(1).getUnidadID());
+        model.getUnidades().add(unidadMedida);
 
-        return modelo;
+        return model;
     }
     public boolean camposCorrectos(){
         boolean verificador = false;
@@ -253,7 +282,7 @@ public class IUNuevoModelo extends IUVentanaT{
         return verificador;
     }
     public void setEventos(){
-        botonGuardar.addEventoRaton(new MouseAdapter() {
+        botonModificar.addEventoRaton(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if(camposCorrectos()){                    
@@ -359,5 +388,5 @@ public class IUNuevoModelo extends IUVentanaT{
                 }
             }
         });        
-    }    
+    }
 }

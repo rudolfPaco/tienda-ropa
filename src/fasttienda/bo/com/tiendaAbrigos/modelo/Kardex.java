@@ -178,7 +178,7 @@ public class Kardex {
         setFechaFinal(new Fecha().getFecha());
         setCodigoPrenda(prenda.getCodigo());
         setNombrePrenda(prenda.getCategoria()+"-"+prenda.getMarca());
-        setUnidadMedida("udds.");
+        setUnidadMedida(modelo.getUnidades().get(1).getUnidadMedida());
         setCantInvInicial(prenda.getCantidadEntrante());
         setCantCompras(0);
         setCantDevCompras(0);
@@ -202,9 +202,9 @@ public class Kardex {
         boolean verificador = false;
         Conexion conexion = new Conexion();
         KardexDao kardexDao = new KardexDao(conexion);
-        setIdPrenda(conexion.getDato("id", "select id from prenda order by id desc limit 1"));
+        setIdPrenda(conexion.getDato("prendaID", "select prendaID from prenda order by prendaID desc limit 1"));
         if(kardexDao.seGuardoKardex(this)){
-            int idKardex = conexion.getDato("id", "select id from kardex order by id desc limit 1");            
+            int idKardex = conexion.getDato("kardexID", "select kardexID from kardex order by kardexID desc limit 1");            
             if(!listaDetalles.isEmpty()){
                 DetalleKardex detalle = listaDetalles.get(0);
                 detalle.setIdKardex(idKardex);

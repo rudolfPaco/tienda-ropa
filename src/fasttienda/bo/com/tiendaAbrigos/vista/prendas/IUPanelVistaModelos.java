@@ -231,7 +231,7 @@ public class IUPanelVistaModelos extends IUPanel{
             
             for(int j = 0; j < limite; j++){
                 if(indice < numeroElementos){
-                    modelo = lista.get(indice);
+                    Modelo modelo = lista.get(indice);
                     IUPanelBotonModelo elemento = new IUPanelBotonModelo(new Limitacion(2, j*2 + j + j*alto, ancho, alto), modelo);
                     listaModelos.add(elemento);
                     panelModelos.add(elemento);
@@ -417,5 +417,6 @@ public class IUPanelVistaModelos extends IUPanel{
         iuPrecio.iuTexto.iuUnidad.setText("");        
         iuCantidadStock.iuTexto.setText("");
         iuCantidadStock.iuTexto.iuUnidad.setText("");
+        iuUbicacion.iuTexto.setText("");
     }
 }
