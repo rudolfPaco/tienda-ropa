@@ -192,8 +192,7 @@ public class Modelo {
         
         if(modeloDao.seModificoModelo(this))            
             if( unidadDao.seModificoUnidadModelo(new UnidadModelo(modeloID, unidades.get(0).getUnidadID()), unidades.get(0).getDato()) && unidadDao.seModificoUnidadModelo(new UnidadModelo(modeloID, unidades.get(1).getUnidadID()), unidades.get(1).getDato()))
-                verificador = true;
-            
+                verificador = true;            
         
         conexion.cerrarConexion();
         return verificador;
@@ -209,7 +208,7 @@ public class Modelo {
     public String getCodigoBarraPrenda(){
         String codigo = "";
         Conexion conexion = new Conexion();
-        int id = conexion.getDato("ModeloID", "select ModeloID from prenda order by ModeloID desc limit 1");
+        int id = conexion.getDato("PrendaID", "select PrendaID from prenda order by PrendaID desc limit 1");
         id++;
         codigo = String.valueOf(id);
         conexion.cerrarConexion();
