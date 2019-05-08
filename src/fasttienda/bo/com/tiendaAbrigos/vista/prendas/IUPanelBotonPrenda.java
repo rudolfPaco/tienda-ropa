@@ -45,13 +45,14 @@ public class IUPanelBotonPrenda extends IUPanelBD{
         categoria.setHorizontalAlignment(SwingConstants.CENTER);
         add(categoria);
         
-        stock = new IUPanelTT(new Limitacion(limite.getPorcentajeAncho(71), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(29), limite.getPorcentajeAlto(25)), "stock", String.valueOf(prenda.getCantidadEntrante()), 50, 50);
-        stock.setFuente(new Font("Verdana", Font.PLAIN, limite.getPorcentajeAlto(15)), new Font("Verdana", Font.PLAIN, limite.getPorcentajeAlto(22)));
+        stock = new IUPanelTT(new Limitacion(limite.getPorcentajeAncho(71), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(29), limite.getPorcentajeAlto(20)), "stock", String.valueOf(prenda.getCantidadEntrante()), 50, 50);
+        stock.setFuente(new Font("Verdana", Font.PLAIN, limite.getPorcentajeAlto(15)), new Font("Verdana", Font.BOLD, limite.getPorcentajeAlto(22)));
+        stock.iuTexto.setForeground(new Color(180, 0, 0));
         stock.iuTexto.setHorizontalAlignment(SwingConstants.CENTER);
         stock.setCursorMano(new Cursor(Cursor.HAND_CURSOR));
         add(stock);
         if(prenda.getCantidadEntrante() < 1)
-            stock.iuTexto.setForeground(new Color(120, 0, 0));
+            stock.iuTexto.setForeground(new Color(120, 120, 120));
         
         marcaTalla = new IUEtiqueta(prenda.getMarca().toUpperCase()+" - "+prenda.getTalla(), new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(35), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(30)));
         marcaTalla.setFont(new Font("Verdana", Font.PLAIN, limite.getPorcentajeAlto(27)));

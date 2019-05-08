@@ -276,7 +276,6 @@ public class IUPanelVistaModelos extends IUPanel{
         for (int i = 0; i < cantidadPanelesPrenda; i++) {
             IUPanel panelPrenda = new IUPanel(new Limitacion(panelContenedoresPrendas.getLimitacion().getAncho(), panelContenedoresPrendas.getLimitacion().getAlto()));
             panelContenedoresPrendas.add(panelPrenda);
-            System.out.println("limite de panelPrenda: "+panelPrenda.getLimitacion().toString());
             
             int ancho = (panelPrenda.getLimitacion().getAncho() - (numeroColumnas*2 + 2))/numeroColumnas;
             int alto = (panelPrenda.getLimitacion().getAlto() - numeroFilas*2)/numeroFilas;
@@ -288,7 +287,6 @@ public class IUPanelVistaModelos extends IUPanel{
                         if(prendaBoton != null){
 
                             IUPanelBotonPrenda elemento = new IUPanelBotonPrenda(new Limitacion(columnas*2 + 2 + columnas*ancho, filas*2 + 2 + filas*alto, ancho, alto), prendaBoton);
-                            System.out.println("limitacion  : "+elemento.getLimitacion().toString());
                             listaPrendas.add(elemento);
                             panelPrenda.add(elemento);  
                             elemento.addEventoRaton(new MouseAdapter() {

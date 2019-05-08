@@ -147,10 +147,4 @@ public class Prenda {
         conexion.cerrarConexion();
         return verificador;
     }
-    private Kardex getNuevoKardex(Modelo modelo){
-        Kardex k = new Kardex(0);        
-        
-        
-        return k;
-    }
 }

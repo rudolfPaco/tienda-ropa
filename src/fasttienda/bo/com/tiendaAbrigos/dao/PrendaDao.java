@@ -92,7 +92,7 @@ public class PrendaDao {
     }
     public boolean seModificoPrenda(Prenda p){
         boolean verificador = false;
-        String sql = "UPDATE prenda SET codigo=?, categoria=?, marca=?, color=?, talla=?, precio=?, cantidadMinima=?, ubicacion=?, urlPrenda=?, imagenPrenda=? WHERE `id`='"+p.getId()+"';";        
+        String sql = "UPDATE prenda SET codigo=?, categoria=?, marca=?, color=?, talla=?, precio=?, cantidadMinima=?, ubicacion=?, urlPrenda=?, imagenPrenda=? WHERE `PrendaID`='"+p.getId()+"';";        
         try {
             PreparedStatement ps = conexion.getConexion().prepareStatement(sql);
             File file = new File(p.getUrlPrenda());
