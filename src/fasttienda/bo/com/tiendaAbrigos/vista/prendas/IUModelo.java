@@ -250,7 +250,7 @@ public class IUModelo extends IUVentanaT{
         botonModificar.iuTexto.setFont(new Font("Verdana", Font.PLAIN, limite.getPorcentajeAlto(15)));        
         tercerPanel.add(botonModificar);
         
-        botonEliminar = new IUBotonIT("ELIMINAR MODELO", "src/imagenes/guardar.png", new Limitacion(limite.getPorcentajeAncho(55), limite.getPorcentajeAlto(20), limite.getPorcentajeAncho(14), limite.getPorcentajeAlto(60)));
+        botonEliminar = new IUBotonIT("ELIMINAR MODELO", "src/imagenes/basurero.png", new Limitacion(limite.getPorcentajeAncho(55), limite.getPorcentajeAlto(20), limite.getPorcentajeAncho(14), limite.getPorcentajeAlto(60)));
         botonEliminar.iuTexto.setFont(new Font("Verdana", Font.PLAIN, limite.getPorcentajeAlto(15)));        
         tercerPanel.add(botonEliminar);
         

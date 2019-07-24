@@ -462,36 +462,20 @@ public class IUPrenda extends IUVentanaT{
             Ayuda.mensajeVerificacion(ventanaPrincipal, this, "aviso", "debe elegir una prenda del modelo para poder eliminar la prenda...", "advertencia");
         }else{
             setOpacity(0.5f);
-            /*IUModificarPrenda iuModificarPrenda = new IUModificarPrenda(ventanaPrincipal, modelo, prenda, "modificar los datos de la prenda", new Limitacion(Ayuda.ancho/2, Ayuda.alto - Ayuda.alto/100), 5);
-            iuModificarPrenda.mostrarVentana();            
-            if(iuModificarPrenda.getEstado()){
-                if(controlPrenda.modificarPrenda(iuModificarPrenda.getPrenda())){
-                    if(Ayuda.mensajeVerificacion(ventanaPrincipal, this, "correcto", "EN HORA BUENA... se ha modificado la prenda correctamente...!", "correcto")){
-                        actualizarListaPrendas(modelo);
-                        limpiarDatosPrenda();
-                    }                    
-                }else{
-                    Ayuda.mensajeVerificacion(ventanaPrincipal, this, "peligro", "Existe un error al modificar la prenda...!", "error");
-                }
-            }*/
+            if(Ayuda.mensajeVerificacion(ventanaPrincipal, "peligro", "...! Esta seguro que quiere eliminar la "+prenda.toString(), "advertencia")){
+                eliminarPrenda(prenda);
+                actualizarListaPrendas(modelo);
+                limpiarDatosPrenda();
+            }            
             setOpacity(1f);
         }
-        /*if(prenda = null){            
-            if(prenda.tienePrendasCreadas()){
-                Ayuda.mensajeVerificacion(ventanaPrincipal, this, "aviso", "este modelo: "+modeloID+" tiene al menos una prenda creada en base al modelo\npor esta rezon NO PUEDE SER ELIMINADO", "advertencia");                
-            }else{
-                if(Ayuda.mensajeVerificacion(ventanaPrincipal, this, "peligro", "esta seguro que desea eliminar el modelo: \nID: "+modeloID+"\ncategoria: "+modelo.getCategoria()+"\nmarca: "+modelo.getMarca()+"\ndetalle: "+modelo.getDetalle(), "peligro")){
-                    if(modelo.seElimino()){
-                        if(Ayuda.mensajeVerificacion(ventanaPrincipal, this, "informacion", "en hora buena... se ELIMNO CORRECTAMENTE EL MODELO...!", "correcto")){
-                            limpiarCampoDatos();
-                            actualizarListaModelos(controlPrenda.listarTodosModelos());
-                        }
-                    }
-                }
-            }
-        }else{
-            Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento.... debe seleccionar un modelo por favor...!", "aviso");
-        }*/
+        
+    }
+    private void eliminarPrenda(Prenda prendaEliminar){
+        if(prendaEliminar.seElimino())
+            Ayuda.mensajeVerificacion(ventanaPrincipal, "correcto", "la prenda se elimino correctamente...!", "verificador");            
+        else
+            Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento...la prenda no puede eliminarse, por algun problema de Dependencia..!", "advertencia");
     }
     private void actualizarListaPrendas(Modelo modelo){
         ArrayList<Prenda> lista = controlPrenda.listarTodasPrendas(modelo);

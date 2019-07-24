@@ -107,7 +107,7 @@ public class Prenda {
     }
     @Override
     public String toString() {
-        return "Prenda{" + "id=" + id + ", codigo=" + codigo + ", categoria=" + categoria + ", marca=" + marca + ", color=" + color + ", talla=" + talla + ", precio=" + precio + ", cantidadMinima=" + cantidadMinima + ", cantidadEntrante=" + cantidadEntrante + ", ubicacion=" + ubicacion + ", urlPrenda=" + urlPrenda + ", idModelo=" + idModelo + '}';
+        return "Prenda:" + "\ncod: " + codigo + "\n" + categoria + "-" + marca + "-" + talla + "-" + color;
     }
     public boolean seGuardo(){
         boolean verificador = false;
@@ -129,6 +129,16 @@ public class Prenda {
             verificador = true;
         
         conexion.cerrarConexion();
+        return verificador;
+    }
+    public boolean seElimino(){
+        boolean verificador = false;
+        Conexion conexion = new Conexion();
+        PrendaDao prendaDao = new PrendaDao(conexion);
+        
+        if(prendaDao.seEliminoPrenda(this))            
+            verificador = true;
+        
         return verificador;
     }
     public boolean existePrendaDuplicada(){

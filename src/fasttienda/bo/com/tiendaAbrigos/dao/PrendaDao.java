@@ -117,6 +117,20 @@ public class PrendaDao {
         }
         return verificador;
     }
+    public boolean seEliminoPrenda(Prenda p){
+        boolean verificador = false;
+        String sql = "delete from prenda where PrendaID = "+p.getId();
+        try {
+            PreparedStatement ps = conexion.getConexion().prepareStatement(sql);
+            int estado = ps.executeUpdate();
+            if(estado > 0)
+                verificador = true;
+            
+        } catch (SQLException e) {
+            System.out.println("Error PrendaDao.seEliminoPrenda(): "+e.getMessage());
+        }
+        return verificador;
+    }
     private Prenda getPrenda(String sql){
         Prenda p = null;
         try {            
