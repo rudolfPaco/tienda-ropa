@@ -76,9 +76,9 @@ public class IUPrenda extends IUVentanaT{
     
     private IUPanelBD cuartoPanel;
     private IUBotonIT nuevaPrenda;
-    private IUBotonIT botonGuardar;
+    private IUBotonIT botonEliminar;
     private IUBotonIT botonModificar;
-    private IUBotonIT botonCerrar;
+    private IUBotonIT botonSalir;
     
     private boolean estado;
     private int numeroPanelModelo;
@@ -283,14 +283,13 @@ public class IUPrenda extends IUVentanaT{
         botonModificar.iuTexto.setFont(new Font("Verdana", Font.PLAIN, limite.getPorcentajeAlto(15)));        
         cuartoPanel.add(botonModificar);
         
-        botonGuardar = new IUBotonIT("guardar", "src/imagenes/guardar.png", new Limitacion(limite.getPorcentajeAncho(79), limite.getPorcentajeAlto(20), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(60)));
-        botonGuardar.iuTexto.setFont(new Font("Verdana", Font.PLAIN, limite.getPorcentajeAlto(30)));
-        botonGuardar.setVisible(false);
-        cuartoPanel.add(botonGuardar);
+        botonEliminar = new IUBotonIT("ELIMINAR PRENDA", "src/imagenes/basurero.png", new Limitacion(limite.getPorcentajeAncho(55), limite.getPorcentajeAlto(20), limite.getPorcentajeAncho(14), limite.getPorcentajeAlto(60)));
+        botonEliminar.iuTexto.setFont(new Font("Verdana", Font.PLAIN, limite.getPorcentajeAlto(15)));
+        cuartoPanel.add(botonEliminar);
         
-        botonCerrar = new IUBotonIT("salir", "src/imagenes/salir.png", new Limitacion(limite.getPorcentajeAncho(2), limite.getPorcentajeAlto(20), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(60)));
-        botonCerrar.iuTexto.setFont(new Font("Verdana", Font.PLAIN, limite.getPorcentajeAlto(28)));        
-        cuartoPanel.add(botonCerrar);
+        botonSalir = new IUBotonIT("SALIR CRUD", "src/imagenes/salir.png", new Limitacion(limite.getPorcentajeAncho(40), limite.getPorcentajeAlto(20), limite.getPorcentajeAncho(14), limite.getPorcentajeAlto(60)));
+        botonSalir.iuTexto.setFont(new Font("Verdana", Font.PLAIN, limite.getPorcentajeAlto(15)));        
+        cuartoPanel.add(botonSalir);
     }
     private void setEventos(){        
         
@@ -300,10 +299,16 @@ public class IUPrenda extends IUVentanaT{
                 crearNuevaPrenda();
             }
         });   
-        botonCerrar.addEventoRaton(new MouseAdapter() {
+        botonSalir.addEventoRaton(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 dispose();
+            }
+        });
+        botonEliminar.addEventoRaton(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                eliminarPrenda();
             }
         });
         botonModificar.addEventoRaton(new MouseAdapter() {
@@ -450,9 +455,44 @@ public class IUPrenda extends IUVentanaT{
                 }
             }
             setOpacity(1f);
-        }        
+        }
     }
-    
+    private void eliminarPrenda(){
+        if(prenda == null){
+            Ayuda.mensajeVerificacion(ventanaPrincipal, this, "aviso", "debe elegir una prenda del modelo para poder eliminar la prenda...", "advertencia");
+        }else{
+            setOpacity(0.5f);
+            /*IUModificarPrenda iuModificarPrenda = new IUModificarPrenda(ventanaPrincipal, modelo, prenda, "modificar los datos de la prenda", new Limitacion(Ayuda.ancho/2, Ayuda.alto - Ayuda.alto/100), 5);
+            iuModificarPrenda.mostrarVentana();            
+            if(iuModificarPrenda.getEstado()){
+                if(controlPrenda.modificarPrenda(iuModificarPrenda.getPrenda())){
+                    if(Ayuda.mensajeVerificacion(ventanaPrincipal, this, "correcto", "EN HORA BUENA... se ha modificado la prenda correctamente...!", "correcto")){
+                        actualizarListaPrendas(modelo);
+                        limpiarDatosPrenda();
+                    }                    
+                }else{
+                    Ayuda.mensajeVerificacion(ventanaPrincipal, this, "peligro", "Existe un error al modificar la prenda...!", "error");
+                }
+            }*/
+            setOpacity(1f);
+        }
+        /*if(prenda = null){            
+            if(prenda.tienePrendasCreadas()){
+                Ayuda.mensajeVerificacion(ventanaPrincipal, this, "aviso", "este modelo: "+modeloID+" tiene al menos una prenda creada en base al modelo\npor esta rezon NO PUEDE SER ELIMINADO", "advertencia");                
+            }else{
+                if(Ayuda.mensajeVerificacion(ventanaPrincipal, this, "peligro", "esta seguro que desea eliminar el modelo: \nID: "+modeloID+"\ncategoria: "+modelo.getCategoria()+"\nmarca: "+modelo.getMarca()+"\ndetalle: "+modelo.getDetalle(), "peligro")){
+                    if(modelo.seElimino()){
+                        if(Ayuda.mensajeVerificacion(ventanaPrincipal, this, "informacion", "en hora buena... se ELIMNO CORRECTAMENTE EL MODELO...!", "correcto")){
+                            limpiarCampoDatos();
+                            actualizarListaModelos(controlPrenda.listarTodosModelos());
+                        }
+                    }
+                }
+            }
+        }else{
+            Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento.... debe seleccionar un modelo por favor...!", "aviso");
+        }*/
+    }
     private void actualizarListaPrendas(Modelo modelo){
         ArrayList<Prenda> lista = controlPrenda.listarTodasPrendas(modelo);
         int numeroElementos = lista.size();
