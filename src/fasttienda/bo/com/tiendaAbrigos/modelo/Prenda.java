@@ -141,7 +141,7 @@ public class Prenda {
         
         return verificador;
     }
-    public boolean existePrendaDuplicada(){
+    public boolean existePrendaDuplicada(int idPrenda){
         boolean verificador = false;
         Conexion conexion = new Conexion();
         PrendaDao prendaDao = new PrendaDao(conexion);
@@ -149,8 +149,9 @@ public class Prenda {
         int contador = 0;
         while ( contador < lista.size() &&!verificador) {
             Prenda prenda = lista.get(contador);
-            if(prenda.getColor().equalsIgnoreCase(color) && prenda.getTalla().equalsIgnoreCase(talla))
-                verificador = true;
+            if(prenda.getId() != idPrenda)
+                if(prenda.getColor().equalsIgnoreCase(color) && prenda.getTalla().equalsIgnoreCase(talla))
+                    verificador = true;
             contador++;
         }
         

@@ -198,7 +198,7 @@ public class IUModificarPrenda extends IUVentanaT{
         });
     }    
     private void modificarPrenda(){
-        if(getPrenda().existePrendaDuplicada()){
+        if(getPrenda().existePrendaDuplicada(prenda.getId())){
             Ayuda.mensajeVerificacion(ventanaPrincipal, this, "aviso", "NO PUEDE MODIFICAR ESTA PRENDA.... por que ya existe duplicada en la base de datos.", "Advertencia");
         }else{
             estado = true;

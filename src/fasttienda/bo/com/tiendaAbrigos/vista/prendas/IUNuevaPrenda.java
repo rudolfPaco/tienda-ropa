@@ -114,14 +114,14 @@ public class IUNuevaPrenda extends IUVentanaT{
         precioOficial.iuTexto.setRestriccionNumeroDecimal();
         primerPanelPrenda.add(precioOficial);
         
-        cantidadMinima = new IUPanelCTU("cant. minima", "0", "uddes.", new Limitacion(limite.getPorcentajeAncho(2), limite.getPorcentajeAlto(71), limite.getPorcentajeAncho(15), limite.getPorcentajeAlto(7)), 40, 60, 60);
-        cantidadMinima.iuTexto.setRestriccionNumeroEnteros();
-        primerPanelPrenda.add(cantidadMinima);
-        
-        stock = new IUPanelCTU("cant. entrante", "0", "uddes.", new Limitacion(limite.getPorcentajeAncho(2), limite.getPorcentajeAlto(81), limite.getPorcentajeAncho(15), limite.getPorcentajeAlto(7)), 40, 60, 50);
+        stock = new IUPanelCTU("cant. entrante", "0", "uddes.", new Limitacion(limite.getPorcentajeAncho(2), limite.getPorcentajeAlto(71), limite.getPorcentajeAncho(15), limite.getPorcentajeAlto(7)), 40, 60, 50);
         stock.iuTexto.setForeground(new Color(120, 0, 0));
         stock.iuTexto.setRestriccionNumeroEnteros();
         primerPanelPrenda.add(stock);
+        
+        cantidadMinima = new IUPanelCTU("cant. minima", "0", "uddes.", new Limitacion(limite.getPorcentajeAncho(2), limite.getPorcentajeAlto(81), limite.getPorcentajeAncho(15), limite.getPorcentajeAlto(7)), 40, 60, 60);
+        cantidadMinima.iuTexto.setRestriccionNumeroEnteros();
+        primerPanelPrenda.add(cantidadMinima);
         
         String[] ubicaciones = modelo.getUbicaciones();
         ubicacion = new IUPanelTCB("ubicacion", ubicaciones, new Limitacion(limite.getPorcentajeAncho(22), limite.getPorcentajeAlto(81), limite.getPorcentajeAncho(36), limite.getPorcentajeAlto(7)), 40, 60);
@@ -204,7 +204,7 @@ public class IUNuevaPrenda extends IUVentanaT{
         });
     }    
     private void guardarPrenda(){
-        if(getPrenda().existePrendaDuplicada()){
+        if(getPrenda().existePrendaDuplicada(0)){
             Ayuda.mensajeVerificacion(ventanaPrincipal, this, "aviso", "NO PUEDE GUARDAR ESTA PRENDA.... por que ya existe en la base de datos.", "Advertencia");
         }else{
             estado = true;
