@@ -1,0 +1,265 @@
+-- MySQL Workbench Synchronization
+-- Generated: 2019-02-14 18:38
+-- Model: Diagrama bdtr
+-- Version: 1.0
+-- Project: URI
+-- Author: rudolf felipez mancilla
+
+CREATE DATABASE IF NOT EXISTS bdtr DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+
+USE bdtr;
+
+CREATE TABLE IF NOT EXISTS bdtr.Impuesto (
+  ImpuestoID INT(11) NOT NULL COMMENT '',
+  IVA DOUBLE NOT NULL COMMENT '',
+  IT DOUBLE NULL DEFAULT NULL COMMENT '',
+  PRIMARY KEY (ImpuestoID)  COMMENT '');
+
+
+CREATE TABLE IF NOT EXISTS bdtr.Modelo (
+  ModeloID INT(11) NOT NULL AUTO_INCREMENT COMMENT '',
+  Categoria VARCHAR(20) NOT NULL COMMENT '',
+  Marca VARCHAR(20) NOT NULL COMMENT '',
+  Detalle VARCHAR(1000) NULL DEFAULT NULL COMMENT '',
+  TipoColor VARCHAR(20) NOT NULL COMMENT '',
+  Colores VARCHAR(200) NOT NULL COMMENT '',
+  Tallas VARCHAR(50) NOT NULL COMMENT '',
+  Tela VARCHAR(20) NULL DEFAULT NULL COMMENT '',
+  Industria VARCHAR(20) NULL DEFAULT NULL COMMENT '',
+  Temporada VARCHAR(20) NULL DEFAULT NULL COMMENT '',
+  CostoUnitario DOUBLE NOT NULL COMMENT '',
+  CostoUnitarioIva DOUBLE NULL DEFAULT NULL COMMENT '',
+  MargenUtilidad DOUBLE NULL DEFAULT NULL COMMENT '',
+  PrecioTope DOUBLE NULL DEFAULT NULL COMMENT '',
+  PrecioOficial DOUBLE NOT NULL COMMENT '',
+  ImpuestoID INT(11) NOT NULL COMMENT '',
+  PRIMARY KEY (ModeloID, ImpuestoID)  COMMENT '',
+  INDEX fk_Modelo_Impuesto1_idx (ImpuestoID ASC)  COMMENT '',
+  CONSTRAINT fk_Modelo_Impuesto1
+    FOREIGN KEY (ImpuestoID)
+    REFERENCES bdtr.Impuesto (ImpuestoID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+CREATE TABLE IF NOT EXISTS bdtr.Prenda (
+  PrendaID INT(11) NOT NULL AUTO_INCREMENT COMMENT '',
+  Codigo VARCHAR(20) NOT NULL COMMENT '',
+  Nombre VARCHAR(50) NOT NULL COMMENT '',
+  Color VARCHAR(20) NOT NULL COMMENT '',
+  Talla VARCHAR(10) NOT NULL COMMENT '',
+  Precio DOUBLE NOT NULL COMMENT '',
+  CantidadMinima INT(11) NULL DEFAULT NULL COMMENT '',
+  Ubicacion VARCHAR(20) NULL DEFAULT NULL COMMENT '',
+  UrlPrenda VARCHAR(100) NULL DEFAULT NULL COMMENT '',
+  ImagenPrenda LONGBLOB NULL DEFAULT NULL COMMENT '',
+  ModeloID INT(11) NOT NULL COMMENT '',
+  PRIMARY KEY (PrendaID, ModeloID)  COMMENT '',
+  INDEX fk_Prenda_Modelo1_idx (ModeloID ASC)  COMMENT '',
+  UNIQUE INDEX Codigo_UNIQUE (Codigo ASC)  COMMENT '',
+  CONSTRAINT fk_Prenda_Modelo1
+    FOREIGN KEY (ModeloID)
+    REFERENCES bdtr.Modelo (ModeloID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS bdtr.Unidad (
+  UnidadID INT(11) NOT NULL AUTO_INCREMENT COMMENT '',
+  NombreUnidad VARCHAR(20) NOT NULL COMMENT '',
+  UnidadMedida VARCHAR(10) NOT NULL COMMENT '',
+  PRIMARY KEY (UnidadID)  COMMENT '');
+
+CREATE TABLE IF NOT EXISTS bdtr.Unidad_Modelo (
+  ModeloID INT(11) NOT NULL COMMENT '',
+  UnidadID INT(11) NOT NULL COMMENT '',
+  PRIMARY KEY (ModeloID, UnidadID)  COMMENT '',
+  INDEX fk_Unidad_Modelo_Unidad1_idx (UnidadID ASC)  COMMENT '',
+  CONSTRAINT fk_Unidad_Modelo_Modelo
+    FOREIGN KEY (ModeloID)
+    REFERENCES bdtr.Modelo (ModeloID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_Unidad_Modelo_Unidad1
+    FOREIGN KEY (UnidadID)
+    REFERENCES bdtr.Unidad (UnidadID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS bdtr.Tienda (
+  TiendaID INT(11) NOT NULL AUTO_INCREMENT COMMENT '',
+  NombreTienda VARCHAR(20) NOT NULL COMMENT '',
+  DescripcionTienda VARCHAR(200) NULL DEFAULT NULL COMMENT '',
+  DireccionTienda VARCHAR(200) NULL DEFAULT NULL COMMENT '',
+  TelefonosTienda VARCHAR(30) NULL DEFAULT NULL COMMENT '',
+  CiudadTienda VARCHAR(20) NULL DEFAULT NULL COMMENT '',
+  PaisTienda VARCHAR(20) NULL DEFAULT NULL COMMENT '',
+  CambioDolar DOUBLE NOT NULL COMMENT '',
+  EstadoTienda VARCHAR(10) NOT NULL COMMENT '',
+  UrlLogo VARCHAR(100) NULL DEFAULT NULL COMMENT '',
+  LogoTienda LONGBLOB NULL DEFAULT NULL COMMENT '',
+  PRIMARY KEY (TiendaID)  COMMENT '');
+
+CREATE TABLE IF NOT EXISTS bdtr.Kardex (
+  KardexID INT(11) NOT NULL AUTO_INCREMENT COMMENT '',
+  FechaInicial DATE NOT NULL COMMENT '',
+  FechaFinal DATE NOT NULL COMMENT '',
+  CodigoPrenda VARCHAR(20) NOT NULL COMMENT '',
+  NombrePrenda VARCHAR(20) NOT NULL COMMENT '',
+  CantInvInicial INT(11) NOT NULL COMMENT '',
+  CantCompras INT(11) NOT NULL COMMENT '',
+  CantDevCompras INT(11) NULL DEFAULT NULL COMMENT '',
+  CantVentas INT(11) NOT NULL COMMENT '',
+  CantDevVentas INT(11) NULL DEFAULT NULL COMMENT '',
+  CantStockActual INT(11) NOT NULL COMMENT '',
+  InventarioInicial DOUBLE NOT NULL COMMENT '',
+  ComprasNetas DOUBLE NOT NULL COMMENT '',
+  InventarioFinal DOUBLE NOT NULL COMMENT '',
+  CostoVentas DOUBLE NOT NULL COMMENT '',
+  TotalVentas DOUBLE NOT NULL COMMENT '',
+  PrendaID INT(11) NOT NULL COMMENT '',
+  TiendaID INT(11) NOT NULL COMMENT '',
+  PRIMARY KEY (KardexID, PrendaID, TiendaID)  COMMENT '',
+  INDEX fk_Kardex_Prenda1_idx (PrendaID ASC)  COMMENT '',
+  INDEX fk_Kardex_Tienda1_idx (TiendaID ASC)  COMMENT '',
+  CONSTRAINT fk_Kardex_Prenda1
+    FOREIGN KEY (PrendaID)
+    REFERENCES bdtr.Prenda (`PrendaID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_Kardex_Tienda1
+    FOREIGN KEY (TiendaID)
+    REFERENCES bdtr.Tienda (`TiendaID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS bdtr.Detalle_Kardex (
+  DetalleKardexID INT(11) NOT NULL AUTO_INCREMENT COMMENT '',
+  FechaKardex DATE NOT NULL COMMENT '',
+  HoraKardex TIME NOT NULL COMMENT '',
+  ConceptoKardex VARCHAR(20) NOT NULL COMMENT '',
+  CantidadEntrada VARCHAR(10) NULL DEFAULT NULL COMMENT '',
+  CostoUnidadEntrada VARCHAR(10) NULL DEFAULT NULL COMMENT '',
+  TotalEntradas VARCHAR(10) NULL DEFAULT NULL COMMENT '',
+  CantidadSalida VARCHAR(10) NULL DEFAULT NULL COMMENT '',
+  CostoUnitarioSalida VARCHAR(10) NULL DEFAULT NULL COMMENT '',
+  TotalSalidas VARCHAR(10) NULL DEFAULT NULL COMMENT '',
+  CantidadExistencia VARCHAR(10) NOT NULL COMMENT '',
+  CostoPromedioPonderado VARCHAR(10) NOT NULL COMMENT '',
+  TotalExistencias VARCHAR(10) NOT NULL COMMENT '',
+  KardexID INT(11) NOT NULL COMMENT '',
+  PrendaID INT(11) NOT NULL COMMENT '',
+  PRIMARY KEY (DetalleKardexID, KardexID, PrendaID)  COMMENT '',
+  INDEX fk_Detalle_Kardex_Kardex1_idx (KardexID ASC, PrendaID ASC)  COMMENT '',
+  CONSTRAINT fk_Detalle_Kardex_Kardex1
+    FOREIGN KEY (KardexID , PrendaID)
+    REFERENCES bdtr.Kardex (KardexID , PrendaID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+CREATE TABLE IF NOT EXISTS bdtr.Caja (
+  CajaID INT(11) NOT NULL AUTO_INCREMENT COMMENT '',
+  FechaApertura DATE NOT NULL COMMENT '',
+  HoraApertura TIME NOT NULL COMMENT '',
+  FechaCierre DATE NULL DEFAULT NULL COMMENT '',
+  HoraCierre TIME NULL DEFAULT NULL COMMENT '',
+  CajaInicial DOUBLE NOT NULL COMMENT '',
+  VentaTotal DOUBLE NOT NULL COMMENT '',
+  IngresoTotal DOUBLE NOT NULL COMMENT '',
+  GastoTotal DOUBLE NOT NULL COMMENT '',
+  CajaTotal DOUBLE NOT NULL COMMENT '',
+  TiendaID INT(11) NOT NULL COMMENT '',
+  PRIMARY KEY (CajaID, TiendaID)  COMMENT '',
+  INDEX fk_Caja_Tienda1_idx (`TiendaID` ASC)  COMMENT '',
+  CONSTRAINT fk_Caja_Tienda1
+    FOREIGN KEY (TiendaID)
+    REFERENCES bdtr.Tienda (TiendaID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS bdtr.Persona (
+  PersonaID INT(11) NOT NULL AUTO_INCREMENT COMMENT '',
+  Nombres VARCHAR(50) NULL DEFAULT NULL COMMENT '',
+  Apellidos VARCHAR(50) NULL DEFAULT NULL COMMENT '',
+  CarnetIdentidad VARCHAR(20) NULL DEFAULT NULL COMMENT '',
+  Direccion VARCHAR(200) NULL DEFAULT NULL COMMENT '',
+  Telefonos VARCHAR(30) NULL DEFAULT NULL COMMENT '',
+  Email VARCHAR(30) NULL DEFAULT NULL COMMENT '',
+  UrlFoto VARCHAR(100) NULL DEFAULT NULL COMMENT '',
+  ImagenFoto LONGBLOB NULL DEFAULT NULL COMMENT '',
+  PRIMARY KEY (PersonaID)  COMMENT '');
+
+CREATE TABLE IF NOT EXISTS bdtr.Empleado (
+  EmpleadoID INT(11) NOT NULL AUTO_INCREMENT COMMENT '',
+  CargoEmpleado VARCHAR(20) NOT NULL COMMENT '',
+  FechaContratacion DATE NULL DEFAULT NULL COMMENT '',
+  Estado VARCHAR(10) NOT NULL COMMENT '',
+  PersonaID INT(11) NOT NULL COMMENT '',
+  PRIMARY KEY (EmpleadoID, PersonaID)  COMMENT '',
+  INDEX fk_Empleado_Persona1_idx (PersonaID ASC)  COMMENT '',
+  CONSTRAINT fk_Empleado_Persona1
+    FOREIGN KEY (PersonaID)
+    REFERENCES bdtr.Persona (PersonaID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS bdtr.Registro (
+  RegistroID INT(11) NOT NULL AUTO_INCREMENT COMMENT '',
+  Tipo VARCHAR(30) NOT NULL COMMENT '',
+  Estado VARCHAR(10) NOT NULL COMMENT '',
+  HoraEntrada TIME NOT NULL COMMENT '',
+  HoraSalida TIME NULL DEFAULT NULL COMMENT '',
+  TotalDineroIntangible DOUBLE NOT NULL COMMENT '',
+  TotalDineroTangible DOUBLE NOT NULL COMMENT '',
+  EstadoDinero VARCHAR(30) NOT NULL COMMENT '',
+  Observacion VARCHAR(20) NULL DEFAULT NULL COMMENT '',
+  EmpleadoEntranteID INT(11) NULL DEFAULT NULL COMMENT '',
+  EmpleadoID INT(11) NOT NULL COMMENT '',
+  CajaID INT(11) NOT NULL COMMENT '',
+  PRIMARY KEY (RegistroID, EmpleadoID, CajaID)  COMMENT '',
+  INDEX fk_Registro_Empleado1_idx (EmpleadoID ASC)  COMMENT '',
+  INDEX fk_Registro_Caja1_idx (CajaID ASC)  COMMENT '',
+  CONSTRAINT fk_Registro_Empleado1
+    FOREIGN KEY (EmpleadoID)
+    REFERENCES bdtr.Empleado (EmpleadoID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_Registro_Caja1
+    FOREIGN KEY (CajaID)
+    REFERENCES bdtr.Caja (CajaID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS bdtr.Usuario (
+  UsuarioID INT(11) NOT NULL AUTO_INCREMENT COMMENT '',
+  Username VARCHAR(10) NOT NULL COMMENT '',
+  Password BINARY(10) NOT NULL COMMENT '',
+  EmpleadoID INT(11) NOT NULL COMMENT '',
+  PersonaID INT(11) NOT NULL COMMENT '',
+  PRIMARY KEY (UsuarioID, EmpleadoID, PersonaID)  COMMENT '',
+  UNIQUE INDEX Password_UNIQUE (Password ASC)  COMMENT '',
+  INDEX fk_Usuario_Empleado1_idx (EmpleadoID ASC, PersonaID ASC)  COMMENT '',
+  CONSTRAINT fk_Usuario_Empleado1
+    FOREIGN KEY (EmpleadoID , PersonaID)
+    REFERENCES bdtr.Empleado (EmpleadoID , PersonaID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS bdtr.Unidad_Tienda (
+  UnidadID INT(11) NOT NULL COMMENT '',
+  TiendaID INT(11) NOT NULL COMMENT '',
+  PRIMARY KEY (UnidadID, TiendaID)  COMMENT '',
+  INDEX fk_Unidad_has_Tienda_Tienda1_idx (TiendaID ASC)  COMMENT '',
+  INDEX fk_Unidad_has_Tienda_Unidad1_idx (UnidadID ASC)  COMMENT '',
+  CONSTRAINT fk_Unidad_has_Tienda_Unidad1
+    FOREIGN KEY (UnidadID)
+    REFERENCES bdtr.Unidad (UnidadID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_Unidad_has_Tienda_Tienda1
+    FOREIGN KEY (TiendaID)
+    REFERENCES bdtr.Tienda (TiendaID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);    
+    

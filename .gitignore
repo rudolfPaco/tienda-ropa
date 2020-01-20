@@ -1,1 +1,4 @@
 /dist/
+/interfazUsuario/build/
+/interfazUsuario/dist/
+/interfazUsuario/nbproject/private/
