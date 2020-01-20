@@ -32,13 +32,13 @@ public class IUModuloPrendas extends IUPanel{
     
     private IUPanelVistaModelos panelVistaModelos;
     
-    private IUPanel controlPaneles;
-    private IUBotonIT botonTodosModelos;    
-    private IUBotonIT botonModelosFaltantes;
-    private IUBotonIT botonNuevoModelo;
-    private IUBotonIT botonNuevaPrenda;
+    private IUPanel botonesContenedorPanel;
+    private IUBotonIT botonInventarioModelo;    
+    private IUBotonIT botonCRUDPedidos;
+    private IUBotonIT botonCRUDModelo;
+    private IUBotonIT botonCRUDPrenda;
     private IUBotonIT botonAgregarPrenda;
-    
+    private IUBotonIT botonBuscarPrenda;
     
     public IUModuloPrendas(CPrenda controlPrenda, IUPrincipal ventanaPrincipal, Limitacion limitacion) {
         super(limitacion);
@@ -55,32 +55,35 @@ public class IUModuloPrendas extends IUPanel{
         add(contenedorPaneles);
         construirPaneles(contenedorPaneles.getLimitacion());
         
-        controlPaneles = new IUPanel(new Limitacion(0, limite.getPorcentajeAlto(90), limite.getAncho(), limite.getPorcentajeAlto(10)));
-        add(controlPaneles);
-        construirControlPaneles(controlPaneles.getLimitacion());
+        botonesContenedorPanel = new IUPanel(new Limitacion(0, limite.getPorcentajeAlto(90), limite.getAncho(), limite.getPorcentajeAlto(10)));
+        add(botonesContenedorPanel);
+        construirControlPaneles(botonesContenedorPanel.getLimitacion());
     }    
     private void construirPaneles(Limitacion limite){
         panelVistaModelos = new IUPanelVistaModelos(controlPrenda, limite);
         contenedorPaneles.add(panelVistaModelos);                
     }   
     private void construirControlPaneles(Limitacion limite){
-        botonTodosModelos = new IUBotonIT("LISTAR TODOS MODELOS", "src/imagenes/todos.png", new Limitacion(limite.getPorcentajeAncho(79), limite.getPorcentajeAlto(6), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
-        controlPaneles.add(botonTodosModelos);
+        botonInventarioModelo = new IUBotonIT("VER INVENTARIO MODELO", "src/imagenes/nuevoModelo.png", new Limitacion(limite.getPorcentajeAncho(79), limite.getPorcentajeAlto(6), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
+        botonesContenedorPanel.add(botonInventarioModelo);
         
-        botonModelosFaltantes = new IUBotonIT("LISTAR MODELOS FALTAN", "src/imagenes/faltan.png", new Limitacion(limite.getPorcentajeAncho(79), limite.getPorcentajeAlto(53), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
-        controlPaneles.add(botonModelosFaltantes);
+        botonCRUDPedidos = new IUBotonIT("CRUD PEDIDOS", "src/imagenes/nuevoModelo.png", new Limitacion(limite.getPorcentajeAncho(79), limite.getPorcentajeAlto(53), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
+        botonesContenedorPanel.add(botonCRUDPedidos);
         
-        botonNuevoModelo = new IUBotonIT("CRUD MODELOS", "src/imagenes/nuevoModelo.png", new Limitacion(limite.getPorcentajeAncho(58), limite.getPorcentajeAlto(6), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
-        controlPaneles.add(botonNuevoModelo);
+        botonCRUDModelo = new IUBotonIT("CRUD MODELOS", "src/imagenes/nuevaPrenda.png", new Limitacion(limite.getPorcentajeAncho(58), limite.getPorcentajeAlto(6), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
+        botonesContenedorPanel.add(botonCRUDModelo);
         
-        botonNuevaPrenda = new IUBotonIT("CRUD PRENDAS", "src/imagenes/nuevaPrenda.png", new Limitacion(limite.getPorcentajeAncho(58), limite.getPorcentajeAlto(53), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
-        controlPaneles.add(botonNuevaPrenda);
+        botonCRUDPrenda = new IUBotonIT("CRUD PRENDAS", "src/imagenes/nuevaPrenda.png", new Limitacion(limite.getPorcentajeAncho(58), limite.getPorcentajeAlto(53), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
+        botonesContenedorPanel.add(botonCRUDPrenda);
         
         botonAgregarPrenda = new IUBotonIT("AGREGAR PRENDA EXISTENTE", "src/imagenes/agregarPrenda.png", new Limitacion(limite.getPorcentajeAncho(37), limite.getPorcentajeAlto(6), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
-        controlPaneles.add(botonAgregarPrenda);
+        botonesContenedorPanel.add(botonAgregarPrenda);
+        
+        botonBuscarPrenda = new IUBotonIT("BUSCAR PRENDA", "src/imagenes/buscar.png", new Limitacion(limite.getPorcentajeAncho(37), limite.getPorcentajeAlto(53), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
+        botonesContenedorPanel.add(botonBuscarPrenda);
     }
     private void setEventos(){
-        botonNuevoModelo.addEventoRaton(new MouseAdapter() {
+        botonCRUDModelo.addEventoRaton(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 IUModelo nuevoModelo = new IUModelo(ventanaPrincipal, controlPrenda,"formulario para crear un nuevo modelo", new Limitacion(Ayuda.ancho, Ayuda.alto), 5);
@@ -88,7 +91,7 @@ public class IUModuloPrendas extends IUPanel{
                 actualizarListaModelos();
             }
         });
-        botonNuevaPrenda.addEventoRaton(new MouseAdapter() {
+        botonCRUDPrenda.addEventoRaton(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 IUPrenda nuevaPrenda = new IUPrenda(ventanaPrincipal, controlPrenda, "formulario para crear nuevas prendas de un modelo", new Limitacion(Ayuda.ancho, Ayuda.alto), 5);

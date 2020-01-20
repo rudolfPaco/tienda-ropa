@@ -61,7 +61,7 @@ public class UsuarioDao {
                 empleado.setFechaContratacion(rs.getString("FechaContratacion"));
                 empleado.setEstado(rs.getString("Estado"));
                 empleado.setPersonaID(rs.getInt("PersonaID"));                
-                empleado.setPersona(obtenerPersona(empleado.getEmpleadoID()));
+                empleado.setPersona(obtenerPersona(empleado.getPersonaID()));
             }
             return empleado;
         } catch (SQLException ex) {
