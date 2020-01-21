@@ -5,7 +5,9 @@
  */
 package fasttienda.bo.com.tiendaAbrigos.controlador;
 
+import fasttienda.bo.com.tiendaAbrigos.modelo.DetalleVenta;
 import fasttienda.bo.com.tiendaAbrigos.vista.ventas.IUModuloVentas;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,5 +22,25 @@ public class CVenta {
     }
     public void controlarIUModuloVentas(IUModuloVentas moduloVentas){
         this.moduloVentas = moduloVentas;
+    }
+    public ArrayList<DetalleVenta> listarDetallesVentas(){
+        ArrayList<DetalleVenta> lista = new ArrayList<>();
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        lista.add(new DetalleVenta());
+        return lista;
     }
 }

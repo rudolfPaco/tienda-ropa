@@ -15,14 +15,17 @@ import com.aplicacionjava.www.recursos.Fecha;
 import com.aplicacionjava.www.recursos.Limitacion;
 import fasttienda.bo.com.tiendaAbrigos.ayuda.Ayuda;
 import fasttienda.bo.com.tiendaAbrigos.controlador.CVenta;
+import fasttienda.bo.com.tiendaAbrigos.modelo.DetalleVenta;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Prenda;
 import fasttienda.bo.com.tiendaAbrigos.vista.prendas.IUPanelBotonPrenda;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -33,106 +36,145 @@ public class IUCuadernoVentas extends IUPanelBD{
     private CVenta controlVentas;
     
     private IUPanelBD primerPanel;
-    private IUPanelBD panelTitulo;
+    private IUPanel panelTitulo;
     private IUEtiqueta iuTitulo;
     private IUEtiqueta iuFecha;
     private IUEtiquetaR iuReloj;
-    private IUPanelBD panelCuaderno;
+    private IUEtiqueta iuTCantidad;
+    private IUEtiqueta iuTDetalle;
+    private IUEtiqueta iuTCodigo;
+    private IUEtiqueta iuTPrecio;
+    private IUEtiqueta iuTImporte;
+    private IUEtiqueta iuTVer;
+    private IUEtiqueta iuTDevolver;
+    private IUEtiqueta iuTModificar;
+    private CardLayout administrador;
+    private IUPanel panelCuaderno;
     private IUBoton botonArriba;
     private IUBoton botonAbajo;
     private IUPanelBD segundoPanel;
     
+    private int cantidadHojasCuaderno;
+    private ArrayList<IUReglonVenta> listaReglonesVenta;
+    
     public IUCuadernoVentas(CVenta controlVentas, Limitacion limitacion) {
-        super(limitacion);
+        super(limitacion);        
         this.controlVentas = controlVentas;
-        setBorder(null);
+        this.cantidadHojasCuaderno = 0;
+        this.listaReglonesVenta = new ArrayList<>();
+        
+        setBorder(null);        
         setColorPanel(Color.LIGHT_GRAY, Color.WHITE, Color.WHITE);
         construirPaneles(getLimitacion());
+        
     }
     private void construirPaneles(Limitacion limite){
-        primerPanel = new IUPanelBD(new Limitacion(limite.getPorcentajeAncho(8), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(70), limite.getPorcentajeAlto(90)));
+        primerPanel = new IUPanelBD(new Limitacion(limite.getPorcentajeAncho(8), limite.getPorcentajeAlto(4), limite.getPorcentajeAncho(70), limite.getPorcentajeAlto(90)));
+        primerPanel.setArco(15);
         add(primerPanel);
         construirPrimerPanel(primerPanel.getLimitacion());
         
-        botonArriba = new IUBoton("▲", new Limitacion(limite.getPorcentajeAncho(79), limite.getPorcentajeAlto(50), limite.getPorcentajeAncho(10), limite.getPorcentajeAlto(18)));
-        botonArriba.iuTexto.setFont(new Font("Arial", Font.PLAIN, limite.getPorcentajeAlto(15)));        
+        botonArriba = new IUBoton("▲", new Limitacion(limite.getPorcentajeAncho(79), limite.getPorcentajeAlto(63), limite.getPorcentajeAncho(8), limite.getPorcentajeAlto(15)));
+        botonArriba.iuTexto.setFont(new Font("Arial", Font.PLAIN, limite.getPorcentajeAlto(10)));        
         add(botonArriba);
         
-        botonAbajo = new IUBoton("▼", new Limitacion(limite.getPorcentajeAncho(79), limite.getPorcentajeAlto(70), limite.getPorcentajeAncho(10), limite.getPorcentajeAlto(18)));
-        botonAbajo.iuTexto.setFont(new Font("Arial", Font.PLAIN, limite.getPorcentajeAlto(15)));        
+        botonAbajo = new IUBoton("▼", new Limitacion(limite.getPorcentajeAncho(79), limite.getPorcentajeAlto(79), limite.getPorcentajeAncho(8), limite.getPorcentajeAlto(15)));
+        botonAbajo.iuTexto.setFont(new Font("Arial", Font.PLAIN, limite.getPorcentajeAlto(10)));        
         add(botonAbajo);
     }    
     private void construirPrimerPanel(Limitacion limite){
-        panelTitulo = new IUPanelBD(new Limitacion(limite.getAncho(), limite.getPorcentajeAlto(20)));
+        panelTitulo = new IUPanel(new Limitacion(limite.getAncho(), limite.getPorcentajeAlto(20)));
         primerPanel.add(panelTitulo);
         construirPanelTitulo(panelTitulo.getLimitacion());
         
-        panelCuaderno = new IUPanelBD(new Limitacion(0, limite.getPorcentajeAlto(20), limite.getAncho(), limite.getPorcentajeAlto(80)));
+        administrador = new CardLayout();
+        panelCuaderno = new IUPanel(new Limitacion(0, limite.getPorcentajeAlto(20), limite.getAncho(), limite.getPorcentajeAlto(80)));
+        panelCuaderno.setLayout(administrador);
         primerPanel.add(panelCuaderno);
         actualizarCuadernoVentas();
     }
     private void construirPanelTitulo(Limitacion limite){
-        iuTitulo = new IUEtiqueta("Cuaderno de Ventas de Hoy", new Limitacion(limite.getAncho(), limite.getPorcentajeAlto(50)));
+        iuTitulo = new IUEtiqueta("Cuaderno de Ventas de Hoy", new Limitacion(limite.getAncho(), limite.getPorcentajeAlto(30)));
         iuTitulo.setHorizontalAlignment(SwingConstants.CENTER);
         iuTitulo.setFont(new Font("Verdana", Font.PLAIN, limite.getPorcentajeAlto(20)));
-        iuTitulo.setForeground(new Color(180, 0, 0));
+        iuTitulo.setForeground(new Color(120, 0, 0));
         panelTitulo.add(iuTitulo);
         
-        iuFecha = new IUEtiqueta("Cochabamba, "+new Fecha().getFecha1(), new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(50), limite.getPorcentajeAncho(70), limite.getPorcentajeAlto(50)));
+        iuFecha = new IUEtiqueta("Cochabamba, "+new Fecha().getFecha1(), new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(30), limite.getPorcentajeAncho(70), limite.getPorcentajeAlto(30)));
         iuFecha.setFont(new Font("Verdana", Font.PLAIN, limite.getPorcentajeAlto(20)));
         panelTitulo.add(iuFecha);
         
-        iuReloj = new IUEtiquetaR(new Limitacion(limite.getPorcentajeAncho(71), limite.getPorcentajeAlto(50), limite.getPorcentajeAncho(28), limite.getPorcentajeAlto(35)));
+        iuReloj = new IUEtiquetaR(new Limitacion(limite.getPorcentajeAncho(71), limite.getPorcentajeAlto(30), limite.getPorcentajeAncho(28), limite.getPorcentajeAlto(35)));
         panelTitulo.add(iuReloj);
+        
+        iuTCantidad = new IUEtiqueta("CANT", new Limitacion(limite.getPorcentajeAncho(0), limite.getPorcentajeAlto(80), limite.getPorcentajeAncho(6), limite.getPorcentajeAlto(20)));
+        iuTCantidad.setHorizontalAlignment(SwingConstants.CENTER);
+        //iuTCantidad.setBorder(new LineBorder(new Color(180, 0, 0)));
+        iuTCantidad.setForeground(new Color(120, 0, 0));
+        panelTitulo.add(iuTCantidad);
+        
+        iuTDetalle = new IUEtiqueta("DETALLE DE PRENDA", new Limitacion(limite.getPorcentajeAncho(6), limite.getPorcentajeAlto(80), limite.getPorcentajeAncho(50), limite.getPorcentajeAlto(20)));
+        iuTDetalle.setHorizontalAlignment(SwingConstants.CENTER);
+        iuTDetalle.setForeground(new Color(120, 0, 0));
+        //iuTDetalle.setBorder(new LineBorder(new Color(180, 0, 0)));
+        panelTitulo.add(iuTDetalle);
+        
+        iuTCodigo = new IUEtiqueta("CODIGO", new Limitacion(limite.getPorcentajeAncho(56), limite.getPorcentajeAlto(80), limite.getPorcentajeAncho(10), limite.getPorcentajeAlto(20)));
+        iuTCodigo.setHorizontalAlignment(SwingConstants.CENTER);
+        iuTCodigo.setForeground(new Color(120, 0, 0));
+        //iuTCodigo.setBorder(new LineBorder(new Color(180, 0, 0)));
+        panelTitulo.add(iuTCodigo);
+        
+        iuTPrecio = new IUEtiqueta("PRECIO", new Limitacion(limite.getPorcentajeAncho(66), limite.getPorcentajeAlto(80), limite.getPorcentajeAncho(10), limite.getPorcentajeAlto(20)));
+        iuTPrecio.setHorizontalAlignment(SwingConstants.CENTER);
+        iuTPrecio.setForeground(new Color(120, 0, 0));
+        //iuTPrecio.setBorder(new LineBorder(new Color(180, 0, 0)));
+        panelTitulo.add(iuTPrecio);
+        
+        iuTImporte = new IUEtiqueta("IMPORTE", new Limitacion(limite.getPorcentajeAncho(76), limite.getPorcentajeAlto(80), limite.getPorcentajeAncho(10), limite.getPorcentajeAlto(20)));
+        iuTImporte.setHorizontalAlignment(SwingConstants.CENTER);
+        iuTImporte.setForeground(new Color(120, 0, 0));
+        //iuTImporte.setBorder(new LineBorder(new Color(180, 0, 0)));
+        panelTitulo.add(iuTImporte);
     }
     private void actualizarCuadernoVentas(){
-        /*ArrayList<Prenda> lista = controlVentas.listarTodasPrendas(modelo);
+        ArrayList<DetalleVenta> lista = controlVentas.listarDetallesVentas();
         int numeroElementos = lista.size();
-        int limite = 8;
-        cantidadPanelesPrenda = Ayuda.getCantidadPaneles(numeroElementos, limite);
+        int limite = 12;
+        cantidadHojasCuaderno = Ayuda.getCantidadPaneles(numeroElementos, limite);
         int indice = 0;
         
-        indicePanelesPrenda.setText(numeroPanelPrenda+"/"+cantidadPanelesPrenda);
-        if(cantidadPanelesPrenda > 1){
-            iconoAtrasPrenda.setVisible(true);
-            iconoAdelantePrenda.setVisible(true);
-        }else{
-            indicePanelesPrenda.setText("");
-            iconoAtrasPrenda.setVisible(false);
-            iconoAdelantePrenda.setVisible(false);
-        }
-        
-        this.listaPrendas.clear();
-        segundoPanelPrenda.removeAll();
-        segundoPanelPrenda.updateUI();
+        this.listaReglonesVenta.clear();
+        panelCuaderno.removeAll();
+        panelCuaderno.updateUI();
                         
-        for (int i = 0; i < cantidadPanelesPrenda; i++) {
-            IUPanel panelPrenda = new IUPanel(new Limitacion(segundoPanelPrenda.getLimitacion().getAncho(), segundoPanelPrenda.getLimitacion().getAlto()));
-            segundoPanelPrenda.add(panelPrenda);
+        for (int i = 0; i < cantidadHojasCuaderno; i++) {
+            IUPanel panelHojaCuaderno = new IUPanel(new Limitacion(panelCuaderno.getLimitacion().getAncho(), panelCuaderno.getLimitacion().getAlto()));
+            panelCuaderno.add(panelHojaCuaderno);
             
-            int ancho = panelPrenda.getLimitacion().getAncho() - limite;
-            int alto = (panelPrenda.getLimitacion().getAlto() - 10)/limite;
+            int ancho = panelHojaCuaderno.getLimitacion().getAncho() - 4;
+            int alto = panelHojaCuaderno.getLimitacion().getAlto()/13;
             
             for(int j = 0; j < limite; j++){
                 if(indice < numeroElementos){
-                    Prenda prendaBoton = lista.get(indice);
-                    if(prendaBoton != null){
-                        IUPanelBotonPrenda elemento = new IUPanelBotonPrenda(new Limitacion(2, j*2 + j + j*alto, ancho, alto), prendaBoton);
-                        listaPrendas.add(elemento);
-                        panelPrenda.add(elemento);  
-                        elemento.addEventoRaton(new MouseAdapter() {
+                    DetalleVenta detalleVenta = lista.get(indice);
+                    if(detalleVenta != null){
+                        IUReglonVenta iuReglon = new IUReglonVenta(new Limitacion(2, j*2 + j + j*alto, ancho, alto), detalleVenta);
+                        listaReglonesVenta.add(iuReglon);
+                        panelHojaCuaderno.add(iuReglon);
+                        /*elemento.addEventoRaton(new MouseAdapter() {
                             @Override
                             public void mousePressed(MouseEvent e) {
                                 elemento.setColorPanel(new Color(255, 255, 125), Color.WHITE, new Color(221, 221, 0));                            
                                 despintarBotonPrenda(elemento);                                
-                                mostrarPrenda(prendaBoton);
-                                prenda = prendaBoton;
+                                mostrarPrenda(detalleVenta);
+                                prenda = detalleVenta;
                             }
-                        });
+                        });*/
                     }                    
                 }
                 indice++;
             }
-        }*/
+        }
     }
 }
