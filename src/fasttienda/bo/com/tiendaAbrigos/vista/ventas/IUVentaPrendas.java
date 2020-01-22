@@ -115,10 +115,12 @@ public class IUVentaPrendas extends IUPanelBD{
         grupoBotones = new ButtonGroup();
                 
         iuBotonFactura = new IUBotonRadio("FACTURA", new Limitacion(limite.getPorcentajeAncho(50), limite.getPorcentajeAlto(18), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(6)), true);
+        iuBotonFactura.setFocusable(false);
         segundoPanel.add(iuBotonFactura);
         grupoBotones.add(iuBotonFactura);
         
         iuBotonRecibo = new IUBotonRadio("RECIBO", new Limitacion(limite.getPorcentajeAncho(80), limite.getPorcentajeAlto(18), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(6)), false);
+        iuBotonRecibo.setFocusable(false);
         segundoPanel.add(iuBotonRecibo);
         grupoBotones.add(iuBotonRecibo);
         
@@ -165,7 +167,7 @@ public class IUVentaPrendas extends IUPanelBD{
         iuTituloTotal.setForeground(new Color(120, 0, 0));
         segundoPanel.add(iuTituloTotal);
         
-        iuTotalPagar =new IUPanelCT("total a pagar", "1542.50", new Limitacion(limite.getPorcentajeAncho(56), limite.getPorcentajeAlto(86), limite.getPorcentajeAncho(44), limite.getPorcentajeAlto(13)), 17, 83);
+        iuTotalPagar =new IUPanelCT("total a pagar", "0.0", new Limitacion(limite.getPorcentajeAncho(56), limite.getPorcentajeAlto(86), limite.getPorcentajeAncho(44), limite.getPorcentajeAlto(13)), 17, 83);
         iuTotalPagar.iuTexto.setHorizontalAlignment(SwingConstants.RIGHT);
         iuTotalPagar.iuTitulo.setForeground(new Color(120, 0, 0));
         iuTotalPagar.iuTexto.setEditable(false);
