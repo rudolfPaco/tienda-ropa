@@ -38,7 +38,7 @@ public class IUModuloVentas extends IUPanel{
     
     private IUCuadernoVentas panelCuadernoVentas;
     private IUPanelBD panelHistorialVentas;
-    private IUPanelBD panelNuevaVenta;
+    private IUVentaPrendas panelNuevaVenta;
     private IUPanelBD panelConfiguracionVentas;
     private IUPanelBD panelDevolucionVentas;
     private IUPanelBD panelBusquedaVenta;
@@ -78,7 +78,7 @@ public class IUModuloVentas extends IUPanel{
         panelHistorialVentas.setColorPanel(Color.YELLOW, Color.YELLOW, Color.YELLOW);
         contenedorPaneles.add(panelHistorialVentas);
         
-        panelNuevaVenta = new IUPanelBD(limite);
+        panelNuevaVenta = new IUVentaPrendas(controlVenta, limite);
         panelNuevaVenta.setColorPanel(Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY);
         contenedorPaneles.add(panelNuevaVenta);
         

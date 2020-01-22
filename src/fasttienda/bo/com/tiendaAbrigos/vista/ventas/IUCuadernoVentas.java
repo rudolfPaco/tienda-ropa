@@ -52,6 +52,7 @@ public class IUCuadernoVentas extends IUPanelBD{
     private IUPanel panelCuaderno;
     private IUBoton botonArriba;
     private IUBoton botonAbajo;
+    private int puntero;
     private IUPanelBD segundoPanel;
     
     private int cantidadHojasCuaderno;
@@ -62,11 +63,12 @@ public class IUCuadernoVentas extends IUPanelBD{
         this.controlVentas = controlVentas;
         this.cantidadHojasCuaderno = 0;
         this.listaReglonesVenta = new ArrayList<>();
+        this.puntero = 0;
         
         setBorder(null);        
         setColorPanel(Color.LIGHT_GRAY, Color.WHITE, Color.WHITE);
         construirPaneles(getLimitacion());
-        
+        escucharEvento();
     }
     private void construirPaneles(Limitacion limite){
         primerPanel = new IUPanelBD(new Limitacion(limite.getPorcentajeAncho(8), limite.getPorcentajeAlto(4), limite.getPorcentajeAncho(70), limite.getPorcentajeAlto(90)));
@@ -76,11 +78,14 @@ public class IUCuadernoVentas extends IUPanelBD{
         
         botonArriba = new IUBoton("▲", new Limitacion(limite.getPorcentajeAncho(79), limite.getPorcentajeAlto(63), limite.getPorcentajeAncho(8), limite.getPorcentajeAlto(15)));
         botonArriba.iuTexto.setFont(new Font("Arial", Font.PLAIN, limite.getPorcentajeAlto(10)));        
+        botonArriba.setVisible(false);
         add(botonArriba);
         
         botonAbajo = new IUBoton("▼", new Limitacion(limite.getPorcentajeAncho(79), limite.getPorcentajeAlto(79), limite.getPorcentajeAncho(8), limite.getPorcentajeAlto(15)));
-        botonAbajo.iuTexto.setFont(new Font("Arial", Font.PLAIN, limite.getPorcentajeAlto(10)));        
+        botonAbajo.iuTexto.setFont(new Font("Arial", Font.PLAIN, limite.getPorcentajeAlto(10)));
+        botonAbajo.setVisible(false);
         add(botonAbajo);
+        actualizarCuadernoVentas();
     }    
     private void construirPrimerPanel(Limitacion limite){
         panelTitulo = new IUPanel(new Limitacion(limite.getAncho(), limite.getPorcentajeAlto(20)));
@@ -90,8 +95,7 @@ public class IUCuadernoVentas extends IUPanelBD{
         administrador = new CardLayout();
         panelCuaderno = new IUPanel(new Limitacion(0, limite.getPorcentajeAlto(20), limite.getAncho(), limite.getPorcentajeAlto(80)));
         panelCuaderno.setLayout(administrador);
-        primerPanel.add(panelCuaderno);
-        actualizarCuadernoVentas();
+        primerPanel.add(panelCuaderno);        
     }
     private void construirPanelTitulo(Limitacion limite){
         iuTitulo = new IUEtiqueta("Cuaderno de Ventas de Hoy", new Limitacion(limite.getAncho(), limite.getPorcentajeAlto(30)));
@@ -143,6 +147,13 @@ public class IUCuadernoVentas extends IUPanelBD{
         int limite = 12;
         cantidadHojasCuaderno = Ayuda.getCantidadPaneles(numeroElementos, limite);
         int indice = 0;
+        puntero = 1;
+        System.out.println("el tam de cantidad es: "+cantidadHojasCuaderno);
+        
+        if(cantidadHojasCuaderno > 1)
+            botonAbajo.setVisible(true);
+        else
+            botonAbajo.setVisible(false);
         
         this.listaReglonesVenta.clear();
         panelCuaderno.removeAll();
@@ -176,5 +187,28 @@ public class IUCuadernoVentas extends IUPanelBD{
                 indice++;
             }
         }
+    }
+    private void escucharEvento(){
+        botonAbajo.addEventoRaton(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(puntero < cantidadHojasCuaderno){
+                    botonArriba.setVisible(true);
+                    administrador.next(panelCuaderno);
+                    puntero++;
+                }
+            }            
+        });
+        botonArriba.addEventoRaton(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(puntero > 1){
+                    administrador.previous(panelCuaderno);
+                    puntero--;
+                    if(puntero == 1)
+                        botonArriba.setVisible(false);
+                }   
+            }
+        });
     }
 }
