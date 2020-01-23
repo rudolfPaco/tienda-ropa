@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -115,6 +116,13 @@ public class Ayuda {
         else
             cantidadPaneles = numeroElementos/limiteElementosPanel + 1;
         return cantidadPaneles;
+    }
+    public static String getNumerosIzquierda(int cantNumerosIzquierda, int numero){
+        String numeroIzquierda = "";
+        Formatter formato = new Formatter();
+        formato.format("%0"+cantNumerosIzquierda+"d", numero);
+        numeroIzquierda = formato.toString();
+        return numeroIzquierda;
     }
     public static String[] getMonedaOficial(){
         Conexion conexion = new Conexion();

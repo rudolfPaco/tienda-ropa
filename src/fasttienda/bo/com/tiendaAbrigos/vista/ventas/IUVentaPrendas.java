@@ -17,6 +17,8 @@ import com.aplicacionjava.www.recursos.Fecha;
 import com.aplicacionjava.www.recursos.Hora;
 import com.aplicacionjava.www.recursos.Limitacion;
 import fasttienda.bo.com.tiendaAbrigos.controlador.CVenta;
+import fasttienda.bo.com.tiendaAbrigos.modelo.Tienda;
+import fasttienda.bo.com.tiendaAbrigos.modelo.Usuario;
 import java.awt.Color;
 import java.awt.Font;
 import javafx.scene.GroupBuilder;
@@ -31,7 +33,7 @@ import javax.swing.SwingConstants;
 public class IUVentaPrendas extends IUPanelBD{
     
     private CVenta controlVentas;
-    private IUPanelBD panelFactura;
+    private IUPanelFactura panelFactura;
     private IUPanelBD segundoPanel;
     private IUEtiqueta iuTitulo;
     private JSeparator iuInicioSeparador;
@@ -59,15 +61,20 @@ public class IUVentaPrendas extends IUPanelBD{
     private IUBotonTI botonEliminarFila;
     private IUBotonTI botonFinalizarVenta;
     
+    private Tienda tienda;
+    private Usuario usuario;
+    
     public IUVentaPrendas(CVenta controlVentas, Limitacion limitacion) {
         super(limitacion);
         this.controlVentas = controlVentas;
+        this.tienda = controlVentas.getTienda();
+        this.usuario = controlVentas.getUsuario();
         construirPaneles(getLimitacion());
+        actualizarDatos();
     }
     private void construirPaneles(Limitacion limite){
-        panelFactura = new IUPanelBD(new Limitacion(limite.getPorcentajeAncho(5), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(30), limite.getPorcentajeAlto(98)));
+        panelFactura = new IUPanelFactura(controlVentas.getTienda(), controlVentas.getUsuario(), new Limitacion(limite.getPorcentajeAncho(5), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(30), limite.getPorcentajeAlto(98)));        
         add(panelFactura);
-        construirPanelFactura(panelFactura.getLimitacion());
         
         segundoPanel = new IUPanelBD(new Limitacion(limite.getPorcentajeAncho(40), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(45), limite.getPorcentajeAlto(98)));
         segundoPanel.setArco(20);
@@ -77,9 +84,6 @@ public class IUVentaPrendas extends IUPanelBD{
         tercerPanel = new IUPanel(new Limitacion(limite.getPorcentajeAncho(85), 0, limite.getPorcentajeAncho(15), limite.getAlto()));
         add(tercerPanel);
         construirTercerPanel(tercerPanel.getLimitacion());
-    }
-    private void construirPanelFactura(Limitacion limite){
-        
     }
     private void construirSegundoPanel(Limitacion limite){
         iuTitulo = new IUEtiqueta("Registro de Venta", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(7)));
@@ -106,7 +110,7 @@ public class IUVentaPrendas extends IUPanelBD{
         iuHora.iuTexto.setEditable(false);
         segundoPanel.add(iuHora);
         
-        iuNroTicket = new IUPanelCT("Nro Ticket", "0001", new Limitacion(limite.getPorcentajeAncho(85), limite.getPorcentajeAlto(9), limite.getPorcentajeAncho(14), limite.getPorcentajeAlto(6)), 40, 60);
+        iuNroTicket = new IUPanelCT("Nro Ticket", controlVentas.getNroTicket(), new Limitacion(limite.getPorcentajeAncho(85), limite.getPorcentajeAlto(9), limite.getPorcentajeAncho(14), limite.getPorcentajeAlto(6)), 40, 60);
         iuNroTicket.iuTexto.setHorizontalAlignment(SwingConstants.CENTER);
         iuNroTicket.iuTexto.setFocusable(false);
         iuNroTicket.iuTexto.setEditable(false);
@@ -190,4 +194,18 @@ public class IUVentaPrendas extends IUPanelBD{
         botonFinalizarVenta = new IUBotonTI("finalizar venta", "src/imagenes/si.png", new Limitacion(limite.getPorcentajeAncho(15), limite.getPorcentajeAlto(83), limite.getPorcentajeAncho(70), limite.getPorcentajeAlto(15)), 70, 80, 15);
         tercerPanel.add(botonFinalizarVenta);
     }
+    private void actualizarDatos(){
+        iuNroTicket.iuTexto.setText(controlVentas.getNroTicket());
+        iuFecha.iuTexto.setText(new Fecha().getFecha6());
+        iuHora.iuTexto.setText(new Hora().getHora()+" "+new Hora().getFormato());
+        iuBotonRecibo.setSelected(true);
+        iuBotonFactura.setSelected(false);
+        iuNombreRazonSocial.iuTexto.setText("");
+        iuNit.iuTexto.setText("");
+        iuCodigoBarra.iuTexto.setText("");
+        iuTablaVentas.limpiarTabla();
+        iuTotalPagar.iuTexto.setText("0.0");
+        iuNit.iuTexto.requestFocus();
+    }
+    
 }

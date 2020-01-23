@@ -177,9 +177,11 @@ public class CPrincipal {
     }
     
     public Tienda getTienda() {
+        if(tienda == null)
+            tienda = Tienda.getTiendaExistente();
         return tienda;
     }
-    public Usuario getUsuario() {
+    public Usuario getUsuario() {        
         return usuario;
     }
     public Caja getCaja() {

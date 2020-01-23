@@ -129,8 +129,8 @@ public class IUPrincipal extends IUVentanaP{
         
         panelClientes = new IUPanelBD(limite);
         panelPrincipal.add(panelClientes);
-        
-        CVenta controlVentas = new CVenta();
+
+        CVenta controlVentas = new CVenta(controlPrincipal.getTienda(), controlPrincipal.getUsuario());
         panelVentas = new IUModuloVentas(controlVentas, this, new Limitacion(limite.getAncho(), limite.getAlto()));
         panelPrincipal.add(panelVentas);        
         
