@@ -113,10 +113,12 @@ public class IUPrincipal extends IUVentanaP{
         
         iuNombreUsuario = new IUPanelCT("nombre de usuario", "", new Limitacion(limite.getPorcentajeAncho(2), limite.getPorcentajeAlto(53), limite.getPorcentajeAncho(96), limite.getPorcentajeAlto(20)), 40, 60);
         iuNombreUsuario.iuTexto.setEditable(false);
+        iuNombreUsuario.iuTexto.setFocusable(false);
         panelUsuario.add(iuNombreUsuario);
         
         iuCargoUsuario = new IUPanelCT("cargo de usuario", "", new Limitacion(limite.getPorcentajeAncho(2), limite.getPorcentajeAlto(75), limite.getPorcentajeAncho(96), limite.getPorcentajeAlto(20)), 40, 60);
         iuCargoUsuario.iuTexto.setEditable(false);
+        iuCargoUsuario.iuTexto.setFocusable(false);
         panelUsuario.add(iuCargoUsuario);
         
     }

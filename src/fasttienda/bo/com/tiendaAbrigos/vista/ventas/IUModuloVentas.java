@@ -40,7 +40,7 @@ public class IUModuloVentas extends IUPanel{
     private IUPanelBD panelHistorialVentas;
     private IUVentaPrendas panelNuevaVenta;
     private IUPanelBD panelConfiguracionVentas;
-    private IUPanelBD panelDevolucionVentas;
+    private IUPanelDosificacion panelDosificacionFacturas;
     private IUPanelBD panelBusquedaVenta;
     
     private IUPanel botonesContenedorPanel;
@@ -72,6 +72,7 @@ public class IUModuloVentas extends IUPanel{
     }   
     private void construirPanelContenedor(Limitacion limite){
         panelCuadernoVentas = new IUCuadernoVentas(controlVenta, limite);        
+        panelCuadernoVentas.setColorPanel(Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY);
         contenedorPaneles.add(panelCuadernoVentas);
         
         panelHistorialVentas = new IUPanelBD(limite);
@@ -85,10 +86,10 @@ public class IUModuloVentas extends IUPanel{
         panelConfiguracionVentas = new IUPanelBD(limite);
         panelConfiguracionVentas.setColorPanel(Color.BLUE, Color.BLUE, Color.BLUE);
         contenedorPaneles.add(panelConfiguracionVentas);
-        
-        panelDevolucionVentas = new IUPanelBD(limite);
-        panelDevolucionVentas.setColorPanel(Color.RED, Color.RED, Color.RED);
-        contenedorPaneles.add(panelDevolucionVentas);
+                
+        panelDosificacionFacturas = new IUPanelDosificacion(controlVenta, ventanaPrincipal, limite);
+        panelDosificacionFacturas.setColorPanel(Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY);
+        contenedorPaneles.add(panelDosificacionFacturas);
         
         panelBusquedaVenta = new IUPanelBD(limite);
         contenedorPaneles.add(panelBusquedaVenta);
@@ -96,6 +97,7 @@ public class IUModuloVentas extends IUPanel{
     }
     private void construirControlPaneles(Limitacion limite){        
         botonCuadernoVentas = new IUBotonIT("CUADERNO VENTAS", "src/imagenes/inicio.png", new Limitacion(limite.getPorcentajeAncho(79), limite.getPorcentajeAlto(6), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));        
+        botonCuadernoVentas.setSubrayado(true);
         botonesContenedorPanel.add(botonCuadernoVentas);
         
         botonHistorialVentas = new IUBotonIT("HISTORIAL VENTAS", "src/imagenes/historial.png", new Limitacion(limite.getPorcentajeAncho(79), limite.getPorcentajeAlto(53), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
@@ -105,9 +107,9 @@ public class IUModuloVentas extends IUPanel{
         botonesContenedorPanel.add(botonVentaPrendas);
         
         botonConfiguracionVentas = new IUBotonIT("CONFIGURAR VENTAS", "src/imagenes/configuracion.png", new Limitacion(limite.getPorcentajeAncho(58), limite.getPorcentajeAlto(53), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
-        botonesContenedorPanel.add(botonConfiguracionVentas);
+        botonesContenedorPanel.add(botonConfiguracionVentas);        
         
-        botonDevolucionVentas = new IUBotonIT("DEVOLUCION VENTAS", "src/imagenes/devolucion.png", new Limitacion(limite.getPorcentajeAncho(37), limite.getPorcentajeAlto(6), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
+        botonDevolucionVentas = new IUBotonIT("DOSIFICACION FACTURAS", "src/imagenes/dosificacionFacturas.png", new Limitacion(limite.getPorcentajeAncho(37), limite.getPorcentajeAlto(6), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
         botonesContenedorPanel.add(botonDevolucionVentas);
         
         botonBuscarVentas = new IUBotonIT("BUSCAR VENTAS", "src/imagenes/buscar.png", new Limitacion(limite.getPorcentajeAncho(37), limite.getPorcentajeAlto(53), limite.getPorcentajeAncho(20), limite.getPorcentajeAlto(41)));
@@ -147,7 +149,7 @@ public class IUModuloVentas extends IUPanel{
                 botonDevolucionVentas.setSubrayado(false);
                 botonBuscarVentas.setSubrayado(false);
             break;
-            case "DEVOLUCION VENTAS":
+            case "DOSIFICACION FACTURAS":
                 botonCuadernoVentas.setSubrayado(false);
                 botonHistorialVentas.setSubrayado(false);
                 botonVentaPrendas.setSubrayado(false);

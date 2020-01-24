@@ -65,8 +65,6 @@ public class IUCuadernoVentas extends IUPanelBD{
         this.listaReglonesVenta = new ArrayList<>();
         this.puntero = 0;
         
-        setBorder(null);        
-        setColorPanel(Color.LIGHT_GRAY, Color.WHITE, Color.WHITE);
         construirPaneles(getLimitacion());
         escucharEvento();
     }
