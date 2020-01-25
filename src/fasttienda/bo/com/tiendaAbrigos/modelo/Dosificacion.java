@@ -12,18 +12,22 @@ package fasttienda.bo.com.tiendaAbrigos.modelo;
 public class Dosificacion {
     private int idDosificacion;
     private String nitContribuyente;
-    private String nroAutorizacion;
-    private int numeroInicialFactura;
-    private int numeroFinalFactura;
-    private String fechaLimiteEmision;
+    private String nombreApellidoRazonSocial;
+    private String nroTramiteDosificacion;
     private String llaveDosificacion;
+    private String nroAutorizacion;
+    private int cantidad;
+    private String rangoDesde;
+    private String rangoHasta;
+    private String fechaLimiteEmision;
+    private String avisoLey;
     private int idTienda;
+    
     private Tienda tienda;
 
     public Dosificacion(int idDosificacion) {
         this.idDosificacion = idDosificacion;
     }
-
     public int getIdDosificacion() {
         return idDosificacion;
     }
@@ -36,29 +40,17 @@ public class Dosificacion {
     public void setNitContribuyente(String nitContribuyente) {
         this.nitContribuyente = nitContribuyente;
     }
-    public String getNroAutorizacion() {
-        return nroAutorizacion;
+    public String getNombreApellidoRazonSocial() {
+        return nombreApellidoRazonSocial;
     }
-    public void setNroAutorizacion(String nroAutorizacion) {
-        this.nroAutorizacion = nroAutorizacion;
+    public void setNombreApellidoRazonSocial(String nombreApellidoRazonSocial) {
+        this.nombreApellidoRazonSocial = nombreApellidoRazonSocial;
     }
-    public int getNumeroInicialFactura() {
-        return numeroInicialFactura;
+    public String getNroTramiteDosificacion() {
+        return nroTramiteDosificacion;
     }
-    public void setNumeroInicialFactura(int numeroInicialFactura) {
-        this.numeroInicialFactura = numeroInicialFactura;
-    }
-    public int getNumeroFinalFactura() {
-        return numeroFinalFactura;
-    }
-    public void setNumeroFinalFactura(int numeroFinalFactura) {
-        this.numeroFinalFactura = numeroFinalFactura;
-    }
-    public String getFechaLimiteEmision() {
-        return fechaLimiteEmision;
-    }
-    public void setFechaLimiteEmision(String fechaLimiteEmision) {
-        this.fechaLimiteEmision = fechaLimiteEmision;
+    public void setNroTramiteDosificacion(String nroTramiteDosificacion) {
+        this.nroTramiteDosificacion = nroTramiteDosificacion;
     }
     public String getLlaveDosificacion() {
         return llaveDosificacion;
@@ -66,11 +58,41 @@ public class Dosificacion {
     public void setLlaveDosificacion(String llaveDosificacion) {
         this.llaveDosificacion = llaveDosificacion;
     }
-    public int getIdTienda() {
-        return idTienda;
+    public String getNroAutorizacion() {
+        return nroAutorizacion;
     }
-    public void setIdTienda(int idTienda) {
-        this.idTienda = idTienda;
+    public void setNroAutorizacion(String nroAutorizacion) {
+        this.nroAutorizacion = nroAutorizacion;
+    }
+    public int getCantidad() {
+        return cantidad;
+    }
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+    public String getRangoDesde() {
+        return rangoDesde;
+    }
+    public void setRangoDesde(String rangoDesde) {
+        this.rangoDesde = rangoDesde;
+    }
+    public String getRangoHasta() {
+        return rangoHasta;
+    }
+    public void setRangoHasta(String rangoHasta) {
+        this.rangoHasta = rangoHasta;
+    }
+    public String getFechaLimiteEmision() {
+        return fechaLimiteEmision;
+    }
+    public void setFechaLimiteEmision(String fechaLimiteEmision) {
+        this.fechaLimiteEmision = fechaLimiteEmision;
+    }
+    public String getAvisoLey() {
+        return avisoLey;
+    }
+    public void setAvisoLey(String avisoLey) {
+        this.avisoLey = avisoLey;
     }
     public Tienda getTienda() {
         return tienda;
@@ -78,8 +100,14 @@ public class Dosificacion {
     public void setTienda(Tienda tienda) {
         this.tienda = tienda;
     }
+    public int getIdTienda() {
+        return idTienda;
+    }
+    public void setIdTienda(int idTienda) {
+        this.idTienda = idTienda;
+    }
     @Override
     public String toString() {
-        return "Dosificacion{" + "idDosificacion=" + idDosificacion + ", nitContribuyente=" + nitContribuyente + ", nroAutorizacion=" + nroAutorizacion + ", numeroInicialFactura=" + numeroInicialFactura + ", numeroFinalFactura=" + numeroFinalFactura + ", fechaLimiteEmision=" + fechaLimiteEmision + ", llaveDosificacion=" + llaveDosificacion + ", idTienda=" + idTienda + ", tienda=" + tienda + '}';
+        return "Dosificacion{" + "idDosificacion=" + idDosificacion + ", nitContribuyente=" + nitContribuyente + ", nombreApellidoRazonSocial=" + nombreApellidoRazonSocial + ", nroTramiteDosificacion=" + nroTramiteDosificacion + ", llaveDosificacion=" + llaveDosificacion + ", nroAutorizacion=" + nroAutorizacion + ", cantidad=" + cantidad + ", rangoDesde=" + rangoDesde + ", rangoHasta=" + rangoHasta + ", fechaLimiteEmision=" + fechaLimiteEmision + ", avisoLey=" + avisoLey + ", idTienda=" + idTienda + ", tienda=" + tienda + '}';
     }
 }

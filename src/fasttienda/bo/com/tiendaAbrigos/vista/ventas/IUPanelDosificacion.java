@@ -14,16 +14,12 @@ import com.aplicacionjava.www.paneles.IUPanelCT;
 import com.aplicacionjava.www.paneles.IUPanelTA;
 import com.aplicacionjava.www.recursos.Fecha;
 import com.aplicacionjava.www.recursos.Limitacion;
-import com.aplicacionjava.www.ventanas.IUVentanaM;
 import fasttienda.bo.com.tiendaAbrigos.ayuda.Ayuda;
-import static fasttienda.bo.com.tiendaAbrigos.ayuda.Ayuda.alto;
-import static fasttienda.bo.com.tiendaAbrigos.ayuda.Ayuda.ancho;
 import fasttienda.bo.com.tiendaAbrigos.controlador.CVenta;
+import fasttienda.bo.com.tiendaAbrigos.modelo.Dosificacion;
 import fasttienda.bo.com.tiendaAbrigos.vista.inicio.IUPrincipal;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JSeparator;
@@ -59,17 +55,40 @@ public class IUPanelDosificacion extends IUPanelBD{
     
     private IUBotonTI botonModificarDosificacion;
     private IUBotonTI botonGuardarDosificacion;
+    private IUBotonTI botonEditarDosificacion;
+    
+    private Dosificacion dosificacion;
     
     public IUPanelDosificacion(CVenta controlVentas, IUPrincipal ventanaPrincipal, Limitacion limitacion) {
         super(limitacion);
         this.controlVentas = controlVentas;
         this.ventanaPrincipal = ventanaPrincipal;
-        construirPaneles(getLimitacion());
-        habilitarCamposDatos(true);
-        escucharEvento();
-    }
-    private void construirPaneles(Limitacion limite){
+        this.dosificacion = null;
         
+        init();        
+    }
+    private void init(){
+        construirPaneles(getLimitacion());
+        escucharEvento();
+        if(controlVentas.exiteDosificacion()){
+            this.dosificacion = controlVentas.getDosificacion();
+            
+            botonGuardarDosificacion.setVisible(false);
+            botonImprimerDosificacion.setVisible(true);
+            botonModificarDosificacion.setVisible(true);
+            
+            agregarDatosDosificacion();
+            habilitarCamposDatos(false);
+            
+        }else{
+            botonGuardarDosificacion.setVisible(true);
+            botonImprimerDosificacion.setVisible(false);
+            botonModificarDosificacion.setVisible(false);
+            
+            habilitarCamposDatos(true);
+        }
+    }
+    private void construirPaneles(Limitacion limite){        
         primerPanel = new IUPanelBD(new Limitacion(limite.getPorcentajeAncho(40), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(45), limite.getPorcentajeAlto(98)));
         primerPanel.setArco(20);
         add(primerPanel);
@@ -130,6 +149,7 @@ public class IUPanelDosificacion extends IUPanelBD{
         
         iuCantidad = new IUPanelCT("cantidad", "", new Limitacion(limite.getPorcentajeAncho(62), limite.getPorcentajeAlto(37), limite.getPorcentajeAncho(25), limite.getPorcentajeAlto(6)), 40, 60);
         iuCantidad.iuTexto.setHorizontalAlignment(SwingConstants.CENTER);
+        iuCantidad.iuTexto.setRestriccionNumeroEnteros();
         iuCantidad.iuTexto.setFocusable(false);
         iuCantidad.iuTexto.setEditable(false);
         primerPanel.add(iuCantidad);
@@ -163,16 +183,21 @@ public class IUPanelDosificacion extends IUPanelBD{
     private void construirTercerPanel(Limitacion limite){
         botonImprimerDosificacion = new IUBotonTI("imprimir", "src/imagenes/impresoraAzul.png", new Limitacion(limite.getPorcentajeAncho(15), limite.getPorcentajeAlto(2), limite.getPorcentajeAncho(70), limite.getPorcentajeAlto(15)), 70, 80, 15);
         segundoPanel.add(botonImprimerDosificacion);
-        botonImprimerDosificacion.setVisible(false);
         
         botonModificarDosificacion = new IUBotonTI("modificar", "src/imagenes/editar.png", new Limitacion(limite.getPorcentajeAncho(15), limite.getPorcentajeAlto(66), limite.getPorcentajeAncho(70), limite.getPorcentajeAlto(15)), 60, 70, 15);
         segundoPanel.add(botonModificarDosificacion);
-        botonModificarDosificacion.setVisible(false);
         
         botonGuardarDosificacion = new IUBotonTI("guardar", "src/imagenes/guardar.png", new Limitacion(limite.getPorcentajeAncho(15), limite.getPorcentajeAlto(83), limite.getPorcentajeAncho(70), limite.getPorcentajeAlto(15)), 70, 80, 15);
         segundoPanel.add(botonGuardarDosificacion);
+        
+        botonEditarDosificacion = new IUBotonTI("editar datos", "src/imagenes/guardar.png", new Limitacion(limite.getPorcentajeAncho(15), limite.getPorcentajeAlto(83), limite.getPorcentajeAncho(70), limite.getPorcentajeAlto(15)), 70, 80, 15);
+        segundoPanel.add(botonEditarDosificacion);        
+        botonEditarDosificacion.setVisible(false);
     }
-    private void habilitarCamposDatos(boolean bandera){
+    private void habilitarCamposDatos(boolean bandera){   
+        
+        primerPanel.updateUI();
+        
         iuNitContribuyente.iuTexto.setEditable(bandera);
         iuNitContribuyente.iuTexto.setFocusable(bandera);
         iuNombreRazonSocial.iuTexto.setEditable(bandera);
@@ -235,12 +260,38 @@ public class IUPanelDosificacion extends IUPanelBD{
     }
     private void escucharEvento(){
         botonGuardarDosificacion.addEventoRaton(new MouseAdapter() {
+            
             @Override
             public void mousePressed(MouseEvent e) {
                 if(estaCamposValidados()){
-                    habilitarCamposDatos(false);
-                    
-                }                
+                    if(Ayuda.mensajeVerificacion(ventanaPrincipal, "peligro", "esta seguro que desea guardar los nuevos datos de la DOSIFICACION...?", "advertencia")){
+                        guardarDosificacion();
+                    }
+                }
+            }
+        });
+        botonModificarDosificacion.addEventoRaton(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(Ayuda.mensajeVerificacion(ventanaPrincipal, "peligro", "...esta seguro que desea modificar los datos de la DOSIFICACION...?", "advertencia")){
+                    habilitarCamposDatos(true);
+                    botonEditarDosificacion.setVisible(true);
+                    botonGuardarDosificacion.setVisible(false);
+                    botonModificarDosificacion.setVisible(false);
+                    botonImprimerDosificacion.setVisible(false);
+                }
+            }
+        });
+        botonEditarDosificacion.addEventoRaton(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(estaCamposValidados()){
+                    if(Ayuda.mensajeVerificacion(ventanaPrincipal, "peligro", "Los nuevos datos de la DOSIFICACION se guardar en la Base de Datos... \n desea aceptar la modificacion de datos...?", "advertencia")){
+                        editarDosificacion();
+                    }
+                }
             }
         });
         botonFecha.addEventoRaton(new MouseAdapter() {
@@ -254,5 +305,56 @@ public class IUPanelDosificacion extends IUPanelBD{
                 }
             }            
         });
+        
+    }    
+    private void guardarDosificacion(){
+        llenarDatosDosificacion();
+        if(controlVentas.guardarNuevaDosificacion(dosificacion)){
+            habilitarCamposDatos(false);
+            botonGuardarDosificacion.setVisible(false);
+            botonImprimerDosificacion.setVisible(true);
+            botonModificarDosificacion.setVisible(true);
+        }
     }
+    private void editarDosificacion(){
+        llenarDatosDosificacion();        
+        if(controlVentas.editarDatosDosificacion(dosificacion)){
+            habilitarCamposDatos(false);
+            botonEditarDosificacion.setVisible(false);
+            botonImprimerDosificacion.setVisible(true);
+            botonModificarDosificacion.setVisible(true);
+        }
+    }
+    private void agregarDatosDosificacion(){
+        iuNitContribuyente.iuTexto.setText(dosificacion.getNitContribuyente());
+        iuNombreRazonSocial.iuTexto.setText(dosificacion.getNombreApellidoRazonSocial());
+        iuNroTramite.iuTexto.setText(dosificacion.getNroTramiteDosificacion());
+        iuLlaveDosificacion.iuTexto.setText(dosificacion.getLlaveDosificacion());
+        iuNroAutorizacion.iuTexto.setText(dosificacion.getNroAutorizacion());
+        iuCantidad.iuTexto.setText(String.valueOf(dosificacion.getCantidad()));
+        iuRangoDesde.iuTexto.setText(dosificacion.getRangoDesde());
+        iuRangoHasta.iuTexto.setText(dosificacion.getRangoHasta());
+        iuFechaLimiteEmision.iuTexto.setText(dosificacion.getFechaLimiteEmision());
+        iuAvisoLey.iuAreaTexto.setText(dosificacion.getAvisoLey());
+        
+    }
+    private Dosificacion llenarDatosDosificacion(){
+        if(dosificacion == null)
+            dosificacion = new Dosificacion(0);
+                
+        dosificacion.setNitContribuyente(iuNitContribuyente.iuTexto.getText());
+        dosificacion.setNombreApellidoRazonSocial(iuNombreRazonSocial.iuTexto.getText());
+        dosificacion.setNroTramiteDosificacion(iuNroTramite.iuTexto.getText());
+        dosificacion.setLlaveDosificacion(iuLlaveDosificacion.iuTexto.getText());
+        dosificacion.setNroAutorizacion(iuNroAutorizacion.iuTexto.getText());
+        dosificacion.setCantidad(Integer.parseInt(iuCantidad.iuTexto.getText()));
+        dosificacion.setRangoDesde(iuRangoDesde.iuTexto.getText());
+        dosificacion.setRangoHasta(iuRangoHasta.iuTexto.getText());
+        dosificacion.setFechaLimiteEmision(iuFechaLimiteEmision.iuTexto.getText());
+        dosificacion.setAvisoLey(iuAvisoLey.iuAreaTexto.getText());
+        dosificacion.setIdTienda(controlVentas.getTienda().getTiendaID());
+        dosificacion.setTienda(controlVentas.getTienda());
+        return dosificacion;
+    }
+    
 }
