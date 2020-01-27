@@ -194,10 +194,7 @@ public class IUPanelDosificacion extends IUPanelBD{
         segundoPanel.add(botonEditarDosificacion);        
         botonEditarDosificacion.setVisible(false);
     }
-    private void habilitarCamposDatos(boolean bandera){   
-        
-        primerPanel.updateUI();
-        
+    private void habilitarCamposDatos(boolean bandera){        
         iuNitContribuyente.iuTexto.setEditable(bandera);
         iuNitContribuyente.iuTexto.setFocusable(bandera);
         iuNombreRazonSocial.iuTexto.setEditable(bandera);
@@ -275,11 +272,7 @@ public class IUPanelDosificacion extends IUPanelBD{
             @Override
             public void mousePressed(MouseEvent e) {
                 if(Ayuda.mensajeVerificacion(ventanaPrincipal, "peligro", "...esta seguro que desea modificar los datos de la DOSIFICACION...?", "advertencia")){
-                    habilitarCamposDatos(true);
-                    botonEditarDosificacion.setVisible(true);
-                    botonGuardarDosificacion.setVisible(false);
-                    botonModificarDosificacion.setVisible(false);
-                    botonImprimerDosificacion.setVisible(false);
+                    modificarDosificacion();
                 }
             }
         });
@@ -288,9 +281,7 @@ public class IUPanelDosificacion extends IUPanelBD{
             @Override
             public void mousePressed(MouseEvent e) {
                 if(estaCamposValidados()){
-                    if(Ayuda.mensajeVerificacion(ventanaPrincipal, "peligro", "Los nuevos datos de la DOSIFICACION se guardar en la Base de Datos... \n desea aceptar la modificacion de datos...?", "advertencia")){
-                        editarDosificacion();
-                    }
+                    editarDosificacion();
                 }
             }
         });
@@ -316,6 +307,13 @@ public class IUPanelDosificacion extends IUPanelBD{
             botonModificarDosificacion.setVisible(true);
         }
     }
+    private void modificarDosificacion(){
+        habilitarCamposDatos(true);
+        botonEditarDosificacion.setVisible(true);
+        botonGuardarDosificacion.setVisible(false);
+        botonModificarDosificacion.setVisible(false);
+        botonImprimerDosificacion.setVisible(false);
+    }
     private void editarDosificacion(){
         llenarDatosDosificacion();        
         if(controlVentas.editarDatosDosificacion(dosificacion)){
@@ -323,6 +321,7 @@ public class IUPanelDosificacion extends IUPanelBD{
             botonEditarDosificacion.setVisible(false);
             botonImprimerDosificacion.setVisible(true);
             botonModificarDosificacion.setVisible(true);
+            Ayuda.mensajeVerificacion(ventanaPrincipal, "correcto", "los datos se modificaron EXITOSAMENTE...!", "confirmado");
         }
     }
     private void agregarDatosDosificacion(){
@@ -338,7 +337,7 @@ public class IUPanelDosificacion extends IUPanelBD{
         iuAvisoLey.iuAreaTexto.setText(dosificacion.getAvisoLey());
         
     }
-    private Dosificacion llenarDatosDosificacion(){
+    private void llenarDatosDosificacion(){
         if(dosificacion == null)
             dosificacion = new Dosificacion(0);
                 
@@ -354,7 +353,6 @@ public class IUPanelDosificacion extends IUPanelBD{
         dosificacion.setAvisoLey(iuAvisoLey.iuAreaTexto.getText());
         dosificacion.setIdTienda(controlVentas.getTienda().getTiendaID());
         dosificacion.setTienda(controlVentas.getTienda());
-        return dosificacion;
     }
     
 }
