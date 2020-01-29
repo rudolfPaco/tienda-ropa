@@ -40,6 +40,7 @@ public class IUPanelDosificacion extends IUPanelBD{
     private IUPanelCT iuNitContribuyente;
     private IUPanelCT iuNombreRazonSocial;
     private IUPanelCT iuNroTramite;
+    private IUPanelCT iuNroFactura;
     private JSeparator iuSegundoSeparador;
     private IUPanelCT iuLlaveDosificacion;
     private IUPanelCT iuNroAutorizacion;
@@ -48,6 +49,7 @@ public class IUPanelDosificacion extends IUPanelBD{
     private IUPanelCT iuRangoHasta;
     private IUPanelCT iuFechaLimiteEmision;
     private IUBotonTI botonFecha;
+    private IUPanelCT iuActividadEconomica;
     private IUPanelTA iuAvisoLey;
     
     private IUPanel segundoPanel;
@@ -129,6 +131,12 @@ public class IUPanelDosificacion extends IUPanelBD{
         iuNroTramite.iuTexto.setEditable(false);
         primerPanel.add(iuNroTramite);
         
+        iuNroFactura = new IUPanelCT("nro de factura", "", new Limitacion(limite.getPorcentajeAncho(42), limite.getPorcentajeAlto(16), limite.getPorcentajeAncho(40), limite.getPorcentajeAlto(6)), 40, 60);
+        iuNroFactura.iuTexto.setHorizontalAlignment(SwingConstants.CENTER);
+        iuNroFactura.iuTexto.setFocusable(false);
+        iuNroFactura.iuTexto.setEditable(false);
+        primerPanel.add(iuNroFactura);
+        
         iuSegundoSeparador = new JSeparator(SwingConstants.HORIZONTAL);
         iuSegundoSeparador.setBounds(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(27), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(1));
         iuSegundoSeparador.setForeground(new Color(220, 220, 220));
@@ -175,7 +183,13 @@ public class IUPanelDosificacion extends IUPanelBD{
         botonFecha = new IUBotonTI("", "src/imagenes/fecha.png", new Limitacion(limite.getPorcentajeAncho(84), limite.getPorcentajeAlto(44), limite.getPorcentajeAncho(8), limite.getPorcentajeAlto(6)), 90, 90, 0);
         primerPanel.add(botonFecha);
         
-        iuAvisoLey = new IUPanelTA("aviso de ley", "", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(51), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(15)), 15, 85);        
+        iuActividadEconomica = new IUPanelCT("actividad economica", "", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(51), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(6)), 40, 60);
+        iuActividadEconomica.iuTexto.setHorizontalAlignment(SwingConstants.CENTER);
+        iuActividadEconomica.iuTexto.setFocusable(false);
+        iuActividadEconomica.iuTexto.setEditable(false);
+        primerPanel.add(iuActividadEconomica);
+        
+        iuAvisoLey = new IUPanelTA("aviso de ley", "", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(58), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(15)), 15, 85);        
         iuAvisoLey.iuAreaTexto.setFocusable(false);
         iuAvisoLey.iuAreaTexto.setEditable(false);
         primerPanel.add(iuAvisoLey);
@@ -201,6 +215,8 @@ public class IUPanelDosificacion extends IUPanelBD{
         iuNombreRazonSocial.iuTexto.setFocusable(bandera);
         iuNroTramite.iuTexto.setEditable(bandera);
         iuNroTramite.iuTexto.setFocusable(bandera);
+        iuNroFactura.iuTexto.setEditable(bandera);
+        iuNroFactura.iuTexto.setFocusable(bandera);
         iuLlaveDosificacion.iuTexto.setEditable(bandera);
         iuLlaveDosificacion.iuTexto.setFocusable(bandera);
         iuNroAutorizacion.iuTexto.setEditable(bandera);
@@ -210,7 +226,9 @@ public class IUPanelDosificacion extends IUPanelBD{
         iuRangoDesde.iuTexto.setEditable(bandera);
         iuRangoDesde.iuTexto.setFocusable(bandera);
         iuRangoHasta.iuTexto.setEditable(bandera);
-        iuRangoHasta.iuTexto.setFocusable(bandera);        
+        iuRangoHasta.iuTexto.setFocusable(bandera);
+        iuActividadEconomica.iuTexto.setEditable(bandera);
+        iuActividadEconomica.iuTexto.setFocusable(bandera);
         iuAvisoLey.iuAreaTexto.setEditable(bandera);
         iuAvisoLey.iuAreaTexto.setFocusable(bandera);
     }
@@ -219,30 +237,38 @@ public class IUPanelDosificacion extends IUPanelBD{
         if(!iuNitContribuyente.iuTexto.getText().isEmpty()){
             if(!iuNombreRazonSocial.iuTexto.getText().isEmpty()){
                 if(!iuNroTramite.iuTexto.getText().isEmpty()){
-                    if(!iuLlaveDosificacion.iuTexto.getText().isEmpty()){
-                        if(!iuNroAutorizacion.iuTexto.getText().isEmpty()){
-                            if(!iuCantidad.iuTexto.getText().isEmpty()){
-                                if(!iuRangoDesde.iuTexto.getText().isEmpty()){
-                                    if(!iuRangoHasta.iuTexto.getText().isEmpty()){
-                                        if(!iuAvisoLey.iuAreaTexto.getText().isEmpty()){
-                                            verificador = true;
+                    if(!iuNroFactura.iuTexto.getText().isEmpty()){
+                        if(!iuLlaveDosificacion.iuTexto.getText().isEmpty()){
+                            if(!iuNroAutorizacion.iuTexto.getText().isEmpty()){
+                                if(!iuCantidad.iuTexto.getText().isEmpty()){
+                                    if(!iuRangoDesde.iuTexto.getText().isEmpty()){
+                                        if(!iuRangoHasta.iuTexto.getText().isEmpty()){
+                                            if(!iuActividadEconomica.iuTexto.getText().isEmpty()){
+                                                if(!iuAvisoLey.iuAreaTexto.getText().isEmpty()){
+                                                    verificador = true;
+                                                }else{
+                                                    Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo AVISO LEY", "advertencia");
+                                                }
+                                            }else{
+                                                Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo ACTIVIDAD ECONOMICA", "advertencia");
+                                            }                                            
                                         }else{
-                                            Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo AVISO LEY", "advertencia");
+                                            Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo RANGO HASTA", "advertencia");
                                         }
                                     }else{
-                                        Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo RANGO HASTA", "advertencia");
+                                        Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo RANGO DESDE", "advertencia");
                                     }
                                 }else{
-                                    Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo RANGO DESDE", "advertencia");
+                                    Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo CANTIDAD ", "advertencia");
                                 }
                             }else{
-                                Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo CANTIDAD ", "advertencia");
+                                Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo NRO AUTORIZACION ", "advertencia");
                             }
                         }else{
-                            Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo NRO AUTORIZACION ", "advertencia");
+                            Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo LLAVE DOSIFICACION ", "advertencia");
                         }
                     }else{
-                        Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo LLAVE DOSIFICACION ", "advertencia");
+                        Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo NRO FACTURA ", "advertencia");
                     }
                 }else{
                     Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo NRO TRAMITE ", "advertencia");
@@ -328,14 +354,15 @@ public class IUPanelDosificacion extends IUPanelBD{
         iuNitContribuyente.iuTexto.setText(dosificacion.getNitContribuyente());
         iuNombreRazonSocial.iuTexto.setText(dosificacion.getNombreApellidoRazonSocial());
         iuNroTramite.iuTexto.setText(dosificacion.getNroTramiteDosificacion());
+        iuNroFactura.iuTexto.setText(dosificacion.getNroFactura());
         iuLlaveDosificacion.iuTexto.setText(dosificacion.getLlaveDosificacion());
         iuNroAutorizacion.iuTexto.setText(dosificacion.getNroAutorizacion());
         iuCantidad.iuTexto.setText(String.valueOf(dosificacion.getCantidad()));
         iuRangoDesde.iuTexto.setText(dosificacion.getRangoDesde());
         iuRangoHasta.iuTexto.setText(dosificacion.getRangoHasta());
         iuFechaLimiteEmision.iuTexto.setText(dosificacion.getFechaLimiteEmision());
-        iuAvisoLey.iuAreaTexto.setText(dosificacion.getAvisoLey());
-        
+        iuActividadEconomica.iuTexto.setText(dosificacion.getActividadEconomica());
+        iuAvisoLey.iuAreaTexto.setText(dosificacion.getAvisoLey());        
     }
     private void llenarDatosDosificacion(){
         if(dosificacion == null)
@@ -344,12 +371,14 @@ public class IUPanelDosificacion extends IUPanelBD{
         dosificacion.setNitContribuyente(iuNitContribuyente.iuTexto.getText());
         dosificacion.setNombreApellidoRazonSocial(iuNombreRazonSocial.iuTexto.getText());
         dosificacion.setNroTramiteDosificacion(iuNroTramite.iuTexto.getText());
+        dosificacion.setNroFactura(iuNroFactura.iuTexto.getText());
         dosificacion.setLlaveDosificacion(iuLlaveDosificacion.iuTexto.getText());
         dosificacion.setNroAutorizacion(iuNroAutorizacion.iuTexto.getText());
         dosificacion.setCantidad(Integer.parseInt(iuCantidad.iuTexto.getText()));
         dosificacion.setRangoDesde(iuRangoDesde.iuTexto.getText());
         dosificacion.setRangoHasta(iuRangoHasta.iuTexto.getText());
         dosificacion.setFechaLimiteEmision(iuFechaLimiteEmision.iuTexto.getText());
+        dosificacion.setActividadEconomica(iuActividadEconomica.getTexto());
         dosificacion.setAvisoLey(iuAvisoLey.iuAreaTexto.getText());
         dosificacion.setIdTienda(controlVentas.getTienda().getTiendaID());
         dosificacion.setTienda(controlVentas.getTienda());

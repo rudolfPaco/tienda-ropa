@@ -73,7 +73,7 @@ public class IUVentaPrendas extends IUPanelBD{
         actualizarDatos();
     }
     private void construirPaneles(Limitacion limite){
-        panelFactura = new IUPanelFactura(controlVentas.getTienda(), controlVentas.getUsuario(), new Limitacion(limite.getPorcentajeAncho(5), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(30), limite.getPorcentajeAlto(98)));        
+        panelFactura = new IUPanelFactura(controlVentas.getTienda(), controlVentas.getUsuario(), controlVentas.getDosificacion(), new Limitacion(limite.getPorcentajeAncho(5), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(30), limite.getPorcentajeAlto(98)));        
         add(panelFactura);
         
         segundoPanel = new IUPanelBD(new Limitacion(limite.getPorcentajeAncho(40), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(45), limite.getPorcentajeAlto(98)));

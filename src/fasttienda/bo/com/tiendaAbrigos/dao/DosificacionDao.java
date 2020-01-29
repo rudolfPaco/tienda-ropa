@@ -6,15 +6,9 @@
 package fasttienda.bo.com.tiendaAbrigos.dao;
 
 import fasttienda.bo.com.tiendaAbrigos.modelo.Dosificacion;
-import fasttienda.bo.com.tiendaAbrigos.modelo.Usuario;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -37,8 +31,10 @@ public class DosificacionDao {
                 dosificacion = new Dosificacion(rs.getInt("DosificacionID"));
                 dosificacion.setNitContribuyente(rs.getString("NitContribuyente"));
                 dosificacion.setNombreApellidoRazonSocial(rs.getString("NombreApellidoRazonSocial"));
+                dosificacion.setActividadEconomica(rs.getString("ActividadEconomica"));
                 dosificacion.setNroTramiteDosificacion(rs.getString("NroTramiteDosificacion"));
                 dosificacion.setLlaveDosificacion(rs.getString("LlaveDosificacion"));
+                dosificacion.setNroFactura(rs.getString("NroFactura"));
                 dosificacion.setNroAutorizacion(rs.getString("NroAutorizacion"));
                 dosificacion.setCantidad(rs.getInt("Cantidad"));
                 dosificacion.setRangoDesde(rs.getString("RangoDesde"));
@@ -55,22 +51,24 @@ public class DosificacionDao {
     }
     public boolean seGuardoDosificacion(Dosificacion d){
         boolean verificador = false;
-        String sql = "insert into dosificacion values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into dosificacion values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = conexion.getConexion().prepareStatement(sql);                                    
 
             ps.setInt(1, d.getIdDosificacion());
             ps.setString(2, d.getNitContribuyente());
             ps.setString(3, d.getNombreApellidoRazonSocial());
-            ps.setString(4, d.getNroTramiteDosificacion());
-            ps.setString(5, d.getLlaveDosificacion());
-            ps.setString(6, d.getNroAutorizacion());
-            ps.setInt(7, d.getCantidad());
-            ps.setString(8, d.getRangoDesde());
-            ps.setString(9, d.getRangoHasta());
-            ps.setString(10, d.getFechaLimiteEmision());
-            ps.setString(11, d.getAvisoLey());
-            ps.setInt(12, d.getIdTienda());
+            ps.setString(4, d.getActividadEconomica());
+            ps.setString(5, d.getNroTramiteDosificacion());
+            ps.setString(6, d.getLlaveDosificacion());
+            ps.setString(7, d.getNroFactura());
+            ps.setString(8, d.getNroAutorizacion());
+            ps.setInt(9, d.getCantidad());
+            ps.setString(10, d.getRangoDesde());
+            ps.setString(11, d.getRangoHasta());
+            ps.setString(12, d.getFechaLimiteEmision());
+            ps.setString(13, d.getAvisoLey());
+            ps.setInt(14, d.getIdTienda());
             
             if(ps.executeUpdate() > 0)
                 verificador = true;
@@ -82,20 +80,22 @@ public class DosificacionDao {
     }
     public boolean seModificoDosificacion(Dosificacion d){
         boolean verificador = false;
-        String sql = "UPDATE dosificacion SET NitContribuyente=?, NombreApellidoRazonSocial=?, NroTramiteDosificacion=?, LlaveDosificacion=?, NroAutorizacion=?, Cantidad=?, RangoDesde=?, RangoHasta=?, FechaLimiteEmision=?, AvisoLey=? WHERE `DosificacionID`='"+d.getIdDosificacion()+"';";
+        String sql = "UPDATE dosificacion SET NitContribuyente=?, NombreApellidoRazonSocial=?, ActividadEconomica=?, NroTramiteDosificacion=?, LlaveDosificacion=?, NroAutorizacion=?, Cantidad=?, RangoDesde=?, RangoHasta=?, FechaLimiteEmision=?, AvisoLey=? WHERE `DosificacionID`='"+d.getIdDosificacion()+"';";
         try {
             PreparedStatement ps = conexion.getConexion().prepareStatement(sql);
                         
             ps.setString(1, d.getNitContribuyente());
             ps.setString(2, d.getNombreApellidoRazonSocial());
-            ps.setString(3, d.getNroTramiteDosificacion());
-            ps.setString(4, d.getLlaveDosificacion());
-            ps.setString(5, d.getNroAutorizacion());
-            ps.setInt(6, d.getCantidad());            
-            ps.setString(7, d.getRangoDesde());
-            ps.setString(8, d.getRangoHasta());
-            ps.setString(9, d.getFechaLimiteEmision());
-            ps.setString(10, d.getAvisoLey());
+            ps.setString(3, d.getActividadEconomica());
+            ps.setString(4, d.getNroTramiteDosificacion());
+            ps.setString(5, d.getLlaveDosificacion());
+            ps.setString(6, d.getNroFactura());
+            ps.setString(7, d.getNroAutorizacion());
+            ps.setInt(8, d.getCantidad());            
+            ps.setString(9, d.getRangoDesde());
+            ps.setString(10, d.getRangoHasta());
+            ps.setString(11, d.getFechaLimiteEmision());
+            ps.setString(12, d.getAvisoLey());
             
             int estado = ps.executeUpdate();
             if(estado > 0)

@@ -13,8 +13,10 @@ public class Dosificacion {
     private int idDosificacion;
     private String nitContribuyente;
     private String nombreApellidoRazonSocial;
+    private String actividadEconomica;
     private String nroTramiteDosificacion;
     private String llaveDosificacion;
+    private String nroFactura;
     private String nroAutorizacion;
     private int cantidad;
     private String rangoDesde;
@@ -46,6 +48,12 @@ public class Dosificacion {
     public void setNombreApellidoRazonSocial(String nombreApellidoRazonSocial) {
         this.nombreApellidoRazonSocial = nombreApellidoRazonSocial;
     }
+    public String getActividadEconomica() {
+        return actividadEconomica;
+    }
+    public void setActividadEconomica(String actividadEconomica) {
+        this.actividadEconomica = actividadEconomica;
+    }
     public String getNroTramiteDosificacion() {
         return nroTramiteDosificacion;
     }
@@ -57,6 +65,12 @@ public class Dosificacion {
     }
     public void setLlaveDosificacion(String llaveDosificacion) {
         this.llaveDosificacion = llaveDosificacion;
+    }
+    public String getNroFactura() {
+        return nroFactura;
+    }
+    public void setNroFactura(String nroFactura) {
+        this.nroFactura = nroFactura;
     }
     public String getNroAutorizacion() {
         return nroAutorizacion;
@@ -108,6 +122,6 @@ public class Dosificacion {
     }
     @Override
     public String toString() {
-        return "Dosificacion{" + "idDosificacion=" + idDosificacion + ", nitContribuyente=" + nitContribuyente + ", nombreApellidoRazonSocial=" + nombreApellidoRazonSocial + ", nroTramiteDosificacion=" + nroTramiteDosificacion + ", llaveDosificacion=" + llaveDosificacion + ", nroAutorizacion=" + nroAutorizacion + ", cantidad=" + cantidad + ", rangoDesde=" + rangoDesde + ", rangoHasta=" + rangoHasta + ", fechaLimiteEmision=" + fechaLimiteEmision + ", avisoLey=" + avisoLey + ", idTienda=" + idTienda + ", tienda=" + tienda + '}';
+        return "Dosificacion{" + "idDosificacion=" + idDosificacion + ", nitContribuyente=" + nitContribuyente + ", nombreApellidoRazonSocial=" + nombreApellidoRazonSocial + ", actividadEconomica=" + actividadEconomica + ", nroTramiteDosificacion=" + nroTramiteDosificacion + ", llaveDosificacion=" + llaveDosificacion + ", nroFactura=" + nroFactura + ", nroAutorizacion=" + nroAutorizacion + ", cantidad=" + cantidad + ", rangoDesde=" + rangoDesde + ", rangoHasta=" + rangoHasta + ", fechaLimiteEmision=" + fechaLimiteEmision + ", avisoLey=" + avisoLey + ", idTienda=" + idTienda + ", tienda=" + tienda + '}';
     }
 }

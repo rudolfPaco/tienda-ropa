@@ -10,12 +10,15 @@ import com.aplicacionjava.www.recursos.Limitacion;
 import com.aplicacionjava.www.tablas.IUTabla;
 import com.aplicacionjava.www.tablas.ModeloTabla;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Prenda;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -40,7 +43,7 @@ public class IUTablaVentas extends ModeloTabla<Prenda>{
         setModelo(nombreCabecera, columnas, lista);
         
         tabla = new IUTabla(this, limitacion);
-        tabla.agregarAnchoColumnas(porcentajes);        
+        tabla.agregarAnchoColumnas(porcentajes);
         tabla.setColumnaRender(0);
         tabla.setPosicionTextoHorizontal(1, SwingConstants.LEFT);
         tabla.setPosicionTextoHorizontal(2, SwingConstants.CENTER);
@@ -51,6 +54,10 @@ public class IUTablaVentas extends ModeloTabla<Prenda>{
             tabla.setDefaultRenderer(tipoColumnas[i], new IURenderProductoMinibar(this));            
         }
         tabla.agregarCellRender(1, new IURenderProductoMinibar(new Limitacion(limitacion.getPorcentajeAncho(30) - 1, limitacion.getPorcentajeAlto(15) - 1)));        */
+    }
+    public void setFuenteCabecera(Font fuente){
+        JTableHeader th = tabla.getTableHeader();
+        th.setFont(fuente);
     }
     private void setEventos(){
         tabla.addMouseListener(new MouseAdapter() {
