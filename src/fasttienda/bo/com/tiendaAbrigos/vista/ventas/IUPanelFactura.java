@@ -9,6 +9,8 @@ import com.aplicacionjava.www.campos.IUAreaTexto;
 import com.aplicacionjava.www.etiquetas.IUEtiqueta;
 import com.aplicacionjava.www.etiquetas.IUEtiquetaI;
 import com.aplicacionjava.www.paneles.IUPanelBD;
+import com.aplicacionjava.www.recursos.Fecha;
+import com.aplicacionjava.www.recursos.Hora;
 import com.aplicacionjava.www.recursos.Limitacion;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Dosificacion;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Tienda;
@@ -39,7 +41,7 @@ public class IUPanelFactura extends IUPanelBD{
     private JSeparator iuPrimerSeparador;
     private IUEtiqueta iuNroNit;
     private IUEtiqueta iuNroFactura;
-    private IUEtiqueta iuNroAutorizacion;
+    private IUEtiqueta iuNroAutorizacion;    
     private JSeparator iuSegundoSeparador;
     private JSeparator iuTercerSeparador;
     private IUEtiqueta iuActividadEconomica;
@@ -72,6 +74,7 @@ public class IUPanelFactura extends IUPanelBD{
         this.usuario = usuario;
         this.dosificacion = dosificacion;
         actualizarDatos(getLimitacion());
+        llenarDatosFactura();
     }
     private void actualizarDatos(Limitacion limite){
         iuNombreEntidad = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
@@ -92,13 +95,13 @@ public class IUPanelFactura extends IUPanelBD{
         //iuDireccion.setBorder(new LineBorder(Color.BLACK));
         add(iuDireccion);
         
-        iuTelefono = new IUEtiqueta(tienda.getTelefonosTienda(), new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(7), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
+        iuTelefono = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(7), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
         iuTelefono.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuTelefono.setHorizontalAlignment(SwingConstants.CENTER);
         //iuTelefono.setBorder(new LineBorder(Color.BLACK));
         add(iuTelefono);
         
-        iuCiudadPais = new IUEtiqueta(tienda.getCiudadTienda()+" - "+tienda.getPaisTienda(), new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(9), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
+        iuCiudadPais = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(9), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
         iuCiudadPais.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuCiudadPais.setHorizontalAlignment(SwingConstants.CENTER);
         //iuCiudadPais.setBorder(new LineBorder(Color.BLACK));
@@ -243,7 +246,7 @@ public class IUPanelFactura extends IUPanelBD{
         add(iuFechaLimiteEmision);
         
         iuCodigoQR = new IUEtiquetaI("src/imagenes/codigoqr.png", new Limitacion(limite.getPorcentajeAncho(35), limite.getPorcentajeAlto(63), limite.getPorcentajeAncho(30), limite.getPorcentajeAlto(16)));
-        iuCodigoQR.setBorder(new LineBorder(Color.yellow));
+        iuCodigoQR.setBorder(new LineBorder(Color.LIGHT_GRAY));
         add(iuCodigoQR);
         
         iuAvisoLey = new IUAreaTexto("''ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS , ELS USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY''", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(80), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(6)));
@@ -260,41 +263,33 @@ public class IUPanelFactura extends IUPanelBD{
         iuDescripcionLey.setEditable(false);
         add(iuDescripcionLey);
     }
-    public void llenarDatosFactura(){
+    private void llenarDatosFactura(){
         iuNombreEntidad.setText(tienda.getNombreTienda().toUpperCase());
         iuTipoTienda.setText(tienda.getDescripcionTienda());
         iuDireccion.setText(tienda.getDireccionTienda());
         iuTelefono.setText(tienda.getTelefonosTienda());
         iuCiudadPais.setText(tienda.getCiudadTienda()+" - "+tienda.getPaisTienda());
         iuTitulo.setText("FACTURA");
-        iuNroNit.setText(dosificacion.getNitContribuyente());
-        iuNroFactura.setText(dosificacion.getNroFactura());
-        iuNroAutorizacion.setText(dosificacion.getNroAutorizacion());        }
-        /*iuActividadEconomica.setText(dosificacion.get);
-        iuFecha;
-        iuHora;
-        iuNitCi;
-        iuNombreRazonSocial;
-        iuCuartoSeparador;
-        iuTablaVentas;
-        iuTotalPagar;
-        iuTotalPagarE;
-        iuEfectivo;
-        iuEfectivoE;
-        iuCambio;
-        iuCambioE;
-        iuTotalImporte;
-        iuTotalImporteE;
-        iuQuintoSeperador;
-        iuMontoLiteral;
-        iuCodigoControl;
-        iuFechaLimiteEmision;
-        iuCodigoQR;
-        iuAvisoLey;
-        iuDescripcionLey;
-        iuResponsable;
+        iuNroNit.setText("nit contribuyente: "+dosificacion.getNitContribuyente());
+        iuNroFactura.setText("nro factura: "+dosificacion.getNroFactura());
+        iuNroAutorizacion.setText("nro autorizacion: "+dosificacion.getNroAutorizacion());        
+        iuActividadEconomica.setText(""+dosificacion.getActividadEconomica());
+        iuFecha.setText(new Fecha().getFecha3());
+        iuHora.setText(new Hora().getHora()+" "+new Hora().getFormato());
+        iuNitCi.setText("nombre: ");
+        iuNombreRazonSocial.setText("nit: ");        
+        iuTotalPagarE.setText("0.0");
+        iuEfectivoE.setText("0.0");
+        iuCambioE.setText("0.0");
+        iuTotalImporteE.setText("0.0");
+        iuMontoLiteral.setText("son: ");
+        iuCodigoControl.setText("");
+        iuFechaLimiteEmision.setText(dosificacion.getFechaLimiteEmision());
+        iuAvisoLey.setText("''ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS , ELS USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY''");
+        iuDescripcionLey.setText(dosificacion.getAvisoLey());
+        iuResponsable.setText(usuario.getEmpleado().getPersona().getNombres()+" "+usuario.getEmpleado().getPersona().getApellidos());        
     }
-    public void llenarDatosRecibo(){
+    /*public void llenarDatosRecibo(){
         iuNombreEntidad;
         iuTipoTienda;
         iuDireccion;
