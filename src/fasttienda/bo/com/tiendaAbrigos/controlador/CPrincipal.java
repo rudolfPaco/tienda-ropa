@@ -74,7 +74,9 @@ public class CPrincipal {
         switch(usuario.getEmpleado().getCargoEmpleado()){
             case "administrador":
                 iuPrincipal.cargarDatosSistema();
+                iuPrincipal.construirPanelAdministrador();
                 iuPrincipal.mostrarVentana();
+                
             break;
             
         }

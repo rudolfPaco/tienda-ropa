@@ -383,5 +383,4 @@ public class IUPanelDosificacion extends IUPanelBD{
         dosificacion.setIdTienda(controlVentas.getTienda().getTiendaID());
         dosificacion.setTienda(controlVentas.getTienda());
     }
-    
 }

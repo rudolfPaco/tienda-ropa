@@ -80,7 +80,6 @@ public class IUPrincipal extends IUVentanaP{
         panelPrincipal = new IUPanel(new Limitacion(limite.getPorcentajeAncho(15), 0, limite.getPorcentajeAncho(85), limite.getAlto()));
         panelPrincipal.setLayout(administrador);
         panelFondo.add(panelPrincipal);
-        construirPanelAdministrador(panelPrincipal.getLimitacion());
     }
     private void construirPanelLateral(Limitacion limite){
         iuLogo = new IUEtiquetaI("", new Limitacion(limite.getPorcentajeAncho(2), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(96), limite.getPorcentajeAlto(13)));        
@@ -122,7 +121,9 @@ public class IUPrincipal extends IUVentanaP{
         panelUsuario.add(iuCargoUsuario);
         
     }
-    private void construirPanelAdministrador(Limitacion limite){        
+    public void construirPanelAdministrador(){                
+        Limitacion limite = panelPrincipal.getLimitacion();
+        
         panelConfiguracion = new IUPanelBD(limite);
         panelPrincipal.add(panelConfiguracion);
                 
@@ -134,7 +135,7 @@ public class IUPrincipal extends IUVentanaP{
 
         CVenta controlVentas = new CVenta(controlPrincipal.getTienda(), controlPrincipal.getUsuario());
         panelVentas = new IUModuloVentas(controlVentas, this, new Limitacion(limite.getAncho(), limite.getAlto()));
-        panelPrincipal.add(panelVentas);        
+        panelPrincipal.add(panelVentas);
         
         CPrenda controlPrendas = new CPrenda();
         panelPrendas = new IUModuloPrendas(controlPrendas, this, new Limitacion(limite.getAncho(), limite.getAlto()));
@@ -153,6 +154,7 @@ public class IUPrincipal extends IUVentanaP{
         controlModuloUsuarios = new CModuloUsuarios();
         moduloUsuarios = new IUModuloUsuarios(controlModuloUsuarios, new Limitacion(limite.getAncho(), limite.getAlto()));
         controlModuloUsuarios.controlarModuloUsuarios(moduloUsuarios);
+        moduloUsuarios.agregarUsuarioActual(controlPrincipal.getUsuario());
         panelPrincipal.add(moduloUsuarios);
         
         panelKardex = new IUPanelBD(limite);
@@ -269,8 +271,7 @@ public class IUPrincipal extends IUVentanaP{
         iuLogo.setUrlImagen(controlPrincipal.getTienda().getUrlLogo());
         iuIconoUsuario.setUrlImagen(controlPrincipal.getUsuario().getEmpleado().getPersona().getUrlFoto());
         iuNombreUsuario.iuTexto.setText(usuario.getEmpleado().getPersona().getNombres()+" "+usuario.getEmpleado().getPersona().getApellidos());
-        iuCargoUsuario.iuTexto.setText(usuario.getEmpleado().getCargoEmpleado());
-        moduloUsuarios.agregarUsuarioActual(usuario);
+        iuCargoUsuario.iuTexto.setText(usuario.getEmpleado().getCargoEmpleado());        
     }
     public CPrincipal getCPrincipal(){
         return controlPrincipal;

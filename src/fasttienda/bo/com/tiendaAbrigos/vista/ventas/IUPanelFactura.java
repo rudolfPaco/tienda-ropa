@@ -74,7 +74,7 @@ public class IUPanelFactura extends IUPanelBD{
         this.usuario = usuario;
         this.dosificacion = dosificacion;
         actualizarDatos(getLimitacion());
-        llenarDatosFactura();
+        limpiarCamposDatos();
     }
     private void actualizarDatos(Limitacion limite){
         iuNombreEntidad = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
@@ -112,7 +112,7 @@ public class IUPanelFactura extends IUPanelBD{
         iuPrimerSeparador.setForeground(new Color(210, 210, 210));
         add(iuPrimerSeparador);
         
-        iuTitulo = new IUEtiqueta("FACTURA", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(12), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(3)));
+        iuTitulo = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(12), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(3)));
         iuTitulo.setFont(new Font("Verdana", Font.PLAIN, 20));
         iuTitulo.setHorizontalAlignment(SwingConstants.CENTER);
         //iuTitulo.setBorder(new LineBorder(Color.yellow));
@@ -124,18 +124,18 @@ public class IUPanelFactura extends IUPanelBD{
         iuSegundoSeparador.setForeground(new Color(210, 210, 210));
         add(iuSegundoSeparador);
         
-        iuNroNit = new IUEtiqueta("NIT CONTRIBUYENTE: 5233631019", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(16), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
+        iuNroNit = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(16), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
         iuNroNit.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuNroNit.setHorizontalAlignment(SwingConstants.CENTER);
         //iuNroNit.setBorder(new LineBorder(Color.BLACK));
         add(iuNroNit);
         
-        iuNroFactura = new IUEtiqueta("NRO FACTURA: 10212444", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(18), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
+        iuNroFactura = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(18), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
         iuNroFactura.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuNroFactura.setHorizontalAlignment(SwingConstants.CENTER);        
         add(iuNroFactura);
         
-        iuNroAutorizacion = new IUEtiqueta("NRO AUTORIZACION: 100002784", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(20), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
+        iuNroAutorizacion = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(20), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
         iuNroAutorizacion.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuNroAutorizacion.setHorizontalAlignment(SwingConstants.CENTER);        
         add(iuNroAutorizacion);
@@ -145,17 +145,17 @@ public class IUPanelFactura extends IUPanelBD{
         iuTercerSeparador.setForeground(new Color(210, 210, 210));
         add(iuTercerSeparador);
         
-        iuActividadEconomica = new IUEtiqueta("ACTIVIDAD ECONOMICA: tienda comercial", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(23), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
+        iuActividadEconomica = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(23), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
         iuActividadEconomica.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuActividadEconomica.setHorizontalAlignment(SwingConstants.CENTER);        
         add(iuActividadEconomica);
         
-        iuFecha = new IUEtiqueta("Fecha: 20-10-2020", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(25), limite.getPorcentajeAncho(49), limite.getPorcentajeAlto(2)));
+        iuFecha = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(25), limite.getPorcentajeAncho(49), limite.getPorcentajeAlto(2)));
         iuFecha.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuFecha.setHorizontalAlignment(SwingConstants.CENTER);        
         add(iuFecha);
         
-        iuHora = new IUEtiqueta("Hora: 20:20:33", new Limitacion(limite.getPorcentajeAncho(50), limite.getPorcentajeAlto(25), limite.getPorcentajeAncho(49), limite.getPorcentajeAlto(2)));
+        iuHora = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(50), limite.getPorcentajeAlto(25), limite.getPorcentajeAncho(49), limite.getPorcentajeAlto(2)));
         iuHora.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuHora.setHorizontalAlignment(SwingConstants.CENTER);        
         add(iuHora);
@@ -165,12 +165,12 @@ public class IUPanelFactura extends IUPanelBD{
         iuCuartoSeparador.setForeground(new Color(210, 210, 210));
         add(iuCuartoSeparador);
         
-        iuNitCi = new IUEtiqueta("NIT: 5233631019", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(28), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
+        iuNitCi = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(28), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
         iuNitCi.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuNitCi.setHorizontalAlignment(SwingConstants.CENTER);        
         add(iuNitCi);
         
-        iuNombreRazonSocial = new IUEtiqueta("NOMBRE: Felipez", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(30), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
+        iuNombreRazonSocial = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(30), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
         iuNombreRazonSocial.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuNombreRazonSocial.setHorizontalAlignment(SwingConstants.CENTER);        
         add(iuNombreRazonSocial);
@@ -185,7 +185,7 @@ public class IUPanelFactura extends IUPanelBD{
         iuTotalPagar.setHorizontalAlignment(SwingConstants.RIGHT);        
         add(iuTotalPagar);
         
-        iuTotalPagarE = new IUEtiqueta("120.0", new Limitacion(limite.getPorcentajeAncho(50), limite.getPorcentajeAlto(44), limite.getPorcentajeAncho(48), limite.getPorcentajeAlto(2)));
+        iuTotalPagarE = new IUEtiqueta("0.0", new Limitacion(limite.getPorcentajeAncho(50), limite.getPorcentajeAlto(44), limite.getPorcentajeAncho(48), limite.getPorcentajeAlto(2)));
         iuTotalPagarE.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuTotalPagarE.setHorizontalAlignment(SwingConstants.RIGHT);
         add(iuTotalPagarE);
@@ -195,7 +195,7 @@ public class IUPanelFactura extends IUPanelBD{
         iuEfectivo.setHorizontalAlignment(SwingConstants.RIGHT);        
         add(iuEfectivo);
         
-        iuEfectivoE = new IUEtiqueta("120.0", new Limitacion(limite.getPorcentajeAncho(50), limite.getPorcentajeAlto(46), limite.getPorcentajeAncho(48), limite.getPorcentajeAlto(2)));
+        iuEfectivoE = new IUEtiqueta("0.0", new Limitacion(limite.getPorcentajeAncho(50), limite.getPorcentajeAlto(46), limite.getPorcentajeAncho(48), limite.getPorcentajeAlto(2)));
         iuEfectivoE.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuEfectivoE.setHorizontalAlignment(SwingConstants.RIGHT);
         add(iuEfectivoE);
@@ -225,39 +225,39 @@ public class IUPanelFactura extends IUPanelBD{
         iuQuintoSeperador.setForeground(new Color(210, 210, 210));
         add(iuQuintoSeperador);
         
-        iuMontoLiteral = new IUEtiqueta("Son: docientos cincuenta y cinco 00/100", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(54), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
+        iuMontoLiteral = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(54), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
         iuMontoLiteral.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuMontoLiteral.setHorizontalAlignment(SwingConstants.LEFT);
         add(iuMontoLiteral);
         
-        iuResponsable = new IUEtiqueta("Responsable: Juana de arco", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(56), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
+        iuResponsable = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(56), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
         iuResponsable.setFont(new Font("Verdana", Font.PLAIN, 12));
-        iuResponsable.setHorizontalAlignment(SwingConstants.CENTER);
+        iuResponsable.setHorizontalAlignment(SwingConstants.LEFT);
         add(iuResponsable);
         
-        iuCodigoControl = new IUEtiqueta("codigo de control: CD-A1-DD-1D-DW-4A", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(58), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
+        iuCodigoControl = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(58), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
         iuCodigoControl.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuCodigoControl.setHorizontalAlignment(SwingConstants.CENTER);
         add(iuCodigoControl);
         
-        iuFechaLimiteEmision = new IUEtiqueta("fecha limite de emision: 17-02-2020", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(60), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
+        iuFechaLimiteEmision = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(60), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
         iuFechaLimiteEmision.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuFechaLimiteEmision.setHorizontalAlignment(SwingConstants.CENTER);
         add(iuFechaLimiteEmision);
         
         iuCodigoQR = new IUEtiquetaI("src/imagenes/codigoqr.png", new Limitacion(limite.getPorcentajeAncho(35), limite.getPorcentajeAlto(63), limite.getPorcentajeAncho(30), limite.getPorcentajeAlto(16)));
-        iuCodigoQR.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        //iuCodigoQR.setBorder(new LineBorder(Color.LIGHT_GRAY));
         add(iuCodigoQR);
         
-        iuAvisoLey = new IUAreaTexto("''ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS , ELS USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY''", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(80), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(6)));
-        iuAvisoLey.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        iuAvisoLey = new IUAreaTexto("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(80), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(6)));
+        iuAvisoLey.setBorder(null);
         iuAvisoLey.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuAvisoLey.setFocusable(false);
         iuAvisoLey.setEditable(false);
         add(iuAvisoLey);
         
-        iuDescripcionLey = new IUAreaTexto("Ley Nº 453: El proveedor de servicios debe habilitar medios e instrumentos para efectua consultas y reclamaciones.", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(86), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(6)));
-        iuDescripcionLey.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        iuDescripcionLey = new IUAreaTexto("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(86), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(6)));
+        iuDescripcionLey.setBorder(null);
         iuDescripcionLey.setFont(new Font("Verdana", Font.PLAIN, 12));
         iuDescripcionLey.setFocusable(false);
         iuDescripcionLey.setEditable(false);
@@ -274,8 +274,8 @@ public class IUPanelFactura extends IUPanelBD{
         iuNroFactura.setText("nro factura: "+dosificacion.getNroFactura());
         iuNroAutorizacion.setText("nro autorizacion: "+dosificacion.getNroAutorizacion());        
         iuActividadEconomica.setText(""+dosificacion.getActividadEconomica());
-        iuFecha.setText(new Fecha().getFecha3());
-        iuHora.setText(new Hora().getHora()+" "+new Hora().getFormato());
+        iuFecha.setText("fecha: "+new Fecha().getFecha3());
+        iuHora.setText("hora: "+new Hora().getHora()+" "+new Hora().getFormato());
         iuNitCi.setText("nombre: ");
         iuNombreRazonSocial.setText("nit: ");        
         iuTotalPagarE.setText("0.0");
@@ -283,84 +283,64 @@ public class IUPanelFactura extends IUPanelBD{
         iuCambioE.setText("0.0");
         iuTotalImporteE.setText("0.0");
         iuMontoLiteral.setText("son: ");
-        iuCodigoControl.setText("");
-        iuFechaLimiteEmision.setText(dosificacion.getFechaLimiteEmision());
+        iuCodigoControl.setText("codigo de control: ");
+        iuFechaLimiteEmision.setText("fecha limite emision: "+dosificacion.getFechaLimiteEmision());
         iuAvisoLey.setText("''ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS , ELS USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY''");
         iuDescripcionLey.setText(dosificacion.getAvisoLey());
-        iuResponsable.setText(usuario.getEmpleado().getPersona().getNombres()+" "+usuario.getEmpleado().getPersona().getApellidos());        
+        iuResponsable.setText("usuario:  "+usuario.getEmpleado().getPersona().getNombres()+" "+usuario.getEmpleado().getPersona().getApellidos());        
     }
-    /*public void llenarDatosRecibo(){
-        iuNombreEntidad;
-        iuTipoTienda;
-        iuDireccion;
-        iuTelefono;
-        iuCiudadPais;
-        iuTitulo;
-        iuPrimerSeparador;
-        iuNroNit;
-        iuNroFactura;
-        iuNroAutorizacion;
-        iuSegundoSeparador;
-        iuTercerSeparador;
-        iuActividadEconomica;
-        iuFecha;
-        iuHora;
-        iuNitCi;
-        iuNombreRazonSocial;
-        iuCuartoSeparador;
-        iuTablaVentas;
-        iuTotalPagar;
-        iuTotalPagarE;
-        iuEfectivo;
-        iuEfectivoE;
-        iuCambio;
-        iuCambioE;
-        iuTotalImporte;
-        iuTotalImporteE;
-        iuQuintoSeperador;
-        iuMontoLiteral;
-        iuCodigoControl;
-        iuFechaLimiteEmision;
-        iuCodigoQR;
-        iuAvisoLey;
-        iuDescripcionLey;
-        iuResponsable;
+    public void llenarDatosRecibo(){
+        iuNombreEntidad.setText(tienda.getNombreTienda().toUpperCase());
+        iuTipoTienda.setText(tienda.getDescripcionTienda());
+        iuDireccion.setText(tienda.getDireccionTienda());
+        iuTelefono.setText(tienda.getTelefonosTienda());
+        iuCiudadPais.setText(tienda.getCiudadTienda()+" - "+tienda.getPaisTienda());
+        iuTitulo.setText("RECIBO");
+        iuNroNit.setText("");
+        iuNroFactura.setText("");
+        iuNroAutorizacion.setText("");
+        iuActividadEconomica.setText(dosificacion.getActividadEconomica());
+        iuFecha.setText("fecha: "+new Fecha().getFecha3());
+        iuHora.setText("hora: "+new Hora().getHora()+" "+new Hora().getFormato());
+        iuNitCi.setText("nombre: ");
+        iuNombreRazonSocial.setText("");
+        iuTotalPagarE.setText("0.0");
+        iuEfectivoE.setText("0.0");
+        iuCambioE.setText("0.0");
+        iuTotalImporteE.setText("0.0");
+        iuMontoLiteral.setText("son: ");
+        iuCodigoControl.setText("");
+        iuFechaLimiteEmision.setText("");
+        iuAvisoLey.setText("");
+        iuDescripcionLey.setText("");
+        iuResponsable.setText("usuario:  "+usuario.getEmpleado().getPersona().getNombres()+" "+usuario.getEmpleado().getPersona().getApellidos());
     }
+    
     public void limpiarCamposDatos(){
-        iuNombreEntidad;
-        iuTipoTienda;
-        iuDireccion;
-        iuTelefono;
-        iuCiudadPais;
-        iuTitulo;
-        iuPrimerSeparador;
-        iuNroNit;
-        iuNroFactura;
-        iuNroAutorizacion;
-        iuSegundoSeparador;
-        iuTercerSeparador;
-        iuActividadEconomica;
-        iuFecha;
-        iuHora;
-        iuNitCi;
-        iuNombreRazonSocial;
-        iuCuartoSeparador;
-        iuTablaVentas;
-        iuTotalPagar;
-        iuTotalPagarE;
-        iuEfectivo;
-        iuEfectivoE;
-        iuCambio;
-        iuCambioE;
-        iuTotalImporte;
-        iuTotalImporteE;
-        iuQuintoSeperador;
-        iuMontoLiteral;
-        iuCodigoControl;
-        iuFechaLimiteEmision;
-        iuCodigoQR;
-        iuAvisoLey;
-        iuDescripcionLey;
-        iuResponsable;
-    }*/
+        iuNombreEntidad.setText("");
+        iuTipoTienda.setText("");
+        iuDireccion.setText("");
+        iuTelefono.setText("");
+        iuCiudadPais.setText("");
+        iuTitulo.setText("");
+        iuNroNit.setText("");
+        iuNroFactura.setText("");
+        iuNroAutorizacion.setText("");
+        iuActividadEconomica.setText("");
+        iuFecha.setText("");
+        iuHora.setText("");
+        iuNitCi.setText("");
+        iuNombreRazonSocial.setText("");
+        iuTablaVentas.limpiarTabla();
+        iuTotalPagarE.setText("");
+        iuEfectivoE.setText("");
+        iuCambioE.setText("");
+        iuTotalImporteE.setText("");
+        iuMontoLiteral.setText("");
+        iuCodigoControl.setText("");
+        iuFechaLimiteEmision.setText("");
+        iuAvisoLey.setText("");
+        iuDescripcionLey.setText("");
+        iuResponsable.setText("");
+    }
 }
