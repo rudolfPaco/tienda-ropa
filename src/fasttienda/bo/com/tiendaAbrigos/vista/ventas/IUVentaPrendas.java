@@ -21,6 +21,10 @@ import fasttienda.bo.com.tiendaAbrigos.modelo.Tienda;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Usuario;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javafx.scene.GroupBuilder;
 import javax.swing.ButtonGroup;
 import javax.swing.JSeparator;
@@ -71,6 +75,7 @@ public class IUVentaPrendas extends IUPanelBD{
         this.usuario = controlVentas.getUsuario();
         construirPaneles(getLimitacion());
         actualizarDatos();
+        escucharEvento();
     }
     private void construirPaneles(Limitacion limite){
         panelFactura = new IUPanelFactura(controlVentas.getTienda(), controlVentas.getUsuario(), controlVentas.getDosificacion(), new Limitacion(limite.getPorcentajeAncho(5), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(30), limite.getPorcentajeAlto(98)));        
@@ -137,6 +142,7 @@ public class IUVentaPrendas extends IUPanelBD{
         iuNit = new IUPanelCT("Nro NIT", "", new Limitacion(limite.getPorcentajeAncho(60), limite.getPorcentajeAlto(26), limite.getPorcentajeAncho(30), limite.getPorcentajeAlto(6)), 40, 60);
         iuNit.iuTexto.setHorizontalAlignment(SwingConstants.RIGHT);
         iuNit.iuTexto.requestFocus();
+        iuNit.setVisible(false);
         segundoPanel.add(iuNit);
         
         iuNombreRazonSocial = new IUPanelCT("Nombre o Razon Social", "", new Limitacion(limite.getPorcentajeAncho(60), limite.getPorcentajeAlto(33), limite.getPorcentajeAncho(30), limite.getPorcentajeAlto(6)), 40, 60);
@@ -199,13 +205,32 @@ public class IUVentaPrendas extends IUPanelBD{
         iuFecha.iuTexto.setText(new Fecha().getFecha6());
         iuHora.iuTexto.setText(new Hora().getHora()+" "+new Hora().getFormato());
         iuBotonRecibo.setSelected(true);
+        panelFactura.llenarDatosRecibo();
         iuBotonFactura.setSelected(false);
         iuNombreRazonSocial.iuTexto.setText("");
         iuNit.iuTexto.setText("");
         iuCodigoBarra.iuTexto.setText("");
         iuTablaVentas.limpiarTabla();
         iuTotalPagar.iuTexto.setText("0.0");
-        iuNit.iuTexto.requestFocus();
+        iuNit.iuTexto.requestFocus();        
     }
-    
+    private void escucharEvento(){
+        iuBotonFactura.addItemListener((ItemEvent e) -> {
+            if(iuBotonFactura.isSelected()){
+                panelFactura.llenarDatosFactura();
+                iuNit.setVisible(true);
+            }                
+            else
+                panelFactura.limpiarCamposDatos();
+        });
+        iuBotonRecibo.addItemListener((ItemEvent e) -> {
+            if(iuBotonRecibo.isSelected()){
+                panelFactura.llenarDatosRecibo();
+                iuNit.setVisible(false);
+            }                
+            else{
+                panelFactura.limpiarCamposDatos();
+            }                
+        });
+    }
 }

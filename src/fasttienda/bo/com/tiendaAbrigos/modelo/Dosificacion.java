@@ -5,6 +5,9 @@
  */
 package fasttienda.bo.com.tiendaAbrigos.modelo;
 
+import fasttienda.bo.com.tiendaAbrigos.dao.Conexion;
+import fasttienda.bo.com.tiendaAbrigos.dao.DosificacionDao;
+
 /**
  *
  * @author hotel-felipez
@@ -23,6 +26,7 @@ public class Dosificacion {
     private String rangoHasta;
     private String fechaLimiteEmision;
     private String avisoLey;
+    private String descripcionLey;
     private int idTienda;
     
     private Tienda tienda;
@@ -67,6 +71,11 @@ public class Dosificacion {
         this.llaveDosificacion = llaveDosificacion;
     }
     public String getNroFactura() {
+        Conexion conexion = new Conexion();
+        int numero = Integer.parseInt(conexion.getCadena("NroFactura", "select NroFactura from dosificacion order by NroFactura desc limit 1"));
+        numero++;
+        conexion.cerrarConexion();
+        nroFactura = String.valueOf(numero);
         return nroFactura;
     }
     public void setNroFactura(String nroFactura) {
@@ -108,6 +117,12 @@ public class Dosificacion {
     public void setAvisoLey(String avisoLey) {
         this.avisoLey = avisoLey;
     }
+    public String getDescripcionLey() {
+        return descripcionLey;
+    }
+    public void setDescripcionLey(String descripcionLey) {
+        this.descripcionLey = descripcionLey;
+    }
     public Tienda getTienda() {
         return tienda;
     }
@@ -122,6 +137,6 @@ public class Dosificacion {
     }
     @Override
     public String toString() {
-        return "Dosificacion{" + "idDosificacion=" + idDosificacion + ", nitContribuyente=" + nitContribuyente + ", nombreApellidoRazonSocial=" + nombreApellidoRazonSocial + ", actividadEconomica=" + actividadEconomica + ", nroTramiteDosificacion=" + nroTramiteDosificacion + ", llaveDosificacion=" + llaveDosificacion + ", nroFactura=" + nroFactura + ", nroAutorizacion=" + nroAutorizacion + ", cantidad=" + cantidad + ", rangoDesde=" + rangoDesde + ", rangoHasta=" + rangoHasta + ", fechaLimiteEmision=" + fechaLimiteEmision + ", avisoLey=" + avisoLey + ", idTienda=" + idTienda + ", tienda=" + tienda + '}';
+        return "Dosificacion{" + "idDosificacion=" + idDosificacion + ", nitContribuyente=" + nitContribuyente + ", nombreApellidoRazonSocial=" + nombreApellidoRazonSocial + ", actividadEconomica=" + actividadEconomica + ", nroTramiteDosificacion=" + nroTramiteDosificacion + ", llaveDosificacion=" + llaveDosificacion + ", nroFactura=" + nroFactura + ", nroAutorizacion=" + nroAutorizacion + ", cantidad=" + cantidad + ", rangoDesde=" + rangoDesde + ", rangoHasta=" + rangoHasta + ", fechaLimiteEmision=" + fechaLimiteEmision + ", avisoLey=" + avisoLey + ", descripcionLey=" + descripcionLey + ", idTienda=" + idTienda + ", tienda=" + tienda + '}';
     }
 }

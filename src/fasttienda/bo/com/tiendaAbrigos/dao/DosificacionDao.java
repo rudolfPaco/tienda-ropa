@@ -41,6 +41,7 @@ public class DosificacionDao {
                 dosificacion.setRangoHasta(rs.getString("RangoHasta"));
                 dosificacion.setFechaLimiteEmision(rs.getString("FechaLimiteEmision"));
                 dosificacion.setAvisoLey(rs.getString("AvisoLey"));
+                dosificacion.setDescripcionLey(rs.getString("DescripcionLey"));
                 dosificacion.setIdTienda(rs.getInt("TiendaID"));
             }
             return dosificacion;
@@ -51,7 +52,7 @@ public class DosificacionDao {
     }
     public boolean seGuardoDosificacion(Dosificacion d){
         boolean verificador = false;
-        String sql = "insert into dosificacion values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into dosificacion values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = conexion.getConexion().prepareStatement(sql);                                    
 
@@ -68,7 +69,8 @@ public class DosificacionDao {
             ps.setString(11, d.getRangoHasta());
             ps.setString(12, d.getFechaLimiteEmision());
             ps.setString(13, d.getAvisoLey());
-            ps.setInt(14, d.getIdTienda());
+            ps.setString(14, d.getDescripcionLey());
+            ps.setInt(15, d.getIdTienda());
             
             if(ps.executeUpdate() > 0)
                 verificador = true;
@@ -80,14 +82,14 @@ public class DosificacionDao {
     }
     public boolean seModificoDosificacion(Dosificacion d){
         boolean verificador = false;
-        String sql = "UPDATE dosificacion SET NitContribuyente=?, NombreApellidoRazonSocial=?, ActividadEconomica=?, NroTramiteDosificacion=?, LlaveDosificacion=?, NroAutorizacion=?, Cantidad=?, RangoDesde=?, RangoHasta=?, FechaLimiteEmision=?, AvisoLey=? WHERE `DosificacionID`='"+d.getIdDosificacion()+"';";
+        String sql = "UPDATE dosificacion SET NitContribuyente=?, NombreApellidoRazonSocial=?, ActividadEconomica=?, NroTramiteDosificacion=?, LlaveDosificacion=?, NroFactura=?, NroAutorizacion=?, Cantidad=?, RangoDesde=?, RangoHasta=?, FechaLimiteEmision=?, AvisoLey=?, DescripcionLey=? WHERE `DosificacionID`='"+d.getIdDosificacion()+"';";
         try {
             PreparedStatement ps = conexion.getConexion().prepareStatement(sql);
                         
             ps.setString(1, d.getNitContribuyente());
             ps.setString(2, d.getNombreApellidoRazonSocial());
             ps.setString(3, d.getActividadEconomica());
-            ps.setString(4, d.getNroTramiteDosificacion());
+            ps.setString(4, d.getNroTramiteDosificacion());            
             ps.setString(5, d.getLlaveDosificacion());
             ps.setString(6, d.getNroFactura());
             ps.setString(7, d.getNroAutorizacion());
@@ -96,6 +98,7 @@ public class DosificacionDao {
             ps.setString(10, d.getRangoHasta());
             ps.setString(11, d.getFechaLimiteEmision());
             ps.setString(12, d.getAvisoLey());
+            ps.setString(13, d.getDescripcionLey());
             
             int estado = ps.executeUpdate();
             if(estado > 0)

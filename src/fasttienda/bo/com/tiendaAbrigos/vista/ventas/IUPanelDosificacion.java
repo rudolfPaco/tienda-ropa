@@ -51,6 +51,7 @@ public class IUPanelDosificacion extends IUPanelBD{
     private IUBotonTI botonFecha;
     private IUPanelCT iuActividadEconomica;
     private IUPanelTA iuAvisoLey;
+    private IUPanelTA iuDescripcionLey;
     
     private IUPanel segundoPanel;
     private IUBotonTI botonImprimerDosificacion;    
@@ -193,6 +194,11 @@ public class IUPanelDosificacion extends IUPanelBD{
         iuAvisoLey.iuAreaTexto.setFocusable(false);
         iuAvisoLey.iuAreaTexto.setEditable(false);
         primerPanel.add(iuAvisoLey);
+        
+        iuDescripcionLey = new IUPanelTA("descripcion de ley", "", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(74), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(15)), 15, 85);
+        iuDescripcionLey.iuAreaTexto.setFocusable(false);
+        iuDescripcionLey.iuAreaTexto.setEditable(false);
+        primerPanel.add(iuDescripcionLey);
     }
     private void construirTercerPanel(Limitacion limite){
         botonImprimerDosificacion = new IUBotonTI("imprimir", "src/imagenes/impresoraAzul.png", new Limitacion(limite.getPorcentajeAncho(15), limite.getPorcentajeAlto(2), limite.getPorcentajeAncho(70), limite.getPorcentajeAlto(15)), 70, 80, 15);
@@ -210,7 +216,7 @@ public class IUPanelDosificacion extends IUPanelBD{
     }
     private void habilitarCamposDatos(boolean bandera){        
         iuNitContribuyente.iuTexto.setEditable(bandera);
-        iuNitContribuyente.iuTexto.setFocusable(bandera);
+        iuNitContribuyente.iuTexto.setFocusable(bandera);        
         iuNombreRazonSocial.iuTexto.setEditable(bandera);
         iuNombreRazonSocial.iuTexto.setFocusable(bandera);
         iuNroTramite.iuTexto.setEditable(bandera);
@@ -227,10 +233,13 @@ public class IUPanelDosificacion extends IUPanelBD{
         iuRangoDesde.iuTexto.setFocusable(bandera);
         iuRangoHasta.iuTexto.setEditable(bandera);
         iuRangoHasta.iuTexto.setFocusable(bandera);
+        botonFecha.setVisible(bandera);
         iuActividadEconomica.iuTexto.setEditable(bandera);
         iuActividadEconomica.iuTexto.setFocusable(bandera);
         iuAvisoLey.iuAreaTexto.setEditable(bandera);
         iuAvisoLey.iuAreaTexto.setFocusable(bandera);
+        iuDescripcionLey.iuAreaTexto.setEditable(bandera);
+        iuDescripcionLey.iuAreaTexto.setFocusable(bandera);        
     }
     private boolean estaCamposValidados(){
         boolean verificador = false;
@@ -245,7 +254,12 @@ public class IUPanelDosificacion extends IUPanelBD{
                                         if(!iuRangoHasta.iuTexto.getText().isEmpty()){
                                             if(!iuActividadEconomica.iuTexto.getText().isEmpty()){
                                                 if(!iuAvisoLey.iuAreaTexto.getText().isEmpty()){
-                                                    verificador = true;
+                                                    if(!iuDescripcionLey.iuAreaTexto.getText().isEmpty()){
+                                                        verificador = true;
+                                                    }
+                                                    else{
+                                                        Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo DESCRIPCION LEY", "advertencia");
+                                                    }
                                                 }else{
                                                     Ayuda.mensajeVerificacion(ventanaPrincipal, "aviso", "lo siento pero no puede estar vacio el campo AVISO LEY", "advertencia");
                                                 }
@@ -363,6 +377,7 @@ public class IUPanelDosificacion extends IUPanelBD{
         iuFechaLimiteEmision.iuTexto.setText(dosificacion.getFechaLimiteEmision());
         iuActividadEconomica.iuTexto.setText(dosificacion.getActividadEconomica());
         iuAvisoLey.iuAreaTexto.setText(dosificacion.getAvisoLey());        
+        iuDescripcionLey.iuAreaTexto.setText(dosificacion.getDescripcionLey());
     }
     private void llenarDatosDosificacion(){
         if(dosificacion == null)
@@ -380,6 +395,7 @@ public class IUPanelDosificacion extends IUPanelBD{
         dosificacion.setFechaLimiteEmision(iuFechaLimiteEmision.iuTexto.getText());
         dosificacion.setActividadEconomica(iuActividadEconomica.getTexto());
         dosificacion.setAvisoLey(iuAvisoLey.iuAreaTexto.getText());
+        dosificacion.setDescripcionLey(iuDescripcionLey.iuAreaTexto.getText());
         dosificacion.setIdTienda(controlVentas.getTienda().getTiendaID());
         dosificacion.setTienda(controlVentas.getTienda());
     }

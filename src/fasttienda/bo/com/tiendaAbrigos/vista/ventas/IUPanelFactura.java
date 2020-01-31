@@ -147,7 +147,7 @@ public class IUPanelFactura extends IUPanelBD{
         
         iuActividadEconomica = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(23), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(2)));
         iuActividadEconomica.setFont(new Font("Verdana", Font.PLAIN, 12));
-        iuActividadEconomica.setHorizontalAlignment(SwingConstants.CENTER);        
+        iuActividadEconomica.setHorizontalAlignment(SwingConstants.LEFT);
         add(iuActividadEconomica);
         
         iuFecha = new IUEtiqueta("", new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(25), limite.getPorcentajeAncho(49), limite.getPorcentajeAlto(2)));
@@ -263,7 +263,7 @@ public class IUPanelFactura extends IUPanelBD{
         iuDescripcionLey.setEditable(false);
         add(iuDescripcionLey);
     }
-    private void llenarDatosFactura(){
+    public void llenarDatosFactura(){
         iuNombreEntidad.setText(tienda.getNombreTienda().toUpperCase());
         iuTipoTienda.setText(tienda.getDescripcionTienda());
         iuDireccion.setText(tienda.getDireccionTienda());
@@ -273,7 +273,7 @@ public class IUPanelFactura extends IUPanelBD{
         iuNroNit.setText("nit contribuyente: "+dosificacion.getNitContribuyente());
         iuNroFactura.setText("nro factura: "+dosificacion.getNroFactura());
         iuNroAutorizacion.setText("nro autorizacion: "+dosificacion.getNroAutorizacion());        
-        iuActividadEconomica.setText(""+dosificacion.getActividadEconomica());
+        iuActividadEconomica.setText("actividad economica: "+dosificacion.getActividadEconomica().toUpperCase());
         iuFecha.setText("fecha: "+new Fecha().getFecha3());
         iuHora.setText("hora: "+new Hora().getHora()+" "+new Hora().getFormato());
         iuNitCi.setText("nombre: ");
@@ -285,7 +285,7 @@ public class IUPanelFactura extends IUPanelBD{
         iuMontoLiteral.setText("son: ");
         iuCodigoControl.setText("codigo de control: ");
         iuFechaLimiteEmision.setText("fecha limite emision: "+dosificacion.getFechaLimiteEmision());
-        iuAvisoLey.setText("''ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS , ELS USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY''");
+        iuAvisoLey.setText(dosificacion.getDescripcionLey());
         iuDescripcionLey.setText(dosificacion.getAvisoLey());
         iuResponsable.setText("usuario:  "+usuario.getEmpleado().getPersona().getNombres()+" "+usuario.getEmpleado().getPersona().getApellidos());        
     }
@@ -299,7 +299,7 @@ public class IUPanelFactura extends IUPanelBD{
         iuNroNit.setText("");
         iuNroFactura.setText("");
         iuNroAutorizacion.setText("");
-        iuActividadEconomica.setText(dosificacion.getActividadEconomica());
+        iuActividadEconomica.setText("actividad economica: "+dosificacion.getActividadEconomica().toUpperCase());
         iuFecha.setText("fecha: "+new Fecha().getFecha3());
         iuHora.setText("hora: "+new Hora().getHora()+" "+new Hora().getFormato());
         iuNitCi.setText("nombre: ");
