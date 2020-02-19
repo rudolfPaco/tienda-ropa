@@ -13,6 +13,7 @@ import com.aplicacionjava.www.paneles.IUPanelBD;
 import com.aplicacionjava.www.paneles.IUPanelCT;
 import com.aplicacionjava.www.recursos.Limitacion;
 import com.aplicacionjava.www.ventanas.IUVentanaP;
+import fasttienda.bo.com.tiendaAbrigos.controlador.CCliente;
 import fasttienda.bo.com.tiendaAbrigos.controlador.CModuloUsuarios;
 import fasttienda.bo.com.tiendaAbrigos.controlador.CPrenda;
 import fasttienda.bo.com.tiendaAbrigos.controlador.CPrincipal;
@@ -21,6 +22,7 @@ import fasttienda.bo.com.tiendaAbrigos.modelo.Caja;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Registro;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Tienda;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Usuario;
+import fasttienda.bo.com.tiendaAbrigos.vista.clientes.IUModuloCliente;
 import fasttienda.bo.com.tiendaAbrigos.vista.prendas.IUModuloPrendas;
 import fasttienda.bo.com.tiendaAbrigos.vista.usuarios.IUModuloUsuarios;
 import fasttienda.bo.com.tiendaAbrigos.vista.ventas.IUModuloVentas;
@@ -53,7 +55,7 @@ public class IUPrincipal extends IUVentanaP{
     private IUPanel panelPrincipal;
     public IUPanelBD panelConfiguracion;
     public IUPanelBD panelCaja;
-    public IUPanelBD panelClientes;
+    public IUModuloCliente panelClientes;
     public IUModuloVentas panelVentas;
     public IUModuloPrendas panelPrendas;
     public IUPanelBD panelProveedores;
@@ -130,7 +132,9 @@ public class IUPrincipal extends IUVentanaP{
         panelCaja = new IUPanelBD(limite);
         panelPrincipal.add(panelCaja);
         
-        panelClientes = new IUPanelBD(limite);
+        CCliente controlCliente = new CCliente();
+        panelClientes = new IUModuloCliente(new Limitacion(limite.getAncho(), limite.getAlto()));
+        controlCliente.controlarIUModuloCliente(panelClientes);
         panelPrincipal.add(panelClientes);
 
         CVenta controlVentas = new CVenta(controlPrincipal.getTienda(), controlPrincipal.getUsuario());

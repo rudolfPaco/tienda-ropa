@@ -72,7 +72,10 @@ public class Dosificacion {
     }
     public String getNroFactura() {
         Conexion conexion = new Conexion();
-        int numero = Integer.parseInt(conexion.getCadena("NroFactura", "select NroFactura from dosificacion order by NroFactura desc limit 1"));
+        int numero = 0;
+        String cadena = conexion.getCadena("NroFactura", "select NroFactura from dosificacion order by NroFactura desc limit 1");
+        if(!cadena.isEmpty())
+            numero = Integer.parseInt(cadena);
         numero++;
         conexion.cerrarConexion();
         nroFactura = String.valueOf(numero);

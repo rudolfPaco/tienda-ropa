@@ -9,20 +9,12 @@ import com.aplicacionjava.www.botones.IUBotonIT;
 import com.aplicacionjava.www.paneles.IUPanel;
 import com.aplicacionjava.www.paneles.IUPanelBD;
 import com.aplicacionjava.www.recursos.Limitacion;
-import fasttienda.bo.com.tiendaAbrigos.ayuda.Ayuda;
-import fasttienda.bo.com.tiendaAbrigos.controlador.CPrenda;
 import fasttienda.bo.com.tiendaAbrigos.controlador.CVenta;
-import fasttienda.bo.com.tiendaAbrigos.modelo.Modelo;
 import fasttienda.bo.com.tiendaAbrigos.vista.inicio.IUPrincipal;
-import fasttienda.bo.com.tiendaAbrigos.vista.prendas.IUModelo;
-import fasttienda.bo.com.tiendaAbrigos.vista.prendas.IUPanelVistaModelos;
-import fasttienda.bo.com.tiendaAbrigos.vista.prendas.IUPrenda;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import javax.swing.colorchooser.ColorChooserComponentFactory;
 
 /**
  *

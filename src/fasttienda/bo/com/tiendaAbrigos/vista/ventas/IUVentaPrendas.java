@@ -16,6 +16,7 @@ import com.aplicacionjava.www.paneles.IUPanelCT;
 import com.aplicacionjava.www.recursos.Fecha;
 import com.aplicacionjava.www.recursos.Hora;
 import com.aplicacionjava.www.recursos.Limitacion;
+import fasttienda.bo.com.tiendaAbrigos.ayuda.Ayuda;
 import fasttienda.bo.com.tiendaAbrigos.controlador.CVenta;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Tienda;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Usuario;
@@ -74,8 +75,9 @@ public class IUVentaPrendas extends IUPanelBD{
         this.tienda = controlVentas.getTienda();
         this.usuario = controlVentas.getUsuario();
         construirPaneles(getLimitacion());
-        actualizarDatos();
+        limpiarDatos();
         escucharEvento();
+        establecerVenta(false);
     }
     private void construirPaneles(Limitacion limite){
         panelFactura = new IUPanelFactura(controlVentas.getTienda(), controlVentas.getUsuario(), controlVentas.getDosificacion(), new Limitacion(limite.getPorcentajeAncho(5), limite.getPorcentajeAlto(1), limite.getPorcentajeAncho(30), limite.getPorcentajeAlto(98)));        
@@ -152,7 +154,7 @@ public class IUVentaPrendas extends IUPanelBD{
         iuBuscarCliente = new IUBotonTI("", "src/imagenes/buscar.png", new Limitacion(limite.getPorcentajeAncho(90), limite.getPorcentajeAlto(34), limite.getPorcentajeAncho(7), limite.getPorcentajeAlto(5)), 80, 90, 0);
         segundoPanel.add(iuBuscarCliente);
         
-        iuImagenCodigo = new IUEtiquetaI("src/imagenes/codigoBarra.png", new Limitacion(limite.getPorcentajeAncho(35), limite.getPorcentajeAlto(44), limite.getPorcentajeAncho(25), limite.getPorcentajeAlto(7)));
+        iuImagenCodigo = new IUEtiquetaI("src/imagenes/codigo_barra.png", new Limitacion(limite.getPorcentajeAncho(35), limite.getPorcentajeAlto(44), limite.getPorcentajeAncho(25), limite.getPorcentajeAlto(7)));
         segundoPanel.add(iuImagenCodigo);
         
         iuCodigoBarra = new IUPanelCT("codigo de barra", "", new Limitacion(limite.getPorcentajeAncho(60), limite.getPorcentajeAlto(45), limite.getPorcentajeAncho(30), limite.getPorcentajeAlto(6)), 40, 60);
@@ -200,7 +202,7 @@ public class IUVentaPrendas extends IUPanelBD{
         botonFinalizarVenta = new IUBotonTI("finalizar venta", "src/imagenes/si.png", new Limitacion(limite.getPorcentajeAncho(15), limite.getPorcentajeAlto(83), limite.getPorcentajeAncho(70), limite.getPorcentajeAlto(15)), 70, 80, 15);
         tercerPanel.add(botonFinalizarVenta);
     }
-    private void actualizarDatos(){
+    private void limpiarDatos(){
         iuNroTicket.iuTexto.setText(controlVentas.getNroTicket());
         iuFecha.iuTexto.setText(new Fecha().getFecha6());
         iuHora.iuTexto.setText(new Hora().getHora()+" "+new Hora().getFormato());
@@ -214,7 +216,29 @@ public class IUVentaPrendas extends IUPanelBD{
         iuTotalPagar.iuTexto.setText("0.0");
         iuNit.iuTexto.requestFocus();        
     }
+    private void establecerVenta(boolean estado){
+        panelFactura.setVisible(estado);
+        segundoPanel.setVisible(estado);
+        botonCancelarVenta.setVisible(estado);
+        botonModificarFila.setVisible(estado);
+        botonEliminarFila.setVisible(estado);
+        botonFinalizarVenta.setVisible(estado);
+        panelFactura.limpiarCamposDatos();
+        limpiarDatos();
+    }
     private void escucharEvento(){
+        botonNuevaVenta.addEventoRaton(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                establecerVenta(true);                
+            }
+        });
+        botonCancelarVenta.addEventoRaton(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                establecerVenta(false);
+            }
+        });
         iuBotonFactura.addItemListener((ItemEvent e) -> {
             if(iuBotonFactura.isSelected()){
                 panelFactura.llenarDatosFactura();
