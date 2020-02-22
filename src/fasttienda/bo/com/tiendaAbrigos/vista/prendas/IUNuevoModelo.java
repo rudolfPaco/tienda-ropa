@@ -180,6 +180,7 @@ public class IUNuevoModelo extends IUVentanaT{
         modelo.setMargenUtilidad(Double.valueOf(margenUtilidad.getTexto()));
         modelo.setPrecioTope(Double.valueOf(precioTope.getTexto()));
         modelo.setPrecioOficial(Double.valueOf(precioOficial.getTexto()));
+        
         modelo.setImpuestoID(Ayuda.getDatoInt("ImpuestoID", "select ImpuestoID from impuesto order by ImpuestoID desc limit 1"));
         modelo.generarImpuesto();      
         

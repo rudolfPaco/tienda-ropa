@@ -7,6 +7,7 @@ package fasttienda.bo.com.tiendaAbrigos.modelo;
 
 import fasttienda.bo.com.tiendaAbrigos.ayuda.Ayuda;
 import fasttienda.bo.com.tiendaAbrigos.dao.Conexion;
+import fasttienda.bo.com.tiendaAbrigos.dao.ImpuestoDao;
 import fasttienda.bo.com.tiendaAbrigos.dao.ModeloDao;
 import fasttienda.bo.com.tiendaAbrigos.dao.UnidadDao;
 import java.util.ArrayList;
@@ -138,7 +139,13 @@ public class Modelo {
     public void setImpuestoID(int impuestoID) {
         this.impuestoID = impuestoID;
     }    
-    public Impuesto getImpuesto() {     
+    public Impuesto getImpuesto() {  
+        int idImpuestos = Ayuda.getDatoInt("ImpuestoID", "select ImpuestoID from impuesto order by ImpuestoID desc limit 1");
+        if(idImpuestos == 0){
+            Conexion conexion = new Conexion();
+            ImpuestoDao impuestoDao = new ImpuestoDao(conexion);
+            impuesto = impuestoDao.getImpuesto();
+        }
         return impuesto;
     }
     public void setImpuesto(Impuesto impuesto) {
@@ -146,7 +153,9 @@ public class Modelo {
     }
     public int getLastID(){
         Conexion conexion = new Conexion();
-        return conexion.getDato("modeloID", "select modeloID from modelo order by modeloID desc limit 1");
+        int idLast = conexion.getDato("modeloID", "select modeloID from modelo order by modeloID desc limit 1");
+        conexion.cerrarConexion();
+        return idLast;
     }
     public ArrayList<Unidad> getUnidades() {
         return unidades;
