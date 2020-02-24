@@ -292,7 +292,8 @@ public class IUPanelVistaModelos extends IUPanel{
                             elemento.addEventoRaton(new MouseAdapter() {
                                 @Override
                                 public void mousePressed(MouseEvent e) {
-                                    elemento.setColorPanel(new Color(255, 255, 125), Color.WHITE, new Color(221, 221, 0));
+                                    elemento.setColorPanel(new Color(255, 255, 125), Color.WHITE, new Color(221, 221, 0));                                    
+                                    elemento.cambiarColorMarcaTalla(new Color(120, 0, 0));
                                     despintarBotonPrenda(elemento);                                    
                                     mostrarPrenda(prendaBoton);
                                 }
@@ -385,8 +386,10 @@ public class IUPanelVistaModelos extends IUPanel{
     }
     private void despintarBotonPrenda(IUPanelBotonPrenda boton){
         for (int i = 0; i < listaPrendas.size(); i++) {
-            if(!boton.equals(listaPrendas.get(i)))
+            if(!boton.equals(listaPrendas.get(i))){
                 listaPrendas.get(i).setColorPanel(new Color(242, 238, 236), new Color(250, 250, 250), new Color(170, 170, 170));
+                listaPrendas.get(i).cambiarColorMarcaTalla(new Color(2, 67, 109));                
+            }                
         }
     }
     

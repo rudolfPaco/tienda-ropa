@@ -72,6 +72,9 @@ public class IUPanelBotonPrenda extends IUPanelBD{
         precio.setCursorMano(new Cursor(Cursor.HAND_CURSOR));
         add(precio);
     }
+    public void cambiarColorMarcaTalla(Color color){
+        marcaTalla.setForeground(color);        
+    }
     public void addEventoRaton(MouseAdapter evento){
         addMouseListener(evento);
         categoria.addMouseListener(evento);

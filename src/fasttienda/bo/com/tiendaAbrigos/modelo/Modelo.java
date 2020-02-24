@@ -158,6 +158,11 @@ public class Modelo {
         return idLast;
     }
     public ArrayList<Unidad> getUnidades() {
+        unidades.clear();
+        Conexion conexion = new Conexion();
+        UnidadDao unidadDao = new UnidadDao(conexion);
+        unidades = unidadDao.getUnidades();
+        conexion.cerrarConexion();
         return unidades;
     }
     public void setUnidades(ArrayList<Unidad> unidades) {
@@ -184,7 +189,7 @@ public class Modelo {
         boolean verificador = false;
         Conexion conexion = new Conexion();
         ModeloDao modeloDao = new ModeloDao(conexion);
-        UnidadDao unidadDao = new UnidadDao(conexion);
+        UnidadDao unidadDao = new UnidadDao(conexion);        
         
         if(modeloDao.seGuardoModelo(this))
             if(unidadDao.seGuardoUnidadModelo(new UnidadModelo(getLastID(), unidades.get(0).getUnidadID())) && unidadDao.seGuardoUnidadModelo(new UnidadModelo(getLastID(), unidades.get(1).getUnidadID())))

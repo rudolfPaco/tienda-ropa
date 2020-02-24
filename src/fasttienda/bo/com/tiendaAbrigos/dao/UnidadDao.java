@@ -6,11 +6,13 @@
 package fasttienda.bo.com.tiendaAbrigos.dao;
 
 import fasttienda.bo.com.tiendaAbrigos.modelo.Modelo;
+import fasttienda.bo.com.tiendaAbrigos.modelo.Prenda;
 import fasttienda.bo.com.tiendaAbrigos.modelo.Unidad;
 import fasttienda.bo.com.tiendaAbrigos.modelo.UnidadModelo;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -57,5 +59,23 @@ public class UnidadDao {
             System.out.println("Error UnidadDao.seModificoModelo(): "+e.getMessage());
         }
         return verificador;
-    }    
+    }  
+    public ArrayList<Unidad> getUnidades(){
+        ArrayList<Unidad> unidades = new ArrayList<>();
+        String sql = "select * from unidad";
+        try {
+            PreparedStatement ps = conexion.getConexion().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                Unidad unidad = new Unidad(rs.getInt("UnidadID"));
+                unidad.setNombreUnidad(rs.getString("NombreUnidad"));
+                unidad.setUnidadMedida(rs.getString("UnidadMedida"));
+                unidades.add(unidad);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error UnidadDao.getUnidades(): "+e.getMessage());
+        }
+        return unidades;
+    }
 }

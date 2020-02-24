@@ -172,7 +172,7 @@ public class Ayuda {
     }
     public static double getDatoDouble(String columna, String sql){
         Conexion conexion = new Conexion();
-        double iva = conexion.getDato(columna, sql);
+        double iva = conexion.getDatoDouble(columna, sql);
         conexion.cerrarConexion();
         return iva;
     }
