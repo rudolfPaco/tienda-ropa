@@ -55,7 +55,7 @@ public class IUPrincipal extends IUVentanaP{
     private IUPanel panelPrincipal;
     public IUPanelBD panelConfiguracion;
     public IUPanelBD panelCaja;
-    public IUModuloCliente panelClientes;
+    public IUModuloCliente iuModuloClientes;
     public IUModuloVentas panelVentas;
     public IUModuloPrendas panelPrendas;
     public IUPanelBD panelProveedores;
@@ -133,9 +133,9 @@ public class IUPrincipal extends IUVentanaP{
         panelPrincipal.add(panelCaja);
         
         CCliente controlCliente = new CCliente();
-        panelClientes = new IUModuloCliente(new Limitacion(limite.getAncho(), limite.getAlto()));
-        controlCliente.controlarIUModuloCliente(panelClientes);
-        panelPrincipal.add(panelClientes);
+        iuModuloClientes = new IUModuloCliente(controlCliente, this, new Limitacion(limite.getAncho(), limite.getAlto()));
+        controlCliente.controlarIUModuloCliente(iuModuloClientes);        
+        panelPrincipal.add(iuModuloClientes);
 
         CVenta controlVentas = new CVenta(controlPrincipal.getTienda(), controlPrincipal.getUsuario());
         panelVentas = new IUModuloVentas(controlVentas, this, new Limitacion(limite.getAncho(), limite.getAlto()));

@@ -14,19 +14,26 @@ import com.aplicacionjava.www.etiquetas.IUEtiquetaI;
 import com.aplicacionjava.www.paneles.IUPanel;
 import com.aplicacionjava.www.paneles.IUPanelBD;
 import com.aplicacionjava.www.recursos.Limitacion;
+import fasttienda.bo.com.tiendaAbrigos.ayuda.Ayuda;
+import fasttienda.bo.com.tiendaAbrigos.controlador.CCliente;
+import fasttienda.bo.com.tiendaAbrigos.modelo.Cliente;
+import fasttienda.bo.com.tiendaAbrigos.vista.inicio.IUPrincipal;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 
 /**
  *
  * @author hotel-felipez
  */
 public class IUModuloCliente extends IUPanel{
+    
+    private CCliente controlCliente;
+    private IUPrincipal iuPrincipal;
     
     private IUPanelBD primerPanel;
     private IUPanel segundoPanel;
@@ -45,10 +52,13 @@ public class IUModuloCliente extends IUPanel{
     private IUBotonTI botonEliminarCliente;
     private IUBotonTI botonImprimirCliente;
     
-    public IUModuloCliente(Limitacion limitacion) {
+    public IUModuloCliente(CCliente controlCliente, IUPrincipal iuPrincipal, Limitacion limitacion) {
         super(limitacion);
+        this.controlCliente = controlCliente;
+        this.iuPrincipal = iuPrincipal;
         construirPaneles();
         escucharEvento();
+        actualizarTablaClientes();
     }
     private void construirPaneles(){
         Limitacion limite = getLimitacion();
@@ -91,7 +101,7 @@ public class IUModuloCliente extends IUPanel{
         panelTabla.add(imagenBuscar);
         
         tablaClientes = new IUTablaClientes(new Limitacion(limite.getPorcentajeAncho(1), limite.getPorcentajeAlto(13), limite.getPorcentajeAncho(98), limite.getPorcentajeAlto(85)));
-        panelTabla.add(tablaClientes.tabla.deslizador);
+        panelTabla.add(tablaClientes.tabla.deslizador);        
     }
     private void construirPanelBotones(Limitacion limite){
         botonNuevoCliente = new IUBotonTI("nuevo cliente", "src/imagenes/agregar.png", new Limitacion(limite.getPorcentajeAncho(86), limite.getPorcentajeAlto(2), limite.getPorcentajeAncho(14), limite.getPorcentajeAlto(96)), 70, 70, 25);
@@ -110,8 +120,26 @@ public class IUModuloCliente extends IUPanel{
         botonNuevoCliente.addEventoRaton(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                
+                iuPrincipal.setOpacity(0.5f);
+                IUNuevoCliente iuNuevoCliente = new IUNuevoCliente(iuPrincipal, "registrar datos del nuevo cliente", new Limitacion(Ayuda.ancho/2 - Ayuda.ancho/20, Ayuda.alto - Ayuda.alto/70), 5);
+                iuNuevoCliente.mostrarVentana();
+                if(iuNuevoCliente.getEstado()){
+                    if(controlCliente.guardarCliente(iuNuevoCliente.getCliente()))
+                        actualizarTablaClientes();
+                }
+                iuPrincipal.setOpacity(1f);
             }
         });
+    }
+    private void actualizarTablaClientes(){
+        ArrayList<Cliente> lista = controlCliente.getListaClientes();
+        tablaClientes.limpiarTabla();
+        for (int i = 0; i < lista.size(); i++) {
+            Cliente c = lista.get(i);
+            tablaClientes.setFila(c);
+        }
+    }
+    public IUPrincipal getIUPrincipal(){
+        return iuPrincipal;
     }
 }

@@ -177,10 +177,15 @@ public class Ayuda {
         return iva;
     }
     public static int getDatoInt(String columna, String sql){
-        Conexion conexion = new Conexion();
-        int datoEntero = conexion.getDato(columna, sql);
+        Conexion conexion = new Conexion();        
+        int datoEntero = conexion.getDato(columna, sql);        
         conexion.cerrarConexion();
         return datoEntero;
     }
-    
+    public static String getCadena(String columna, String sql){
+        Conexion conexion = new Conexion();
+        String cadena = conexion.getCadena(columna, sql);
+        conexion.cerrarConexion();
+        return cadena;
+    }
 }

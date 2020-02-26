@@ -5,6 +5,9 @@
  */
 package fasttienda.bo.com.tiendaAbrigos.modelo;
 
+import fasttienda.bo.com.tiendaAbrigos.dao.ClienteDao;
+import fasttienda.bo.com.tiendaAbrigos.dao.Conexion;
+
 /**
  *
  * @author hotel-felipez
@@ -82,5 +85,14 @@ public class Cliente {
     @Override
     public String toString() {
         return "Cliente{" + "idCliente=" + idCliente + ", razonSocial=" + razonSocial + ", nitCi=" + nitCi + ", nombreCliente=" + nombreCliente + ", direccionCliente=" + direccionCliente + ", telefonoCliente=" + telefonoCliente + ", telefonoCelular=" + telefonoCelular + ", telefonoFijo=" + telefonoFijo + ", antecedentesCliente=" + antecedentesCliente + '}';
+    }
+    public boolean guardarNuevo(){
+        boolean verificador = false;
+        Conexion conexion = new Conexion();
+        ClienteDao clienteDao = new ClienteDao(conexion);
+        if(clienteDao.seGuardoCliente(this))
+            verificador = true;
+        conexion.cerrarConexion();
+        return verificador;
     }
 }
